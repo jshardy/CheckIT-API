@@ -12,6 +12,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DatingApp.API.Controllers
 {
+    //[Authorize] <-- you need to put this in any controller made
+    //this [Authorize] attribute force the token to be used.
+    //IE they don't have to relogin every time.
+    //Do not enable it here, this is the "auth" controller.
+    //Use [AllowAnonymous] for controllers that don't need auth
     [Route("api/[controller]")]
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class AuthController : ControllerBase
@@ -31,7 +36,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             //Must use this if don't use [ApiController]
-            //if(!ModelState.IsVali)d
+            //if(!ModelState.IsValid)
             //    return BadRequest(ModelState);
 
             //validate request
@@ -54,7 +59,7 @@ namespace DatingApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForRegisterDto userForLoginDto)
         {
-            var userFromRepo = await _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
+            var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
             //User not found return unauthorized.
             if (userFromRepo == null)
