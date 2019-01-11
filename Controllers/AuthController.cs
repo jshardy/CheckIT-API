@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DatingApp.API.Controllers
+namespace CheckIT.API.Controllers
 {
     //[Authorize] <-- you need to put this in any controller made
     //this [Authorize] attribute force the token to be used.
