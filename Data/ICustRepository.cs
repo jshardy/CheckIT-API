@@ -3,8 +3,8 @@ using CheckIT.API.Models;
 
 namespace CheckIT.API.Data
 {
-    public interface IAuthRepository
+    public interface ICustRepository
     {
-        Task<Customer> CreateCustomer(User user, string password);
+
     }
 }

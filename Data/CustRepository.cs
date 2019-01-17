@@ -12,15 +12,15 @@ namespace CheckIT.API.Data
         {
             _context = context;
         }
-        public async Task<Customer> CreateCustomer(Customer customer)
-        {
+        // public async Task<Customer> CreateCustomer(Customer customer)
+        // {
 
-            //save to database.
-            await _context.Customers.AddAsync(customer); //to be added to DataContext
-            await _context.SaveChangesAsync();
+        //     save to database.
+        //     await _context.Customers.AddAsync(customer); //to be added to DataContext
+        //     await _context.SaveChangesAsync();
 
-            return user;
-        }
+        //     return user;
+        // }
 
     }
 }
