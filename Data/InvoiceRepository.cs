@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CheckIT.API.Models;
-using System.Linq.Expressions; 
-using System.Data.Entity;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
