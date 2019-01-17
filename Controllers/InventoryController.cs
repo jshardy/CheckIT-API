@@ -24,43 +24,43 @@ namespace CheckIT.API.Controllers
         //private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
 
-        public AuthController(IItemRepository repo, IConfiguration config)
-        {
-            _config = config;
-            _repo = repo;
-        }
+        // public AuthController(IItemRepository repo, IConfiguration config)
+        // {
+        //     _config = config;
+        //     _repo = repo;
+        // }
         //http://localhost:5000/api/Register
         //dto object to convert json to class
         [HttpPost("AddItem")]
         // [FromBody] this is infered for ItemForAddDto by [ApiController]
-        public async Task<IActionResult> AddItem(ItemForAddDto itemForAddDto)
-        {
-            //Must use this if don't use [ApiController]
-            //if(!ModelState.IsValid)
-            //    return BadRequest(ModelState);
+        // public async Task<IActionResult> AddItem(ItemForAddDto itemForAddDto)
+        // {
+        //     //Must use this if don't use [ApiController]
+        //     //if(!ModelState.IsValid)
+        //     //    return BadRequest(ModelState);
 
-            //validate request
-            //itemForAddDto.Name = itemForAddDto.Name.ToLower();
+        //     //validate request
+        //     //itemForAddDto.Name = itemForAddDto.Name.ToLower();
 
-            //check for duplicate name?
-            //check for duplicate id?
-            //if (await _repo.ItemExists(itemForAddDto.Name)) return BadRequest("Item already exists");
+        //     //check for duplicate name?
+        //     //check for duplicate id?
+        //     //if (await _repo.ItemExists(itemForAddDto.Name)) return BadRequest("Item already exists");
 
-            //generate the ID
+        //     //generate the ID
 
-            var itemToCreate = new Item
-            {
-                Id = itemForAddDto.Id,
-                UPC = itemForAddDto.UPC,
-                Name = itemForAddDto.Name,
-                Price = itemForAddDto.Price,
-                Description = itemForAddDto.Description
-            };
+        //     var itemToCreate = new Item
+        //     {
+        //         Id = itemForAddDto.Id,
+        //         UPC = itemForAddDto.UPC,
+        //         Name = itemForAddDto.Name,
+        //         Price = itemForAddDto.Price,
+        //         Description = itemForAddDto.Description
+        //     };
 
-            var createdItem = await _repo.AddItem(itemToCreate);
+        //     // var createdItem = await _repo.AddItem(itemToCreate);
 
-            //created at root status code
-            return StatusCode(201);
+        //     //created at root status code
+        //     return StatusCode(201);
         }
 
     }

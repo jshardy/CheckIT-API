@@ -25,7 +25,7 @@ namespace CheckIT.API.Data
         public async Task<Invoice> ArchiveInvoiceAsync(int invoiceID)
         {
             var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
-            
+
             if(invoice == null)
             {
                 return null;
@@ -43,7 +43,7 @@ namespace CheckIT.API.Data
         public async Task<Invoice> GetOneInvoiceAsync(int invoiceID)
         {
             var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
-
+            
             return invoice;
         }
 
