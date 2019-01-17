@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheckIT.API.Controllers
 {
@@ -22,7 +23,7 @@ namespace CheckIT.API.Controllers
 
         public CustomerController()
         {
-            _repo = repo;
+            // _repo = repo;
         }
         //http://localhost:5000/api/Register
         //dto object to convert json to class
@@ -30,7 +31,7 @@ namespace CheckIT.API.Controllers
         // [FromBody] this is infered for UserForRegisterDto by [ApiController]
         public async Task<IActionResult> CreateCustomer(CustomerCreateDto customerCreateDto)
         {
-            if (!(Regex.Match(CustomerCreateDto.PhoneNumber, @"(([0-9][0-9][0-9]-)?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]").Success))
+            // if (!(Regex.Match(CustomerCreateDto.PhoneNumber, @"(([0-9][0-9][0-9]-)?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]").Success))
                 return BadRequest("Invalid phone number");
 
             if (!(Regex.Match(customerCreateDto.Email, @".@.\..").Success))
@@ -46,7 +47,7 @@ namespace CheckIT.API.Controllers
                 Email = customerCreateDto.Email,
             };
 
-            var createdCustomer = await _repo.CreateCustomer(customerToCreate);
+            // var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
             //created at root status code
             return StatusCode(201);

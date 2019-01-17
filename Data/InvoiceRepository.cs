@@ -25,7 +25,7 @@ namespace CheckIT.API.Data
         public async Task<Invoice> ArchiveInvoiceAsync(int invoiceID)
         {
             var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
-            
+
             if(invoice == null)
             {
                 return null;
@@ -59,6 +59,7 @@ namespace CheckIT.API.Data
 
         public Task<Invoice> GetInvoicesAsync(Invoice invoice, DateTime StartDate, DateTime EndDate)
         {
+            // _context.Invoices.
             throw new NotImplementedException();
         }
     }
