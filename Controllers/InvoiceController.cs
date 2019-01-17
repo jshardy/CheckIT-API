@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -57,7 +58,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("ReturnInvoices")]
-        public async Task<IActionResult> ReturnInvoices(InvoiceDto invoiceDto)
+        public List<Invoice> ReturnInvoices(InvoiceDto invoiceDto)
         {
             var invoicesToFind = new Invoice
             {
@@ -69,11 +70,11 @@ namespace CheckIT.API.Controllers
                 AmmountPaid = invoiceDto.AmmountPaid
             };
 
-            var Date1 = DateTime.Parse("1/16/19");
-            var Date2 = DateTime.Parse("1/16/18");
+            var Date1 = DateTime.Parse("1/16/18");
+            var Date2 = DateTime.Parse("1/16/19");
 
-            var invoiceList = await _repo.GetInvoicesAsync(invoicesToFind, Date1, Date2);
-            return Ok(invoiceList);
+            var invoiceList = _repo.GetInvoicesAsync(invoicesToFind, Date1, Date2);
+            return invoiceList;
         }
     }
 }
