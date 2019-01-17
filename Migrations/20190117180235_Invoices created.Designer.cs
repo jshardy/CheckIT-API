@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190117022923_Invoices")]
-    partial class Invoices
+    [Migration("20190117180235_Invoices created")]
+    partial class Invoicescreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,8 +32,6 @@ namespace CheckIT.API.Migrations
                     b.Property<DateTime>("InvoiceDate");
 
                     b.Property<bool>("OutgoingInv");
-
-                    b.Property<int>("ThirdPartyId");
 
                     b.HasKey("Id");
 

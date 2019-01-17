@@ -5,7 +5,6 @@ using CheckIT.API.Models;
 
 namespace CheckIT.API.Data
 {
-
     public interface IInvoiceRepository
     {
         Task<Invoice> AddInvoiceAsync (Invoice invoiceToAdd);

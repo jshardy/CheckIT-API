@@ -31,8 +31,6 @@ namespace CheckIT.API.Migrations
 
                     b.Property<bool>("OutgoingInv");
 
-                    b.Property<int>("ThirdPartyId");
-
                     b.HasKey("Id");
 
                     b.ToTable("Invoices");

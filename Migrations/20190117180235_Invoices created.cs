@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckIT.API.Migrations
 {
-    public partial class Invoices : Migration
+    public partial class Invoicescreated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,6 @@ namespace CheckIT.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BusinessID = table.Column<int>(nullable: false),
                     InvoiceDate = table.Column<DateTime>(nullable: false),
-                    ThirdPartyId = table.Column<int>(nullable: false),
                     OutgoingInv = table.Column<bool>(nullable: false),
                     IncomingInv = table.Column<bool>(nullable: false),
                     AmmountPaid = table.Column<float>(nullable: false)
