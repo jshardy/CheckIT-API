@@ -98,7 +98,7 @@ namespace CheckIT.API.Data
         }
 
         //This function is not Async. If there is a better way to make this async then please make changes
-        public List<Invoice> GetInvoicesAsync(Invoice invoice, DateTime FromDate, DateTime ToDate)
+        public List<Invoice> GetInvoices(Invoice invoice, DateTime FromDate, DateTime ToDate)
         {
             var queryString = "";
 

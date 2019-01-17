@@ -10,6 +10,6 @@ namespace CheckIT.API.Data
         Task<Invoice> AddInvoiceAsync (Invoice invoiceToAdd);
         Task<Invoice> ArchiveInvoiceAsync (int invoiceID);
         Task<Invoice> GetOneInvoiceAsync (int invoiceID);
-        List<Invoice> GetInvoicesAsync (Invoice invoice, DateTime FromDate, DateTime ToDate);
+        List<Invoice> GetInvoices (Invoice invoice, DateTime FromDate, DateTime ToDate);
     }
 }

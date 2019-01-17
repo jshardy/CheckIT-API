@@ -73,7 +73,7 @@ namespace CheckIT.API.Controllers
             var Date1 = DateTime.Parse("1/16/18");
             var Date2 = DateTime.Parse("1/16/19");
 
-            var invoiceList = _repo.GetInvoicesAsync(invoicesToFind, Date1, Date2);
+            var invoiceList = _repo.GetInvoices(invoicesToFind, Date1, Date2);
             return invoiceList;
         }
     }
