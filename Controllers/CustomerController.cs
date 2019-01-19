@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace CheckIT.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class CustomerController : ControllerBase
