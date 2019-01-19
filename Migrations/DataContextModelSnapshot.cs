@@ -16,26 +16,6 @@ namespace CheckIT.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
-            modelBuilder.Entity("CheckIT.API.Models.Invoice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<float>("AmmountPaid");
-
-                    b.Property<int>("BusinessID");
-
-                    b.Property<bool>("IncomingInv");
-
-                    b.Property<DateTime>("InvoiceDate");
-
-                    b.Property<bool>("OutgoingInv");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Invoices");
-                });
-
             modelBuilder.Entity("CheckIT.API.Models.User", b =>
                 {
                     b.Property<int>("Id")

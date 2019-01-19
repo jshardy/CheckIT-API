@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace CheckIT.API.Models
 {
@@ -10,6 +11,6 @@ namespace CheckIT.API.Models
         public bool OutgoingInv { get; set; }
         public bool IncomingInv { get; set; }
         public float AmmountPaid { get; set; }
-
+        public ICollection<Item> Items  { get; set; }
     }
 }
