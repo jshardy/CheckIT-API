@@ -6,5 +6,7 @@ namespace CheckIT.API.Data
     public interface ICustRepository
     {
         Task<Customer> CreateCustomer(Customer customer);
+        Task<Customer> GetCustomer(int ID);
+
     }
 }

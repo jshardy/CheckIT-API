@@ -10,27 +10,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheckIT.API.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
-    [ApiController] //this allows us to use [required] and other manditory constraints.
+    [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
+        private readonly ICustRepository _repo;
 
-        public CustomerController()
+        public CustomerController(ICustRepository repo)
         {
-            _repo = repo;
+             _repo = repo;
         }
-        //http://localhost:5000/api/Register
-        //dto object to convert json to class
+        
         [HttpPost("CreateCustomer")]
-        // [FromBody] this is infered for UserForRegisterDto by [ApiController]
         public async Task<IActionResult> CreateCustomer(CustomerCreateDto customerCreateDto)
         {
-            if (!(Regex.Match(CustomerCreateDto.PhoneNumber, @"(([0-9][0-9][0-9]-)?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]").Success))
+            if (!(Regex.Match(customerCreateDto.PhoneNumber, @"(((0-9)(0-9)(0-9)-)?(0-9)(0-9)(0-9)-(0-9)(0-9)(0-9)(0-9)").Success))
                 return BadRequest("Invalid phone number");
 
             if (!(Regex.Match(customerCreateDto.Email, @".@.\..").Success))
@@ -49,6 +47,15 @@ namespace CheckIT.API.Controllers
             var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
             //created at root status code
+            return StatusCode(201);
+        }
+
+        [HttpPost("GetCustomer")]
+        public async Task<IActionResult> GetCustomer(GetByIDDto getCustomerDto)
+        {
+            Customer customer;
+            customer = await _repo.GetCustomer(getCustomerDto.ID);
+            
             return StatusCode(201);
         }
 
