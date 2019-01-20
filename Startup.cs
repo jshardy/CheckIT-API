@@ -39,6 +39,8 @@ namespace CheckIT.API
             services.AddCors();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<ICustRepository, CustRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
             //setup the use of token
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

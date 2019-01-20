@@ -25,15 +25,10 @@ namespace CheckIT.API.Controllers
              _repo = repo;
         }
         
+        [AllowAnonymous]
         [HttpPost("CreateCustomer")]
         public async Task<IActionResult> CreateCustomer(CustomerCreateDto customerCreateDto)
         {
-            if (!(Regex.Match(customerCreateDto.PhoneNumber, @"(((0-9)(0-9)(0-9)-)?(0-9)(0-9)(0-9)-(0-9)(0-9)(0-9)(0-9)").Success))
-                return BadRequest("Invalid phone number");
-
-            if (!(Regex.Match(customerCreateDto.Email, @".@.\..").Success))
-                return BadRequest("Invlaid email");
-
             var customerToCreate = new Customer
             {
                 FirstName = customerCreateDto.FirstName,
@@ -50,13 +45,13 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("GetCustomer")]
-        public async Task<IActionResult> GetCustomer(GetByIDDto getCustomerDto)
+        [HttpGet("GetCustomer")]
+        public async Task<Customer> GetCustomer(GetByIDDto getCustomerDto)
         {
             Customer customer;
             customer = await _repo.GetCustomer(getCustomerDto.ID);
             
-            return StatusCode(201);
+            return customer;
         }
 
     }

@@ -44,13 +44,13 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("GetAddress")]
-        public async Task<IActionResult> GetCustomer(GetByIDDto getAddressDto)
+        [HttpGet("GetAddress")]
+        public async Task<Address> GetCustomer(GetByIDDto getAddressDto)
         {
             Address address;
             address = await _repo.GetAddress(getAddressDto.ID);
             
-            return StatusCode(201);
+            return address;
         }
 
     }
