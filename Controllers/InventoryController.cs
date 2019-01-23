@@ -74,5 +74,27 @@ namespace CheckIT.API.Controllers
 
         //[HttpPost("DeleteMultipleItems")]
         //public async Task<IActionResult> DeleteMultipleItems()
+
+        [HttpPost("UpdateItem")]
+        public async Task<IActionResult> UpdateItem(ItemForUpdateDto updateItemDto)
+        {
+            Item item;
+            item = await _repo.GetItem(updateItemDto.Id);
+
+            //probably a much better way to do this
+            //possibly something like:
+            //PropertyInfo[] properties = item.GetType().GetProperties();
+            //foreach (PropertyInfo pi in properties)
+            if (updateItemDto.Name != null) item.Name = updateItemDto.Name;
+            if (updateItemDto.UPC != null) item.UPC = updateItemDto.UPC;
+            if (updateItemDto.Price != null) item.Price = updateItemDto.Price;
+            if (updateItemDto.Description != null) item.Description = updateItemDto.Description;
+            if (updateItemDto.Quantity != null) item.Quantity = updateItemDto.Quantity;
+
+            var updatedItem = await _repo.UpdateItem(item);
+
+            //created at root status code
+            return StatusCode(201);
+        }
     }
 }

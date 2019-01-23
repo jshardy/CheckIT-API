@@ -45,6 +45,16 @@ namespace CheckIT.API.Data
 
             return item;
         }
+
+        public async Task<Item> UpdateItem(Item item)
+        {
+            //update database.
+            //await _context.Items.AddAsync(item);
+            await _context.Items.Update(item); //Async? even need to use update?
+            await _context.SaveChangesAsync();
+
+            return item;
+        }
         /*
         public async Task<bool> ItemExists(string name)
         {

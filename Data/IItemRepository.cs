@@ -8,6 +8,8 @@ namespace CheckIT.API.Data
         Task<Item> AddItem(Item item);
         Task<Item> GetItem(int ID);
         Task<Item> DeleteItem(int itemID);
+
+        Task<Item> UpdateItem(Item item);
         //Task<bool> ItemExists(string name);
     }
 }
