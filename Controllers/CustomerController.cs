@@ -12,6 +12,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 
+// add one/multiple (ICollection)
+// remove one/multiple
+// modify
+
+
 namespace CheckIT.API.Controllers
 {
     [Route("api/[controller]")]
@@ -36,13 +41,40 @@ namespace CheckIT.API.Controllers
                 CompanyName = customerCreateDto.CompanyName,
                 AddressID = customerCreateDto.AddressID,
                 PhoneNumber = customerCreateDto.PhoneNumber,
-                Email = customerCreateDto.Email,
+                Email = customerCreateDto.Email
             };
 
             var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
             //created at root status code
             return StatusCode(201);
+        }
+
+        [HttpPost("DeleteCustomer")]
+        public async Task<IActionResult> DeleteCustomer(GetByIDDto deleteCustomerDto)
+        {
+            if (await _repo.DeleteCustomer(deleteCustomerDto.ID))
+                return StatusCode(201);
+            return BadRequest("Could not find Customer");
+        }
+
+        [HttpPost("ModifyCustomer")]
+        public async Task<IActionResult> ModifyCustomer(GetByIDDto iDDto, CustomerCreateDto dataDto)
+        {
+            var custToPass = new Customer
+            {
+                FirstName = dataDto.FirstName,
+                LastName = dataDto.LastName,
+                CompanyName = dataDto.CompanyName,
+                AddressID = dataDto.AddressID,
+                PhoneNumber = dataDto.PhoneNumber,
+                Email = dataDto.Email
+            };
+
+            if (await _repo.ModifyCustomer(iDDto.ID, custToPass))
+                return StatusCode(201);
+
+            return BadRequest("Could not find Customer");
         }
 
         [HttpGet("GetCustomer")]

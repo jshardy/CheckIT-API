@@ -7,6 +7,8 @@ namespace CheckIT.API.Data
     {
         Task<Address> CreateAddress(Address address);
         Task<Address> GetAddress(int ID);
+        Task<bool> DeleteAddress(int ID);
+        Task<bool> ModifyAddress(int ID, Address address);
 
     }
 }

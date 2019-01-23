@@ -44,6 +44,33 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
+        [HttpPost("DeleteAddress")]
+        public async Task<IActionResult> DeleteAddress(GetByIDDto DeleteAddressDto)
+        {
+            if (await _repo.DeleteAddress(DeleteAddressDto.ID))
+                return StatusCode(201);
+            return BadRequest("Could not find Address");
+        }
+
+        [HttpPost("ModifyAddress")]
+        public async Task<IActionResult> ModifyAddress(GetByIDDto iDDto, AddressCreateDto dataDto)
+        {
+            var addressToPass = new Address
+            {
+		        Country = dataDto.Country,
+		        State = dataDto.State,
+                ZipCode = dataDto.ZipCode,
+                Street = dataDto.Street,
+		        AptNum = dataDto.AptNum,
+                DefaultAddress = dataDto.DefaultAddress
+            };
+
+            if (await _repo.ModifyAddress(iDDto.ID, addressToPass))
+                return StatusCode(201);
+
+            return BadRequest("Could not find Address");
+        }
+
         [HttpGet("GetAddress")]
         public async Task<Address> GetCustomer(GetByIDDto getAddressDto)
         {

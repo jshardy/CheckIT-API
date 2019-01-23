@@ -28,5 +28,45 @@ namespace CheckIT.API.Data
             return address;
         }
 
+        public async Task<bool> DeleteAddress(int ID)
+        {
+            Address address = await _context.Addresses.FirstOrDefaultAsync(x => x.Id == ID);
+
+            if (address == null)
+                return false;
+            else
+            {
+                _context.Addresses.Remove(address);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+        }
+
+        public async Task<bool> ModifyAddress(int ID, Address change)
+        {
+            Address exist = await _context.Addresses.FirstOrDefaultAsync(x => x.Id == ID);
+
+            if (exist == null)
+                return false;
+
+            _context.Addresses.Remove(exist);
+
+            if (change.Country != null)
+                exist.Country = change.Country;
+            if (change.State != null)
+                exist.State = change.State;
+            if (change.ZipCode != null)
+                exist.ZipCode = change.ZipCode;
+            if (change.Street != null)
+                exist.Street = change.Street;
+            if (change.AptNum != null)
+                exist.AptNum = change.AptNum;
+
+            await _context.Addresses.AddAsync(exist);
+            await _context.SaveChangesAsync();
+            
+            return true;
+        }
+
     }
 }
