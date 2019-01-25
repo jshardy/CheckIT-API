@@ -43,14 +43,13 @@ namespace CheckIT.API.Controllers
 
             var itemToCreate = new Item
             {
-                Id = itemForAddDto.Id,
                 UPC = itemForAddDto.UPC,
                 Name = itemForAddDto.Name,
                 Price = itemForAddDto.Price,
                 Description = itemForAddDto.Description
             };
 
-             var createdItem = await _repo.AddItem(itemToCreate);
+            var createdItem = _repo.AddItem(itemToCreate);
 
             //created at root status code
             return StatusCode(201);
@@ -61,14 +60,14 @@ namespace CheckIT.API.Controllers
         {
             Item item;
             item = await _repo.GetItem(getItemDto.Id);
-            
+
             return item;
         }
 
         [HttpPost("DeleteItem")]
-        public async Task<IActionResult> DeleteItem(GetByIDDto deleteItemDto)
+        public async Task<IActionResult> DeleteItem(int Id)
         {
-            var deletedItem = await _repo.DeleteItemAsync(deleteItemDto.Id);
+            var deletedItem = await _repo.DeleteItem(Id);
             return StatusCode(201);
         }
 

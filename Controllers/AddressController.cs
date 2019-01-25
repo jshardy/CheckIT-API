@@ -24,7 +24,7 @@ namespace CheckIT.API.Controllers
         {
              _repo = repo;
         }
-        
+
         [HttpPost("CreateAddress")]
         public async Task<IActionResult> CreateAddress(AddressCreateDto addressCreateDto)
         {
@@ -45,11 +45,11 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetAddress")]
-        public async Task<Address> GetCustomer(GetByIDDto getAddressDto)
+        public async Task<Address> GetCustomer(int Id)
         {
             Address address;
-            address = await _repo.GetAddress(getAddressDto.ID);
-            
+            address = await _repo.GetAddress(Id);
+
             return address;
         }
 
