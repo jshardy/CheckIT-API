@@ -39,7 +39,7 @@ namespace CheckIT.API.Controllers
                 Email = customerCreateDto.Email,
             };
 
-            var createdCustomer = _repo.CreateCustomer(customerToCreate);
+            var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
             //created at root status code
             return StatusCode(201);
