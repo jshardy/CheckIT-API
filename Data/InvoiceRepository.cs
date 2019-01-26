@@ -60,7 +60,7 @@ namespace CheckIT.API.Data
 
         private bool IsDateValid(DateTime DateToCheck)
         {
-            if((DateToCheck.Year != 0 && DateToCheck.Month != 0 && DateToCheck.Day != 0))
+            if((DateToCheck.Year != 0001 && DateToCheck.Month != 1 && DateToCheck.Day != 1))
             {
                 return true;
             }
@@ -74,7 +74,12 @@ namespace CheckIT.API.Data
         {
             var paramCount = 0;
 
-            if(invoice.BusinessID != 1)
+            if(invoice.Id != 0)
+            {
+                paramCount++;
+            }
+
+            if(invoice.BusinessID != 0)
             {
                 paramCount++;
             }
@@ -102,9 +107,20 @@ namespace CheckIT.API.Data
         {
             var queryString = "";
 
-            var paramNum = NumOfParam(invoice, FromDate, ToDate);
+            var paramNum = NumOfParam(invoice, FromDate, ToDate) - 1;
 
-            if(invoice.BusinessID != -1)
+            if(invoice.Id != 0)
+            {
+                queryString += "Id = " + invoice.Id.ToString() + "\n";
+
+                if(paramNum > 0)
+                {
+                    queryString += "AND \n";
+                    paramNum--;
+                }
+            }
+
+            if(invoice.BusinessID != 0)
             {
                 queryString += "BusinessID = " + invoice.BusinessID.ToString() + "\n";
 
@@ -148,7 +164,8 @@ namespace CheckIT.API.Data
                 }
             }
 
-            var invoiceList = _context.Invoices.FromSql("SELECT * FROM Invoices WHERE " + queryString).ToList();
+            //var invoiceList = _context.Invoices.FromSql("SELECT * FROM Invoices WHERE " + queryString).ToList();
+            var invoiceList = _context.Invoices.FromSql("SELECT * FROM Invoices").ToList();
 
             return invoiceList;
         }
