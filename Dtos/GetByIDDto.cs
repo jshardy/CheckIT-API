@@ -4,6 +4,6 @@ namespace CheckIT.API.Dtos
 {
     public class GetByIDDto
     {
-        public int ID {get; set; }
+        public int Id {get; set; }
     }
 }

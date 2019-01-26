@@ -29,7 +29,7 @@ namespace CheckIT.API.Controllers
         {
              _repo = repo;
         }
-        
+
         [AllowAnonymous]
         [HttpPost("CreateCustomer")]
         public async Task<IActionResult> CreateCustomer(CustomerCreateDto customerCreateDto)
@@ -78,11 +78,11 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetCustomer")]
-        public async Task<Customer> GetCustomer(GetByIDDto getCustomerDto)
+        public async Task<Customer> GetCustomer(int Id)
         {
             Customer customer;
-            customer = await _repo.GetCustomer(getCustomerDto.ID);
-            
+            customer = await _repo.GetCustomer(Id);
+
             return customer;
         }
 

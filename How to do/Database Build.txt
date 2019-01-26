@@ -1,0 +1,36 @@
+***************************************************************************************************************
+*Use batch files to fix DB first. This is a second class citizen.
+*
+* To use batch files just go to cmd prompt - press ctrl + ` to pull up vs code console
+* cd "How to do" *the tab key will autocomplete if you type half of it in.
+* Then just type what you want.
+*
+* _CreateCheckITDB.bat                              --run this every time you pull
+* _Rebuild-DB.bat Comment_For_C#_Migration_Classes  --run this if you have major changes to db
+* _Update-DB.bat Comment_For_C#_Migration_Classes   --run this if you made simple modifications to models.
+***************************************************************************************************************
+
+**** BELOW IS HOW TO MANUALLY FIX DB ****
+
+*Regardless of the database we use, these commands are exactly the same.
+*So, if we use SQL Server nothing changes.
+*Use mySql, nothing changes.
+
+How to build db.
+
+*Error? Try this first.
+*If someone else ran "dotnet ef migrations add "comment", then you just need to update your CheckIT.db - 99% of the time this will fix build errors.
+dotnet ef database update
+
+*Error? Try this second.
+If you make a small "addition to db" do this:
+1. dotnet ef migrations add "Comment what I added." //create c# classes that expose the Table.Columns.Add.etc - if this fails go ahead and do step 2.
+2. dotnet ef database update                        //creates the actual checkit.db
+*The above didn't work? Likely an error in your code.
+
+
+*Totally messed up db? No problem. *dotnet ef blah giving you errors all over place? Do this.
+1. dotnet ef database update 0                          //this rolls us back to ground zero, users table only in CheckIT.db
+2. dotnet ef migrations remove                          //now that CheckIT.db reflects, you can move the C# classes back to ground zero
+3. dotnet ef migrations add "I fixed blah db stuff"     //recreate C# db classes based on models, this gives us table.remove.blah..so.only
+4. dotnet ef database update                            //make CheckIT.db reflect C# classes. Ie make real tables in db
