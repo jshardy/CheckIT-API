@@ -60,7 +60,7 @@ namespace CheckIT.API.Data
 
         private bool IsDateValid(DateTime DateToCheck)
         {
-            if((DateToCheck.Year != 0 && DateToCheck.Month != 0 && DateToCheck.Day != 0))
+            if((DateToCheck.Year != 0001 && DateToCheck.Month != 1 && DateToCheck.Day != 1))
             {
                 return true;
             }
@@ -70,87 +70,37 @@ namespace CheckIT.API.Data
             }
         }
 
-        private int NumOfParam(Invoice invoice, DateTime FromDate, DateTime ToDate)
-        {
-            var paramCount = 0;
-
-            if(invoice.BusinessID != 1)
-            {
-                paramCount++;
-            }
-
-            if(IsDateValid(invoice.InvoiceDate))
-            {
-                paramCount++;
-            }
-
-            if(invoice.OutgoingInv)
-            {
-                paramCount++;
-            }
-
-            if(invoice.IncomingInv)
-            {
-                paramCount++;
-            }
-
-            return paramCount;
-        }
-
         //This function is not Async. If there is a better way to make this async then please make changes
         public List<Invoice> GetInvoices(Invoice invoice, DateTime FromDate, DateTime ToDate)
         {
-            var queryString = "";
+            var invoiceQuery = _context.Invoices;
 
-            var paramNum = NumOfParam(invoice, FromDate, ToDate);
-
-            if(invoice.BusinessID != -1)
+            if(invoice.Id != 0)
             {
-                queryString += "BusinessID = " + invoice.BusinessID.ToString() + "\n";
+                invoiceQuery.Where(x => x.Id == invoice.Id);
+            }
 
-                if(paramNum > 0)
-                {
-                    queryString += "AND \n";
-                    paramNum--;
-                }
+            if(invoice.BusinessID != 0)
+            {
+                invoiceQuery.Where(x => x.BusinessID == invoice.BusinessID);
             }
 
             if(IsDateValid(FromDate) && IsDateValid(ToDate) && IsDateValid(invoice.InvoiceDate))
             {
-                queryString += "InvoiceDate BETWEEN " + FromDate.ToShortDateString() + " AND " + ToDate.ToShortDateString() + "\n";
-
-                if(paramNum > 0)
-                {
-                    queryString += "AND \n";
-                    paramNum--;
-                }
+                invoiceQuery.Where(x => FromDate < invoice.InvoiceDate && ToDate > invoice.InvoiceDate);
             }
 
             if(invoice.OutgoingInv == true)
             {
-                queryString += "OutgoingInv == true \n";
-
-                if(paramNum > 0)
-                {
-                    queryString += "AND \n";
-                    paramNum--;
-                }
+                invoiceQuery.Where(x => x.OutgoingInv == invoice.OutgoingInv);
             }
 
             if(invoice.IncomingInv == true)
             {
-                queryString += "IncomingInv == true \n";
-
-                if(paramNum > 0)
-                {
-                    queryString += "AND \n";
-                    paramNum--;
-                }
+                invoiceQuery.Where(x => x.IncomingInv == invoice.IncomingInv);
             }
 
-            var invoiceList = _context.Invoices.FromSql("SELECT * FROM Invoices WHERE " + queryString).ToList();
-
-            return invoiceList;
+            return invoiceQuery.ToList();
         }
     }
 }
