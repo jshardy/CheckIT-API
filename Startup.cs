@@ -45,6 +45,7 @@ namespace CheckIT.API
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<ICustRepository, CustRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
             //setup the use of token
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

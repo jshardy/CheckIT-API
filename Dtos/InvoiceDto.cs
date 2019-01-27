@@ -16,6 +16,6 @@ namespace CheckIT.API.Dtos
         public bool OutgoingInv { get; set; }
         [Required]
         public bool IncomingInv { get; set; }
-        public float AmmountPaid { get; set; }
+        public decimal AmmountPaid { get; set; }
     }
 }

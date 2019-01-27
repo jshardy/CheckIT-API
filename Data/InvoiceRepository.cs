@@ -70,7 +70,8 @@ namespace CheckIT.API.Data
             }
         }
 
-        //This function is not Async. If there is a better way to make this async then please make changes
+        //Will return all the entrys in the database, not intended functionality.
+        //will work on in the next sprint
         public List<Invoice> GetInvoices(Invoice invoice, DateTime FromDate, DateTime ToDate)
         {
             var invoiceQuery = _context.Invoices.ToList();

@@ -7,7 +7,7 @@ namespace CheckIT.API.Dtos
         [Required]
         public int Id { get; set; }
 		public int UPC { get; set; }
-		public float Price { get; set; }
+		public decimal Price { get; set; }
         public string Name { get; set; }
 		public string Description { get; set; }
 

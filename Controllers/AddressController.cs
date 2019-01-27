@@ -44,8 +44,8 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet("GetAddress")]
-        public async Task<Address> GetCustomer(int Id)
+        [HttpGet("GetAddress/{Id}")]
+        public async Task<Address> GetAddress(int Id)
         {
             Address address;
             address = await _repo.GetAddress(Id);
