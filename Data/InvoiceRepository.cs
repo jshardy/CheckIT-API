@@ -73,37 +73,34 @@ namespace CheckIT.API.Data
         //This function is not Async. If there is a better way to make this async then please make changes
         public List<Invoice> GetInvoices(Invoice invoice, DateTime FromDate, DateTime ToDate)
         {
-            var queryString = "";
-
-            var invoiceList = _context.Invoices.FromSql("SELECT * FROM Invoices");
-
+            var invoiceQuery = _context.Invoices;
 
             if(invoice.Id != 0)
             {
-                invoiceList.Where(x => x.Id == invoice.Id);
+                invoiceQuery.Where(x => x.Id == invoice.Id);
             }
 
             if(invoice.BusinessID != 0)
             {
-                invoiceList.Where(x => x.BusinessID == invoice.BusinessID);
+                invoiceQuery.Where(x => x.BusinessID == invoice.BusinessID);
             }
 
             if(IsDateValid(FromDate) && IsDateValid(ToDate) && IsDateValid(invoice.InvoiceDate))
             {
-                invoiceList.Where(x => FromDate < invoice.InvoiceDate && ToDate > invoice.InvoiceDate);
+                invoiceQuery.Where(x => FromDate < invoice.InvoiceDate && ToDate > invoice.InvoiceDate);
             }
 
             if(invoice.OutgoingInv == true)
             {
-                invoiceList.Where(x => x.OutgoingInv == invoice.OutgoingInv);
+                invoiceQuery.Where(x => x.OutgoingInv == invoice.OutgoingInv);
             }
 
             if(invoice.IncomingInv == true)
             {
-                invoiceList.Where(x => x.IncomingInv == invoice.IncomingInv);
+                invoiceQuery.Where(x => x.IncomingInv == invoice.IncomingInv);
             }
 
-            return invoiceList.ToList();
+            return invoiceQuery.ToList();
         }
     }
 }
