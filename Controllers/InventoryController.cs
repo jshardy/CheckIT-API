@@ -46,7 +46,8 @@ namespace CheckIT.API.Controllers
                 UPC = itemForAddDto.UPC,
                 Name = itemForAddDto.Name,
                 Price = itemForAddDto.Price,
-                Description = itemForAddDto.Description
+                Description = itemForAddDto.Description,
+                Quantity = itemForAddDto.Quantity
             };
 
             var createdItem = _repo.AddItem(itemToCreate);
