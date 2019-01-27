@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +16,7 @@ namespace CheckIT.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [AllowAnonymous]
     public class InvoiceController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -51,9 +52,9 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> ReturnOneInvoice(int id)
+        public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
-            var invoiceToFind = await _repo.GetOneInvoiceAsync(id);
+            var invoiceToFind = await _repo.GetOneInvoiceAsync(Id);
             return Ok(invoiceToFind);
         }
 
