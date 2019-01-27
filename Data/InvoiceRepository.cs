@@ -73,32 +73,32 @@ namespace CheckIT.API.Data
         //This function is not Async. If there is a better way to make this async then please make changes
         public List<Invoice> GetInvoices(Invoice invoice, DateTime FromDate, DateTime ToDate)
         {
-            var invoiceQuery = _context.Invoices;
+            var invoiceQuery = _context.Invoices.ToList();
 
-            if(invoice.Id != 0)
-            {
-                invoiceQuery.Where(x => x.Id == invoice.Id);
-            }
+            // if(invoice.Id != 0)
+            // {
+            //     invoiceQuery.Where(x => x.Id == invoice.Id);
+            // }
 
-            if(invoice.BusinessID != 0)
-            {
-                invoiceQuery.Where(x => x.BusinessID == invoice.BusinessID);
-            }
+            // if(invoice.BusinessID != 0)
+            // {
+            //     invoiceQuery.Where(x => x.BusinessID == invoice.BusinessID);
+            // }
 
-            if(IsDateValid(FromDate) && IsDateValid(ToDate) && IsDateValid(invoice.InvoiceDate))
-            {
-                invoiceQuery.Where(x => FromDate < invoice.InvoiceDate && ToDate > invoice.InvoiceDate);
-            }
+            // if(IsDateValid(FromDate) && IsDateValid(ToDate) && IsDateValid(invoice.InvoiceDate))
+            // {
+            //     invoiceQuery.Where(x => FromDate < invoice.InvoiceDate && ToDate > invoice.InvoiceDate);
+            // }
 
-            if(invoice.OutgoingInv == true)
-            {
-                invoiceQuery.Where(x => x.OutgoingInv == invoice.OutgoingInv);
-            }
+            // if(invoice.OutgoingInv == true)
+            // {
+            //     invoiceQuery.Where(x => x.OutgoingInv == invoice.OutgoingInv);
+            // }
 
-            if(invoice.IncomingInv == true)
-            {
-                invoiceQuery.Where(x => x.IncomingInv == invoice.IncomingInv);
-            }
+            // if(invoice.IncomingInv == true)
+            // {
+            //     invoiceQuery.Where(x => x.IncomingInv == invoice.IncomingInv);
+            // }
 
             return invoiceQuery.ToList();
         }

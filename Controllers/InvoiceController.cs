@@ -44,14 +44,14 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("ArchiveInvoice")]
-        public async Task<IActionResult> ArchiveInvoice(InvoiceDto invoiceDto)
+        [HttpPost("ArchiveInvoice/{id}")]
+        public async Task<IActionResult> ArchiveInvoice(int id)
         {
-            var removedInvoice = await _repo.ArchiveInvoiceAsync(invoiceDto.Id);
+            var removedInvoice = await _repo.ArchiveInvoiceAsync(id);
             return StatusCode(201);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("ReturnOneInvoice/{id}")]
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
             var invoiceToFind = await _repo.GetOneInvoiceAsync(Id);
