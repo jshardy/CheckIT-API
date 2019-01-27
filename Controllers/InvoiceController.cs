@@ -50,10 +50,10 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet("ReturnOneInvoice")]
-        public async Task<IActionResult> ReturnOneInvoice(InvoiceDto invoiceDto)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ReturnOneInvoice(int id)
         {
-            var invoiceToFind = await _repo.GetOneInvoiceAsync(invoiceDto.Id);
+            var invoiceToFind = await _repo.GetOneInvoiceAsync(id);
             return Ok(invoiceToFind);
         }
 
