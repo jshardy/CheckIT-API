@@ -1,6 +1,9 @@
-// using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CheckIT.API.Models;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
@@ -26,6 +29,12 @@ namespace CheckIT.API.Data
         {
             Item item = await _context.Items.FirstOrDefaultAsync(x => x.Id == ID);
             return item;
+        }
+
+        public async Task<List<Item>> GetAllItems()
+        {
+            List<Item> items = await _context.Items.ToListAsync();
+            return items;
         }
 
         public async Task<Item> DeleteItem(int itemID)
