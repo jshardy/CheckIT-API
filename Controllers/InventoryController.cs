@@ -85,10 +85,10 @@ namespace CheckIT.API.Controllers
             //PropertyInfo[] properties = item.GetType().GetProperties();
             //foreach (PropertyInfo pi in properties)
             if (updateItemDto.Name != null) item.Name = updateItemDto.Name;
-            if (updateItemDto.UPC != null) item.UPC = updateItemDto.UPC;
-            if (updateItemDto.Price != null) item.Price = updateItemDto.Price;
+            if (updateItemDto.UPC != 0) item.UPC = updateItemDto.UPC;
+            if (updateItemDto.Price != 0) item.Price = updateItemDto.Price;
             if (updateItemDto.Description != null) item.Description = updateItemDto.Description;
-            if (updateItemDto.Quantity != null) item.Quantity = updateItemDto.Quantity;
+            if (updateItemDto.Quantity != 0) item.Quantity = updateItemDto.Quantity;
 
             var updatedItem = await _repo.UpdateItem(item);
 
