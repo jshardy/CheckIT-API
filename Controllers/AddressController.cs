@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
@@ -47,9 +48,21 @@ namespace CheckIT.API.Controllers
         [HttpPost("DeleteAddress")]
         public async Task<IActionResult> DeleteAddress(GetByIDDto DeleteAddressDto)
         {
-            if (await _repo.DeleteAddress(DeleteAddressDto.ID))
+            if (await _repo.DeleteAddress(DeleteAddressDto.Id))
                 return StatusCode(201);
             return BadRequest("Could not find Address");
+        }
+
+        [HttpPost("DeleteAddresses")]
+        public async Task<IActionResult> DeleteAddresses(ICollection<int> idCollection)
+        {
+            bool success = true;
+            foreach(int id in idCollection)
+                if (await _repo.DeleteAddress(id) == false)
+                    success = false;
+            if(success)
+                return StatusCode(201);
+            return BadRequest("One or more Addresses could not be found");
         }
 
         [HttpPost("ModifyAddress")]
@@ -65,7 +78,7 @@ namespace CheckIT.API.Controllers
                 DefaultAddress = dataDto.DefaultAddress
             };
 
-            if (await _repo.ModifyAddress(iDDto.ID, addressToPass))
+            if (await _repo.ModifyAddress(iDDto.Id, addressToPass))
                 return StatusCode(201);
 
             return BadRequest("Could not find Address");
@@ -78,6 +91,15 @@ namespace CheckIT.API.Controllers
             address = await _repo.GetAddress(Id);
 
             return address;
+        }
+
+        [HttpGet("GetAddresses")]
+        public async Task<ICollection<Address>> GetAddresses(ICollection<int> idCollection)
+        {
+            ICollection<Address> collection = new ICollection<Address>();
+            foreach(int id in idCollection)
+                collection.Add(await _repo.GetAddress(id));
+            return collection;
         }
 
     }

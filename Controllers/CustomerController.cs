@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
@@ -12,9 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 
-// add one/multiple (ICollection)
-// remove one/multiple
-// modify
+// add multiple (ICollection)
+// remove multiple
 
 
 namespace CheckIT.API.Controllers
@@ -51,15 +51,27 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("DeleteCustomer")]
-        public async Task<IActionResult> DeleteCustomer(GetByIDDto deleteCustomerDto)
+        public async Task<IActionResult> DeleteCustomer(int id)
         {
-            if (await _repo.DeleteCustomer(deleteCustomerDto.ID))
+            if (await _repo.DeleteCustomer(id))
                 return StatusCode(201);
             return BadRequest("Could not find Customer");
         }
 
+        [HttpPost("DeleteCustomers")]
+        public async Task<IActionResult> DeleteCustomers(ICollection<int> idCollection)
+        {
+            bool success = true;
+            foreach(int id in idCollection)
+                if (await _repo.DeleteCustomer(id) == false)
+                    success = false;
+            if(success)
+                return StatusCode(201);
+            return BadRequest("One or more Customers could not be found");
+        }
+
         [HttpPost("ModifyCustomer")]
-        public async Task<IActionResult> ModifyCustomer(GetByIDDto iDDto, CustomerCreateDto dataDto)
+        public async Task<IActionResult> ModifyCustomer(int id, CustomerCreateDto dataDto)
         {
             var custToPass = new Customer
             {
@@ -71,20 +83,31 @@ namespace CheckIT.API.Controllers
                 Email = dataDto.Email
             };
 
-            if (await _repo.ModifyCustomer(iDDto.ID, custToPass))
+            if (await _repo.ModifyCustomer(id, custToPass))
                 return StatusCode(201);
 
             return BadRequest("Could not find Customer");
         }
 
         [HttpGet("GetCustomer")]
-        public async Task<Customer> GetCustomer(int Id)
+        public async Task<Customer> GetCustomer(int id)
         {
             Customer customer;
-            customer = await _repo.GetCustomer(Id);
+            customer = await _repo.GetCustomer(id);
 
             return customer;
         }
+
+        [HttpGet("GetCustomers")]
+        public async Task<ICollection<Customer>> GetCustomers(ICollection<int> idCollection)
+        {
+            ICollection<Customer> collection = new ICollection<Customer>();
+            foreach(int id in idCollection)
+                collection.Add(await _repo.GetCustomer(id));
+            return collection;
+        }
+
+
 
     }
 }
