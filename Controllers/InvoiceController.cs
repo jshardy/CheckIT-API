@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +16,7 @@ namespace CheckIT.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [AllowAnonymous]
     public class InvoiceController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -43,22 +44,22 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("ArchiveInvoice")]
-        public async Task<IActionResult> ArchiveInvoice(InvoiceDto invoiceDto)
+        [HttpPost("ArchiveInvoice/{id}")]
+        public async Task<IActionResult> ArchiveInvoice(int id)
         {
-            var removedInvoice = await _repo.ArchiveInvoiceAsync(invoiceDto.Id);
+            var removedInvoice = await _repo.ArchiveInvoiceAsync(id);
             return StatusCode(201);
         }
 
-        [HttpGet("ReturnOneInvoice")]
-        public async Task<IActionResult> ReturnOneInvoice(InvoiceDto invoiceDto)
+        [HttpGet("ReturnOneInvoice/{id}")]
+        public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
-            var invoiceToFind = await _repo.GetOneInvoiceAsync(invoiceDto.Id);
+            var invoiceToFind = await _repo.GetOneInvoiceAsync(Id);
             return Ok(invoiceToFind);
         }
 
         [HttpGet("ReturnInvoices")]
-        public List<Invoice> ReturnInvoices(InvoiceDto invoiceDto)
+        public List<Invoice> ReturnInvoices(InvoiceDto invoiceDto, DateTime Date1, DateTime Date2)
         {
             var invoicesToFind = new Invoice
             {
@@ -69,9 +70,6 @@ namespace CheckIT.API.Controllers
                 IncomingInv = invoiceDto.IncomingInv,
                 AmmountPaid = invoiceDto.AmmountPaid
             };
-
-            var Date1 = DateTime.Parse("1/16/18");
-            var Date2 = DateTime.Parse("1/16/19");
 
             var invoiceList = _repo.GetInvoices(invoicesToFind, Date1, Date2);
             return invoiceList;

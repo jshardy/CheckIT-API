@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
@@ -12,9 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
-
-// add multiple (ICollection)
-// remove multiple
 
 
 namespace CheckIT.API.Controllers
@@ -101,7 +99,7 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetCustomers")]
         public async Task<ICollection<Customer>> GetCustomers(ICollection<int> idCollection)
         {
-            ICollection<Customer> collection = new ICollection<Customer>();
+            ICollection<Customer> collection = new Collection<Customer>();
             foreach(int id in idCollection)
                 collection.Add(await _repo.GetCustomer(id));
             return collection;

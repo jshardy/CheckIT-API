@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
@@ -23,7 +24,7 @@ namespace CheckIT.API.Controllers
 
         public AddressController(IAddressRepository repo)
         {
-             _repo = repo;
+            _repo = repo;
         }
 
         [HttpPost("CreateAddress")]
@@ -31,11 +32,11 @@ namespace CheckIT.API.Controllers
         {
             var addressToCreate = new Address
             {
-		        Country = addressCreateDto.Country,
-		        State = addressCreateDto.State,
+                Country = addressCreateDto.Country,
+                State = addressCreateDto.State,
                 ZipCode = addressCreateDto.ZipCode,
                 Street = addressCreateDto.Street,
-		        AptNum = addressCreateDto.AptNum,
+                AptNum = addressCreateDto.AptNum,
                 DefaultAddress = addressCreateDto.DefaultAddress
             };
 
@@ -46,9 +47,9 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("DeleteAddress")]
-        public async Task<IActionResult> DeleteAddress(GetByIDDto DeleteAddressDto)
+        public async Task<IActionResult> DeleteAddress(int id)
         {
-            if (await _repo.DeleteAddress(DeleteAddressDto.Id))
+            if (await _repo.DeleteAddress(id))
                 return StatusCode(201);
             return BadRequest("Could not find Address");
         }
@@ -57,28 +58,28 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> DeleteAddresses(ICollection<int> idCollection)
         {
             bool success = true;
-            foreach(int id in idCollection)
+            foreach (int id in idCollection)
                 if (await _repo.DeleteAddress(id) == false)
                     success = false;
-            if(success)
+            if (success)
                 return StatusCode(201);
             return BadRequest("One or more Addresses could not be found");
         }
 
         [HttpPost("ModifyAddress")]
-        public async Task<IActionResult> ModifyAddress(GetByIDDto iDDto, AddressCreateDto dataDto)
+        public async Task<IActionResult> ModifyAddress(int id, AddressCreateDto dataDto)
         {
             var addressToPass = new Address
             {
-		        Country = dataDto.Country,
-		        State = dataDto.State,
+                Country = dataDto.Country,
+                State = dataDto.State,
                 ZipCode = dataDto.ZipCode,
                 Street = dataDto.Street,
-		        AptNum = dataDto.AptNum,
+                AptNum = dataDto.AptNum,
                 DefaultAddress = dataDto.DefaultAddress
             };
 
-            if (await _repo.ModifyAddress(iDDto.Id, addressToPass))
+            if (await _repo.ModifyAddress(id, addressToPass))
                 return StatusCode(201);
 
             return BadRequest("Could not find Address");
@@ -96,11 +97,12 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetAddresses")]
         public async Task<ICollection<Address>> GetAddresses(ICollection<int> idCollection)
         {
-            ICollection<Address> collection = new ICollection<Address>();
-            foreach(int id in idCollection)
+            ICollection<Address> collection = new Collection<Address>();
+            foreach (int id in idCollection)
                 collection.Add(await _repo.GetAddress(id));
             return collection;
         }
 
+        
     }
 }

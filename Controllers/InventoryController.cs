@@ -1,5 +1,6 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,7 +47,8 @@ namespace CheckIT.API.Controllers
                 UPC = itemForAddDto.UPC,
                 Name = itemForAddDto.Name,
                 Price = itemForAddDto.Price,
-                Description = itemForAddDto.Description
+                Description = itemForAddDto.Description,
+                Quantity = itemForAddDto.Quantity
             };
 
             var createdItem = _repo.AddItem(itemToCreate);
@@ -55,16 +57,16 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet("GetItem")]
-        public async Task<Item> GetItem(GetByIDDto getItemDto)
+        [HttpGet("GetItem/{Id}")]
+        public async Task<Item> GetItem(int Id)//GetItem(GetByIDDto getItemDto)
         {
             Item item;
-            item = await _repo.GetItem(getItemDto.Id);
+            item = await _repo.GetItem(Id); //GetItem(getItemDto.Id);
 
             return item;
         }
 
-        [HttpPost("DeleteItem")]
+        [HttpPost("DeleteItem/{Id}")]
         public async Task<IActionResult> DeleteItem(int Id)
         {
             var deletedItem = await _repo.DeleteItem(Id);
@@ -73,6 +75,13 @@ namespace CheckIT.API.Controllers
 
         //[HttpPost("DeleteMultipleItems")]
         //public async Task<IActionResult> DeleteMultipleItems()
+
+        [HttpGet("GetAllItems")]
+        public async Task<List<Item>> GetAllItems()
+        {
+            var itemList = await _repo.GetAllItems();
+            return itemList;
+        }
 
         [HttpPost("UpdateItem")]
         public async Task<IActionResult> UpdateItem(ItemForUpdateDto updateItemDto)
@@ -85,10 +94,10 @@ namespace CheckIT.API.Controllers
             //PropertyInfo[] properties = item.GetType().GetProperties();
             //foreach (PropertyInfo pi in properties)
             if (updateItemDto.Name != null) item.Name = updateItemDto.Name;
-            if (updateItemDto.UPC != null) item.UPC = updateItemDto.UPC;
-            if (updateItemDto.Price != null) item.Price = updateItemDto.Price;
+            if (updateItemDto.UPC != 0) item.UPC = updateItemDto.UPC;
+            if (updateItemDto.Price != 0) item.Price = updateItemDto.Price;
             if (updateItemDto.Description != null) item.Description = updateItemDto.Description;
-            if (updateItemDto.Quantity != null) item.Quantity = updateItemDto.Quantity;
+            if (updateItemDto.Quantity != 0) item.Quantity = updateItemDto.Quantity;
 
             var updatedItem = await _repo.UpdateItem(item);
 
