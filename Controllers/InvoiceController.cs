@@ -14,9 +14,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CheckIT.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class InvoiceController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -59,20 +59,10 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("ReturnInvoices")]
-        public List<Invoice> ReturnInvoices(InvoiceDto invoiceDto, DateTime Date1, DateTime Date2)
+        public async Task<IActionResult> ReturnInvoices()
         {
-            var invoicesToFind = new Invoice
-            {
-                Id = invoiceDto.Id,
-                BusinessID = invoiceDto.BusinessID,
-                InvoiceDate = invoiceDto.InvoiceDate,
-                OutgoingInv = invoiceDto.OutgoingInv,
-                IncomingInv = invoiceDto.IncomingInv,
-                AmmountPaid = invoiceDto.AmmountPaid
-            };
-
-            var invoiceList = _repo.GetInvoices(invoicesToFind, Date1, Date2);
-            return invoiceList;
+            var invoiceList = await _repo.GetInvoices();
+            return Ok(invoiceList);
         }
     }
 }

@@ -72,9 +72,10 @@ namespace CheckIT.API.Data
 
         //Will return all the entrys in the database, not intended functionality.
         //will work on in the next sprint
-        public List<Invoice> GetInvoices(Invoice invoice, DateTime FromDate, DateTime ToDate)
+        public async Task<IEnumerable<Invoice>> GetInvoices()
         {
-            var invoiceQuery = _context.Invoices.ToList();
+            // var invoiceQuery = await _context.Invoices.Include(items => items.Items).ToListAsync();
+            var invoiceQuery = await _context.Invoices.ToListAsync();
 
             // if(invoice.Id != 0)
             // {
@@ -101,7 +102,7 @@ namespace CheckIT.API.Data
             //     invoiceQuery.Where(x => x.IncomingInv == invoice.IncomingInv);
             // }
 
-            return invoiceQuery.ToList();
+            return invoiceQuery;
         }
     }
 }

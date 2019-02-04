@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CheckIT.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase

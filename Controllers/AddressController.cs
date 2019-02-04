@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CheckIT.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AddressController : ControllerBase
@@ -103,6 +104,6 @@ namespace CheckIT.API.Controllers
             return collection;
         }
 
-        
+
     }
 }

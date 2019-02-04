@@ -10,14 +10,11 @@ using CheckIT.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheckIT.API.Controllers
 {
-    //[Authorize] <-- you need to put this in any controller made
-    //this [Authorize] attribute force the token to be used.
-    //IE they don't have to relogin every time.
-    //Do not enable it here, this is the "inventory" controller.
-    //Use [AllowAnonymous] for controllers that don't need auth
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class InventoryController : ControllerBase
