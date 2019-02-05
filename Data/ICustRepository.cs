@@ -5,10 +5,10 @@ namespace CheckIT.API.Data
 {
     public interface ICustRepository
     {
-        Task<Customer> CreateCustomer(Customer customer);
+        Task<Customer> CreateCustomer(Customer customer, int addressID);
         Task<Customer> GetCustomer(int ID);
         Task<bool> DeleteCustomer(int ID);
-        Task<bool> ModifyCustomer(int ID, Customer customer);
+        Task<bool> ModifyCustomer(int ID, Customer customer, int newAddress);
 
     }
 }

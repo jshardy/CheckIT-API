@@ -38,12 +38,11 @@ namespace CheckIT.API.Controllers
                 FirstName = customerCreateDto.FirstName,
                 LastName = customerCreateDto.LastName,
                 CompanyName = customerCreateDto.CompanyName,
-                AddressID = customerCreateDto.AddressID,
                 PhoneNumber = customerCreateDto.PhoneNumber,
                 Email = customerCreateDto.Email
             };
 
-            var createdCustomer = await _repo.CreateCustomer(customerToCreate);
+            var createdCustomer = await _repo.CreateCustomer(customerToCreate, customerCreateDto.AddressID);
 
             //created at root status code
             return StatusCode(201);
@@ -77,12 +76,11 @@ namespace CheckIT.API.Controllers
                 FirstName = dataDto.FirstName,
                 LastName = dataDto.LastName,
                 CompanyName = dataDto.CompanyName,
-                AddressID = dataDto.AddressID,
                 PhoneNumber = dataDto.PhoneNumber,
                 Email = dataDto.Email
             };
 
-            if (await _repo.ModifyCustomer(id, custToPass))
+            if (await _repo.ModifyCustomer(id, custToPass, dataDto.AddressID))
                 return StatusCode(201);
 
             return BadRequest("Could not find Customer");

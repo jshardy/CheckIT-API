@@ -8,14 +8,19 @@ namespace CheckIT.API.Data
     public class CustRepository : ICustRepository
     {
         private readonly DataContext _context;
+        private AddressRepository _AddRepo;
         public CustRepository(DataContext context)
         {
             _context = context;
+            _AddRepo = new AddressRepository(context);
         }
-        public async Task<Customer> CreateCustomer(Customer customer)
+        public async Task<Customer> CreateCustomer(Customer customer, int AddressId)
         {
 
             //save to database.
+
+            customer.Address = await _AddRepo.GetAddress(AddressId);
+
             await _context.Customers.AddAsync(customer); 
             await _context.SaveChangesAsync();
 
@@ -42,7 +47,7 @@ namespace CheckIT.API.Data
             }
         }
 
-        public async Task<bool> ModifyCustomer(int ID, Customer change)
+        public async Task<bool> ModifyCustomer(int ID, Customer change, int newAddress)
         {
             Customer exist = await _context.Customers.FirstOrDefaultAsync(x => x.ID == ID);
 
@@ -57,8 +62,8 @@ namespace CheckIT.API.Data
                 exist.LastName = change.LastName;
             if (change.CompanyName != null)
                 exist.CompanyName = change.CompanyName;
-            if (change.AddressID != default(int))
-                exist.AddressID = change.AddressID;
+            if (newAddress != default(int))
+                exist.Address = await _AddRepo.GetAddress(newAddress);
             if (change.PhoneNumber != null)
                 exist.PhoneNumber = change.PhoneNumber;
             if (change.Email != null)
