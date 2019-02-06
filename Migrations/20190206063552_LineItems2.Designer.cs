@@ -3,14 +3,16 @@ using System;
 using CheckIT.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190206063552_LineItems2")]
+    partial class LineItems2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,12 +143,12 @@ namespace CheckIT.API.Migrations
             modelBuilder.Entity("CheckIT.API.Models.LineItem", b =>
                 {
                     b.HasOne("CheckIT.API.Models.Invoice", "invoice")
-                        .WithMany("LineItems")
+                        .WithMany()
                         .HasForeignKey("InvoiceID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CheckIT.API.Models.Item", "item")
-                        .WithMany("LineItems")
+                        .WithMany()
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

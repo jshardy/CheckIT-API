@@ -11,6 +11,6 @@ namespace CheckIT.API.Models
         public bool OutgoingInv { get; set; }
         public bool IncomingInv { get; set; }
         public decimal AmmountPaid { get; set; }
-        public ICollection<Item> Items  { get; set; }
+        public IEnumerable<LineItem> LineItems { get; set; }
     }
 }

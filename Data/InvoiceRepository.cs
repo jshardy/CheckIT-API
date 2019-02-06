@@ -95,7 +95,7 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.AmmountPaid == Ammount);
             }
 
-            return await query.ToListAsync();
+            return await query.Include(p => p.LineItems).ToListAsync();
         }
     }
 }

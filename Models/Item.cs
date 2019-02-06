@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace CheckIT.API.Models
 {
     public class Item
@@ -8,5 +10,6 @@ namespace CheckIT.API.Models
         public string Name { get; set; }
 		public string Description { get; set; }
         public int Quantity { get; set; }
+        public IEnumerable<LineItem> LineItems { get; set; }
     }
 }

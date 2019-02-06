@@ -58,7 +58,7 @@ namespace CheckIT.API.Controllers
             return Ok(invoiceToFind);
         }
 
-        [HttpGet("")]
+        [HttpGet()]
         public async Task<IActionResult> ReturnInvoices(int BusinessID = -1, 
                                                         DateTime InvoiceDate = default(DateTime), 
                                                         bool OutgoingInv = false, 

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190124235212_rebuilding db")]
-    partial class rebuildingdb
+    [Migration("20190206063001_LineItems")]
+    partial class LineItems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,7 +67,7 @@ namespace CheckIT.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<float>("AmmountPaid");
+                    b.Property<decimal>("AmmountPaid");
 
                     b.Property<int>("BusinessID");
 
@@ -89,19 +89,15 @@ namespace CheckIT.API.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("InvoiceId");
-
                     b.Property<string>("Name");
 
-                    b.Property<float>("Price");
+                    b.Property<decimal>("Price");
 
                     b.Property<int>("Quantity");
 
                     b.Property<int>("UPC");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Items");
                 });
@@ -120,13 +116,6 @@ namespace CheckIT.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CheckIT.API.Models.Item", b =>
-                {
-                    b.HasOne("CheckIT.API.Models.Invoice")
-                        .WithMany("Items")
-                        .HasForeignKey("InvoiceId");
                 });
 #pragma warning restore 612, 618
         }

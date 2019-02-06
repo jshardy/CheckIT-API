@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckIT.API.Migrations
 {
-    public partial class rebuildingdb : Migration
+    public partial class LineItems : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,7 @@ namespace CheckIT.API.Migrations
                     InvoiceDate = table.Column<DateTime>(nullable: false),
                     OutgoingInv = table.Column<bool>(nullable: false),
                     IncomingInv = table.Column<bool>(nullable: false),
-                    AmmountPaid = table.Column<float>(nullable: false)
+                    AmmountPaid = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,27 +67,15 @@ namespace CheckIT.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UPC = table.Column<int>(nullable: false),
-                    Price = table.Column<float>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false),
-                    InvoiceId = table.Column<int>(nullable: true)
+                    Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Items_Invoices_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Items_InvoiceId",
-                table: "Items",
-                column: "InvoiceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -99,10 +87,10 @@ namespace CheckIT.API.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "Items");
         }
     }
 }
