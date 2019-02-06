@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 using System.Collections.Generic;
 
 namespace CheckIT.API.Models
@@ -6,6 +9,8 @@ namespace CheckIT.API.Models
     {
         public int Id { get; set; }
 		public int UPC { get; set; }
+
+        [Column(TypeName="Money")]
 		public decimal Price { get; set; }
         public string Name { get; set; }
 		public string Description { get; set; }
