@@ -74,7 +74,7 @@ namespace CheckIT.API.Controllers
             return itemList;
         }
 
-        [HttpPost("DeleteItem/{Id}")]
+        [HttpDelete("{Id}")] //[HttpDelete("DeleteItem/{Id}")]
         public async Task<IActionResult> DeleteItem(int Id)
         {
             var deletedItem = await _repo.DeleteItem(Id);

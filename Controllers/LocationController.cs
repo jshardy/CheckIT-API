@@ -32,14 +32,13 @@ namespace CheckIT.API.Controllers
         }
         //http://localhost:5000/api/Register
         //dto object to convert json to class
-        [HttpPost("AddLocation")]
+        [HttpPost("AddLocation/{locName}")]
         public async Task<IActionResult> AddLocation(string locName)
         {
             //validate request
             //locForAddDto.Name = locForAddDto.Name.ToLower();
 
             //check for duplicate name?
-            //check for duplicate id?
             //if (await _repo.LocationExists(locForAddDto.Name)) return BadRequest("Location already exists");
 
             var locToCreate = new Location
@@ -69,7 +68,7 @@ namespace CheckIT.API.Controllers
             return locList;
         }
 
-        [HttpPost("DeleteLocation/{Id}")]
+        [HttpDelete("{Id}")] //[HttpPost("DeleteLocation/{Id}")]
         public async Task<IActionResult> DeleteLocation(int Id)
         {
             var deletedLocation = await _repo.DeleteLocation(Id);
