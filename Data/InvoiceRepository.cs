@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
 {
-    public class InvoiceRepository : IInvoiceRepository
+    public class InvoiceRepository
     {
         private readonly DataContext _context;
         public InvoiceRepository(DataContext context)
@@ -58,51 +58,44 @@ namespace CheckIT.API.Data
         //one solution to this is bu making a query string and then concatinating
         //it into one string (i think this is the best bet)
 
-        private bool IsDateValid(DateTime DateToCheck)
-        {
-            if((DateToCheck.Year != 0001 && DateToCheck.Month != 1 && DateToCheck.Day != 1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         //Will return all the entrys in the database, not intended functionality.
         //will work on in the next sprint
-        public async Task<IEnumerable<Invoice>> GetInvoices()
+        public async Task<IEnumerable<Invoice>> GetInvoices(int BusID, 
+                                                            DateTime InvDate, 
+                                                            bool Out, 
+                                                            bool In, 
+                                                            decimal Ammount)
         {
-            // var invoiceQuery = await _context.Invoices.Include(items => items.Items).ToListAsync();
-            var invoiceQuery = await _context.Invoices.ToListAsync();
 
-            // if(invoice.Id != 0)
-            // {
-            //     invoiceQuery.Where(x => x.Id == invoice.Id);
-            // }
 
-            // if(invoice.BusinessID != 0)
-            // {
-            //     invoiceQuery.Where(x => x.BusinessID == invoice.BusinessID);
-            // }
+            IQueryable<Invoice> query = _context.Invoices;
 
-            // if(IsDateValid(FromDate) && IsDateValid(ToDate) && IsDateValid(invoice.InvoiceDate))
-            // {
-            //     invoiceQuery.Where(x => FromDate < invoice.InvoiceDate && ToDate > invoice.InvoiceDate);
-            // }
+            if(BusID != -1)
+            {
+                query = query.Where(p => p.BusinessID == BusID);
+            }
 
-            // if(invoice.OutgoingInv == true)
-            // {
-            //     invoiceQuery.Where(x => x.OutgoingInv == invoice.OutgoingInv);
-            // }
+            if(InvDate > DateTime.MinValue)
+            {
+                query = query.Where(p => p.InvoiceDate.ToShortDateString() == InvDate.ToShortDateString());
+            }
 
-            // if(invoice.IncomingInv == true)
-            // {
-            //     invoiceQuery.Where(x => x.IncomingInv == invoice.IncomingInv);
-            // }
+            if(Out != false)
+            {
+                query = query.Where(p => p.OutgoingInv == Out);
+            }
 
-            return invoiceQuery;
+            if(In != false)
+            {
+                query = query.Where(p => p.IncomingInv == In);
+            }
+
+            if(Ammount != -1)
+            {
+                query = query.Where(p => p.AmmountPaid == Ammount);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

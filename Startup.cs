@@ -43,7 +43,7 @@ namespace CheckIT.API
 
             services.AddCors();
             services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<InvoiceRepository>();
             services.AddScoped<ICustRepository, CustRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
