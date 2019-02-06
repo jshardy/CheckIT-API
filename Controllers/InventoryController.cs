@@ -10,11 +10,14 @@ using CheckIT.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CheckIT.API.Controllers
 {
-    [Authorize]
+    //[Authorize] <-- you need to put this in any controller made
+    //this [Authorize] attribute force the token to be used.
+    //IE they don't have to relogin every time.
+    //Do not enable it here, this is the "inventory" controller.
+    //Use [AllowAnonymous] for controllers that don't need auth
     [Route("api/[controller]")]
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class InventoryController : ControllerBase
@@ -45,10 +48,11 @@ namespace CheckIT.API.Controllers
                 Name = itemForAddDto.Name,
                 Price = itemForAddDto.Price,
                 Description = itemForAddDto.Description,
-                Quantity = itemForAddDto.Quantity
+                Quantity = itemForAddDto.Quantity,
+                AlertBit = itemForAddDto.AlertBit
             };
 
-            var createdItem = _repo.AddItem(itemToCreate);
+            var createdItem = await _repo.AddItem(itemToCreate);
 
             //created at root status code
             return StatusCode(201);
@@ -63,6 +67,13 @@ namespace CheckIT.API.Controllers
             return item;
         }
 
+        [HttpGet("GetAllItems")]
+        public async Task<List<Item>> GetAllItems()
+        {
+            var itemList = await _repo.GetAllItems();
+            return itemList;
+        }
+
         [HttpPost("DeleteItem/{Id}")]
         public async Task<IActionResult> DeleteItem(int Id)
         {
@@ -72,13 +83,6 @@ namespace CheckIT.API.Controllers
 
         //[HttpPost("DeleteMultipleItems")]
         //public async Task<IActionResult> DeleteMultipleItems()
-
-        [HttpGet("GetAllItems")]
-        public async Task<List<Item>> GetAllItems()
-        {
-            var itemList = await _repo.GetAllItems();
-            return itemList;
-        }
 
         [HttpPost("UpdateItem")]
         public async Task<IActionResult> UpdateItem(ItemForUpdateDto updateItemDto)
