@@ -12,6 +12,8 @@ namespace CheckIT.API.Dtos
         [Required]
 		public string ZipCode {get; set; }
         [Required]
+        public string City {get; set; }
+        [Required]
 		public string Street { get; set; }
 		public string AptNum { get; set; }
         [Required]
