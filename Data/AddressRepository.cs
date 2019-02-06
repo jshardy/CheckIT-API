@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 using CheckIT.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,6 +68,32 @@ namespace CheckIT.API.Data
             await _context.SaveChangesAsync();
             
             return true;
+        }
+        
+        public async Task<ICollection<Address>> GetAddressesByCountry(string country)
+        {
+            ICollection<Address> addresses = await _context.Addresses.Where(x => x.Country == country).ToListAsync();
+            return addresses;
+        }
+        public async Task<ICollection<Address>> GetAddressesByState(string state)
+        {
+            ICollection<Address> addresses = await _context.Addresses.Where(x => x.State == state).ToListAsync();
+            return addresses;
+        }
+        public async Task<ICollection<Address>> GetAddressesByZip(string zip)
+        {
+            ICollection<Address> addresses = await _context.Addresses.Where(x => x.ZipCode == zip).ToListAsync();
+            return addresses;
+        }
+        public async Task<ICollection<Address>> GetAddressesByCity(string city)
+        {
+            ICollection<Address> addresses = await _context.Addresses.Where(x => x.City == city).ToListAsync();
+            return addresses;
+        }
+        public async Task<ICollection<Address>> GetAddressesByStreet(string street)
+        {
+            ICollection<Address> addresses = await _context.Addresses.Where(x => x.Street == street).ToListAsync();
+            return addresses;
         }
 
     }
