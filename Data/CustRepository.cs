@@ -1,5 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using CheckIT.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -73,6 +76,38 @@ namespace CheckIT.API.Data
             await _context.SaveChangesAsync();
             
             return true;
+        }
+
+        public async Task<ICollection<Customer>> GetCustomersByFirstName(string firstName)
+        {
+            ICollection<Customer> customers = await _context.Customers.Where(x => x.FirstName == firstName).ToListAsync();
+            return customers;
+        }
+
+        public async Task<ICollection<Customer>> GetCustomersByLastName(string lastName)
+        {
+            ICollection<Customer> customers = await _context.Customers.Where(x => x.LastName == lastName).ToListAsync();
+            return customers;
+        }
+        public async Task<ICollection<Customer>> GetCustomersByCompanyName(string companyName)
+        {
+            ICollection<Customer> customers = await _context.Customers.Where(x => x.CompanyName == companyName).ToListAsync();
+            return customers;
+        }
+        public async Task<ICollection<Customer>> GetCustomersByAddress(Address address)
+        {
+            ICollection<Customer> customers = await _context.Customers.Where(x => x.Address == address).ToListAsync();
+            return customers;
+        }
+        public async Task<ICollection<Customer>> GetCustomersByPhoneNumber(string phone)
+        {
+            ICollection<Customer> customers = await _context.Customers.Where(x => x.PhoneNumber == phone).ToListAsync();
+            return customers;
+        }
+        public async Task<ICollection<Customer>> GetCustomersByEmail(string email)
+        {
+            ICollection<Customer> customers = await _context.Customers.Where(x => x.Email == email).ToListAsync();
+            return customers;
         }
 
     }
