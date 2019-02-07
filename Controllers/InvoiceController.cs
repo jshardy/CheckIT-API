@@ -20,9 +20,9 @@ namespace CheckIT.API.Controllers
     public class InvoiceController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly IInvoiceRepository _repo;
+        private readonly InvoiceRepository _repo;
 
-        public InvoiceController(IInvoiceRepository repo, IConfiguration config)
+        public InvoiceController(InvoiceRepository repo, IConfiguration config)
         {
             _config = config;
             _repo = repo;
@@ -44,24 +44,32 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("ArchiveInvoice/{id}")]
-        public async Task<IActionResult> ArchiveInvoice(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> ArchiveInvoice(int Id)
         {
-            var removedInvoice = await _repo.ArchiveInvoiceAsync(id);
+            var removedInvoice = await _repo.ArchiveInvoiceAsync(Id);
             return StatusCode(201);
         }
 
-        [HttpGet("ReturnOneInvoice/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
             var invoiceToFind = await _repo.GetOneInvoiceAsync(Id);
             return Ok(invoiceToFind);
         }
 
-        [HttpGet("ReturnInvoices")]
-        public async Task<IActionResult> ReturnInvoices()
+        [HttpGet()]
+        public async Task<IActionResult> ReturnInvoices(int BusinessID = -1, 
+                                                        DateTime InvoiceDate = default(DateTime), 
+                                                        bool OutgoingInv = false, 
+                                                        bool IncomingInv = false, 
+                                                        decimal AmmountPaid = -1)
         {
-            var invoiceList = await _repo.GetInvoices();
+            var invoiceList = await _repo.GetInvoices(BusinessID, 
+                                                      InvoiceDate,
+                                                      OutgoingInv,
+                                                      IncomingInv,
+                                                      AmmountPaid);
             return Ok(invoiceList);
         }
     }

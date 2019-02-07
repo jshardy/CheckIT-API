@@ -36,6 +36,7 @@ namespace CheckIT.API.Controllers
                 Country = addressCreateDto.Country,
                 State = addressCreateDto.State,
                 ZipCode = addressCreateDto.ZipCode,
+                City = addressCreateDto.City,
                 Street = addressCreateDto.Street,
                 AptNum = addressCreateDto.AptNum,
                 DefaultAddress = addressCreateDto.DefaultAddress
@@ -75,6 +76,7 @@ namespace CheckIT.API.Controllers
                 Country = dataDto.Country,
                 State = dataDto.State,
                 ZipCode = dataDto.ZipCode,
+                City = dataDto.City,
                 Street = dataDto.Street,
                 AptNum = dataDto.AptNum,
                 DefaultAddress = dataDto.DefaultAddress
@@ -101,6 +103,41 @@ namespace CheckIT.API.Controllers
             ICollection<Address> collection = new Collection<Address>();
             foreach (int id in idCollection)
                 collection.Add(await _repo.GetAddress(id));
+            return collection;
+        }
+
+        [HttpGet("GetAddressesByCountry")]
+        public async Task<ICollection<Address>> GetAddressesByCountry(string country)
+        {
+            ICollection<Address> collection = await GetAddressesByCountry(country);
+            return collection;
+        }
+
+        [HttpGet("GetAddressesByState")]
+        public async Task<ICollection<Address>> GetAddressesByState(string state)
+        {
+            ICollection<Address> collection = await GetAddressesByState(state);
+            return collection;
+        }
+
+        [HttpGet("GetAddressesByZip")]
+        public async Task<ICollection<Address>> GetAddressesByZip(string zip)
+        {
+            ICollection<Address> collection = await GetAddressesByZip(zip);
+            return collection;
+        }
+
+        [HttpGet("GetAddressesByCity")]
+        public async Task<ICollection<Address>> GetAddressesByCity(string city)
+        {
+            ICollection<Address> collection = await GetAddressesByCity(city);
+            return collection;
+        }
+
+        [HttpGet("GetAddressesByStreet")]
+        public async Task<ICollection<Address>> GetAddressesByStreet(string street)
+        {
+            ICollection<Address> collection = await GetAddressesByStreet(street);
             return collection;
         }
 

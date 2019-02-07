@@ -3,6 +3,7 @@ using System;
 using CheckIT.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckIT.API.Migrations
@@ -14,12 +15,15 @@ namespace CheckIT.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
+                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CheckIT.API.Models.Address", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AptNum");
 
@@ -41,7 +45,8 @@ namespace CheckIT.API.Migrations
             modelBuilder.Entity("CheckIT.API.Models.Customer", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AddressID");
 
@@ -63,9 +68,11 @@ namespace CheckIT.API.Migrations
             modelBuilder.Entity("CheckIT.API.Models.Invoice", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float>("AmmountPaid");
+                    b.Property<decimal>("AmmountPaid")
+                        .HasColumnType("Money");
 
                     b.Property<int>("BusinessID");
 
@@ -83,15 +90,15 @@ namespace CheckIT.API.Migrations
             modelBuilder.Entity("CheckIT.API.Models.Item", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("InvoiceId");
-
                     b.Property<string>("Name");
 
-                    b.Property<float>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("Money");
 
                     b.Property<int>("Quantity");
 
@@ -99,15 +106,38 @@ namespace CheckIT.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
-
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("CheckIT.API.Models.LineItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InvoiceID");
+
+                    b.Property<int>("ItemID");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("Money");
+
+                    b.Property<int>("QuantitySold");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceID");
+
+                    b.HasIndex("ItemID");
+
+                    b.ToTable("LineItems");
                 });
 
             modelBuilder.Entity("CheckIT.API.Models.User", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<byte[]>("PasswordHash");
 
@@ -120,11 +150,17 @@ namespace CheckIT.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CheckIT.API.Models.Item", b =>
+            modelBuilder.Entity("CheckIT.API.Models.LineItem", b =>
                 {
-                    b.HasOne("CheckIT.API.Models.Invoice")
-                        .WithMany("Items")
-                        .HasForeignKey("InvoiceId");
+                    b.HasOne("CheckIT.API.Models.Invoice", "invoice")
+                        .WithMany("LineItems")
+                        .HasForeignKey("InvoiceID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CheckIT.API.Models.Item", "item")
+                        .WithMany("LineItems")
+                        .HasForeignKey("ItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
