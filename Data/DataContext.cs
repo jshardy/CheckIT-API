@@ -21,5 +21,6 @@ namespace CheckIT.API.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Business> Businesses { get; set; }
     }
 }

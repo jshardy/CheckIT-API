@@ -18,6 +18,7 @@ namespace CheckIT.API.Controllers
     //IE they don't have to relogin every time.
     //Do not enable it here, this is the "inventory" controller.
     //Use [AllowAnonymous] for controllers that don't need auth
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class InventoryController : ControllerBase
