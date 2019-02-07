@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
+using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -29,19 +30,27 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("AddInvoice")]
-        public async Task<IActionResult> AddInvoice(InvoiceDto invoiceDto)
+        public async Task<IActionResult> AddInvoice([FromBody] InvoiceData iData)
         {
-            var invoiceCreate = new Invoice
+            if (ModelState.IsValid) 
             {
-                InvoiceDate = invoiceDto.InvoiceDate,
-                BusinessID  = invoiceDto.BusinessID,
-                OutgoingInv = invoiceDto.OutgoingInv,
-                IncomingInv = invoiceDto.IncomingInv,
-                AmmountPaid = invoiceDto.AmmountPaid
-            };
+                var invoiceCreate = new Invoice
+                {
+                    InvoiceDate = iData.InvoiceDate,
+                    BusinessID  = iData.BusinessID,
+                    OutgoingInv = iData.OutgoingInv,
+                    IncomingInv = iData.IncomingInv,
+                    AmmountPaid = iData.AmmountPaid
+                };
 
-            var createdInvoice = await _repo.AddInvoiceAsync(invoiceCreate);
-            return StatusCode(201);
+                var createdInvoice = await _repo.AddInvoiceAsync(invoiceCreate);
+
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpDelete("{id}")]

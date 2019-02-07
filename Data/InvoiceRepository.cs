@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CheckIT.API.Models;
+using CheckIT.API.Models.BindingTargets;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,18 +49,6 @@ namespace CheckIT.API.Data
             return invoice;
         }
 
-        //Things that are all possible
-        //Id, Date range, business Id, outgoing, incomming, if they paid
-        //and any of those could be part of one query
-
-        //I need to figure out what will allow me to execute one query based on
-        //the data given.
-
-        //one solution to this is bu making a query string and then concatinating
-        //it into one string (i think this is the best bet)
-
-        //Will return all the entrys in the database, not intended functionality.
-        //will work on in the next sprint
         public async Task<IEnumerable<Invoice>> GetInvoices(int BusID, 
                                                             DateTime InvDate, 
                                                             bool Out, 
