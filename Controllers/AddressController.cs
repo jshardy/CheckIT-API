@@ -21,9 +21,9 @@ namespace CheckIT.API.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly IAddressRepository _repo;
+        private readonly AddressRepository _repo;
 
-        public AddressController(IAddressRepository repo)
+        public AddressController(AddressRepository repo)
         {
             _repo = repo;
         }

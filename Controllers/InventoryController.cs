@@ -24,12 +24,10 @@ namespace CheckIT.API.Controllers
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class InventoryController : ControllerBase
     {
-        private readonly IItemRepository _repo;
-        private readonly IConfiguration _config;
+        private readonly ItemRepository _repo;
 
-        public InventoryController(IItemRepository repo, IConfiguration config)
+        public InventoryController(ItemRepository repo)
         {
-            _config = config;
             _repo = repo;
         }
         //http://localhost:5000/api/Register

@@ -20,19 +20,17 @@ namespace CheckIT.API.Controllers
     [ApiController]
     public class InvoiceController : ControllerBase
     {
-        private readonly IConfiguration _config;
         private readonly InvoiceRepository _repo;
 
-        public InvoiceController(InvoiceRepository repo, IConfiguration config)
+        public InvoiceController(InvoiceRepository repo)
         {
-            _config = config;
             _repo = repo;
         }
 
         [HttpPost("AddInvoice")]
         public async Task<IActionResult> AddInvoice([FromBody] InvoiceData iData)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 var invoiceCreate = new Invoice
                 {
@@ -68,13 +66,13 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> ReturnInvoices(int BusinessID = -1, 
-                                                        DateTime InvoiceDate = default(DateTime), 
-                                                        bool OutgoingInv = false, 
-                                                        bool IncomingInv = false, 
+        public async Task<IActionResult> ReturnInvoices(int BusinessID = -1,
+                                                        DateTime InvoiceDate = default(DateTime),
+                                                        bool OutgoingInv = false,
+                                                        bool IncomingInv = false,
                                                         decimal AmmountPaid = -1)
         {
-            var invoiceList = await _repo.GetInvoices(BusinessID, 
+            var invoiceList = await _repo.GetInvoices(BusinessID,
                                                       InvoiceDate,
                                                       OutgoingInv,
                                                       IncomingInv,

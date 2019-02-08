@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
 {
-    public class CustRepository : ICustRepository
+    public class CustRepository
     {
         private readonly DataContext _context;
         private AddressRepository _AddRepo;
@@ -24,7 +24,7 @@ namespace CheckIT.API.Data
 
             customer.Address = await _AddRepo.GetAddress(AddressId);
 
-            await _context.Customers.AddAsync(customer); 
+            await _context.Customers.AddAsync(customer);
             await _context.SaveChangesAsync();
 
             return customer;
@@ -74,7 +74,7 @@ namespace CheckIT.API.Data
 
             await _context.Customers.AddAsync(exist);
             await _context.SaveChangesAsync();
-            
+
             return true;
         }
 

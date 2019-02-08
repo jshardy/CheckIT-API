@@ -24,12 +24,10 @@ namespace CheckIT.API.Controllers
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class LocationController : ControllerBase
     {
-        private readonly ILocRepository _repo;
-        private readonly IConfiguration _config;
+        private readonly LocRepository _repo;
 
-        public LocationController(ILocRepository repo, IConfiguration config)
+        public LocationController(LocRepository repo, IConfiguration config)
         {
-            _config = config;
             _repo = repo;
         }
         //http://localhost:5000/api/Register
