@@ -39,7 +39,6 @@ namespace CheckIT.API.Controllers
             //itemForAddDto.Name = itemForAddDto.Name.ToLower();
 
             //check for duplicate name?
-            //check for duplicate id?
             //if (await _repo.ItemExists(itemForAddDto.Name)) return BadRequest("Item already exists");
 
             var itemToCreate = new Item
@@ -59,12 +58,12 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetItem/{Id}")]
-        public async Task<Item> GetItem(int Id)//GetItem(GetByIDDto getItemDto)
+        public async Task<IActionResult> GetItem(int Id)//GetItem(GetByIDDto getItemDto)
         {
             Item item;
             item = await _repo.GetItem(Id); //GetItem(getItemDto.Id);
 
-            return item;
+            return Ok(item);
         }
 
         [HttpGet("GetAllItems")]
@@ -81,9 +80,6 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        //[HttpPost("DeleteMultipleItems")]
-        //public async Task<IActionResult> DeleteMultipleItems()
-
         [HttpPost("UpdateItem")]
         public async Task<IActionResult> UpdateItem(ItemForUpdateDto updateItemDto)
         {
@@ -94,13 +90,46 @@ namespace CheckIT.API.Controllers
             //possibly something like:
             //PropertyInfo[] properties = item.GetType().GetProperties();
             //foreach (PropertyInfo pi in properties)
-            if (updateItemDto.Name != null) item.Name = updateItemDto.Name;
-            if (updateItemDto.UPC != 0) item.UPC = updateItemDto.UPC;
-            if (updateItemDto.Price != 0) item.Price = updateItemDto.Price;
-            if (updateItemDto.Description != null) item.Description = updateItemDto.Description;
-            if (updateItemDto.Quantity != 0) item.Quantity = updateItemDto.Quantity;
+            item.Name = updateItemDto.Name;
+            item.UPC = updateItemDto.UPC;
+            item.Price = updateItemDto.Price;
+            item.Description = updateItemDto.Description;
+            item.Quantity = updateItemDto.Quantity;
+            item.AlertBit = updateItemDto.AlertBit;
 
             var updatedItem = await _repo.UpdateItem(item);
+
+            //created at root status code
+            return StatusCode(201);
+        }
+
+        [HttpPatch("CheckAlertBit/{Id}")]
+        public async Task<IActionResult> CheckAlertBit(int Id)
+        {
+            Item item;
+            item = await _repo.GetItem(Id);
+
+            if (item.AlertBit == false)
+            {
+                item.AlertBit = true;
+                var updatedItem = await _repo.UpdateItem(item);
+            }
+
+            //created at root status code
+            return StatusCode(201);
+        }
+
+        [HttpPatch("UncheckAlertBit/{Id}")]
+        public async Task<IActionResult> UncheckAlertBit(int Id)
+        {
+            Item item;
+            item = await _repo.GetItem(Id);
+
+            if (item.AlertBit == true)
+            {
+                item.AlertBit = false;
+                var updatedItem = await _repo.UpdateItem(item);
+            }
 
             //created at root status code
             return StatusCode(201);
