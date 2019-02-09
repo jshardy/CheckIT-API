@@ -35,7 +35,6 @@ namespace CheckIT.API.Controllers
                 var invoiceCreate = new Invoice
                 {
                     InvoiceDate = iData.InvoiceDate,
-                    BusinessID  = iData.BusinessID,
                     OutgoingInv = iData.OutgoingInv,
                     IncomingInv = iData.IncomingInv,
                     AmmountPaid = iData.AmmountPaid
@@ -66,14 +65,12 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> ReturnInvoices(int BusinessID = -1,
-                                                        DateTime InvoiceDate = default(DateTime),
+        public async Task<IActionResult> ReturnInvoices(DateTime InvoiceDate = default(DateTime),
                                                         bool OutgoingInv = false,
                                                         bool IncomingInv = false,
                                                         decimal AmmountPaid = -1)
         {
-            var invoiceList = await _repo.GetInvoices(BusinessID,
-                                                      InvoiceDate,
+            var invoiceList = await _repo.GetInvoices(InvoiceDate,
                                                       OutgoingInv,
                                                       IncomingInv,
                                                       AmmountPaid);

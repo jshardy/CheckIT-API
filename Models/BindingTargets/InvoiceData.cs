@@ -7,9 +7,9 @@ namespace CheckIT.API.Models.BindingTargets
 {
     public class InvoiceData
     {
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "The Business ID must be entered!")]
-        public int BusinessID {get; set;}
+        //[Required]
+        //[Range(1, int.MaxValue, ErrorMessage = "The Business ID must be entered!")]
+        //public int BusinessID {get; set;}
         [Required]
         public DateTime InvoiceDate { get; set; }
         [Required]

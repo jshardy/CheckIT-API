@@ -49,8 +49,7 @@ namespace CheckIT.API.Data
             return invoice;
         }
 
-        public async Task<IEnumerable<Invoice>> GetInvoices(int BusID, 
-                                                            DateTime InvDate, 
+        public async Task<IEnumerable<Invoice>> GetInvoices(DateTime InvDate, 
                                                             bool Out, 
                                                             bool In, 
                                                             decimal Ammount)
@@ -58,11 +57,6 @@ namespace CheckIT.API.Data
 
 
             IQueryable<Invoice> query = _context.Invoices;
-
-            if(BusID != -1)
-            {
-                query = query.Where(p => p.BusinessID == BusID);
-            }
 
             if(InvDate > DateTime.MinValue)
             {
