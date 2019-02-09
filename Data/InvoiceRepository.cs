@@ -6,6 +6,7 @@ using CheckIT.API.Models;
 using CheckIT.API.Models.BindingTargets;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using CheckIT.API.Helpers;
 
 namespace CheckIT.API.Data
 {
@@ -79,6 +80,16 @@ namespace CheckIT.API.Data
             }
 
             return await query.Include(p => p.InvoiceLine).ToListAsync();
+        }
+
+        public async Task FillMockTable()
+        {
+            DataMocker.InsertMockData(_context);
+        }
+
+        public async Task ClearMockData()
+        {
+            DataMocker.RemoveMockData(_context);
         }
     }
 }
