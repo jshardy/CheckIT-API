@@ -41,12 +41,12 @@ namespace CheckIT.API.Controllers
 
                 var itemToCreate = new Inventory
                 {
-                    UPC = itemForAddDto.UPC,
-                    Name = itemForAddDto.Name,
-                    Price = itemForAddDto.Price,
-                    Description = itemForAddDto.Description,
-                    Quantity = itemForAddDto.Quantity,
-                    AlertBit = itemForAddDto.AlertBit
+                    UPC = iData.UPC,
+                    Name = iData.Name,
+                    Price = iData.Price,
+                    Description = iData.Description,
+                    Quantity = iData.Quantity,
+                    AlertBit = iData.AlertBit
                 };
 
                 var createdInventory = await _repo.AddInventory(itemToCreate);

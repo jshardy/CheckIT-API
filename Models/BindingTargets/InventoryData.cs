@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using CheckIT.API.Models;
+
 namespace CheckIT.API.Models.BindingTargets
 {
     public class InventoryData
@@ -12,7 +17,7 @@ namespace CheckIT.API.Models.BindingTargets
         public int Quantity { get; set; }
         public bool AlertBit { get; set; }
 
-        public Inventory InventoryDataBindOBJ => new Invoice
+        public Inventory InventoryDataBindOBJ => new Inventory
         {
             UPC = InventoryDataBindOBJ.UPC,
             Price = InventoryDataBindOBJ.Price,
