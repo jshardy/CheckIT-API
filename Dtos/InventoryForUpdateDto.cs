@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CheckIT.API.Dtos
 {
-    public class ItemForUpdateDto
+    public class InventoryForUpdateDto
     {
         [Required]
         public int Id { get; set; }

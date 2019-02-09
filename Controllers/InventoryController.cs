@@ -24,24 +24,24 @@ namespace CheckIT.API.Controllers
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class InventoryController : ControllerBase
     {
-        private readonly ItemRepository _repo;
+        private readonly InventoryRepository _repo;
 
-        public InventoryController(ItemRepository repo)
+        public InventoryController(InventoryRepository repo)
         {
             _repo = repo;
         }
         //http://localhost:5000/api/Register
         //dto object to convert json to class
-        [HttpPost("AddItem")]
-        public async Task<IActionResult> AddItem(ItemForAddDto itemForAddDto)
+        [HttpPost("AddInventory")]
+        public async Task<IActionResult> AddInventory(InventoryForAddDto itemForAddDto)
         {
             //validate request
             //itemForAddDto.Name = itemForAddDto.Name.ToLower();
 
             //check for duplicate name?
-            //if (await _repo.ItemExists(itemForAddDto.Name)) return BadRequest("Item already exists");
+            //if (await _repo.InventoryExists(itemForAddDto.Name)) return BadRequest("Inventory already exists");
 
-            var itemToCreate = new Item
+            var itemToCreate = new Inventory
             {
                 UPC = itemForAddDto.UPC,
                 Name = itemForAddDto.Name,
@@ -51,53 +51,53 @@ namespace CheckIT.API.Controllers
                 AlertBit = itemForAddDto.AlertBit
             };
 
-            var createdItem = await _repo.AddItem(itemToCreate);
+            var createdInventory = await _repo.AddInventory(itemToCreate);
 
             //created at root status code
             return StatusCode(201);
         }
 
-        [HttpGet("GetItem/{Id}")]
-        public async Task<IActionResult> GetItem(int Id)//GetItem(GetByIDDto getItemDto)
+        [HttpGet("GetInventory/{Id}")]
+        public async Task<IActionResult> GetInventory(int Id)//GetInventory(GetByIDDto getInventoryDto)
         {
-            Item item;
-            item = await _repo.GetItem(Id); //GetItem(getItemDto.Id);
+            Inventory inventory;
+            inventory = await _repo.GetInventory(Id); //GetInventory(getInventoryDto.Id);
 
-            return Ok(item);
+            return Ok(inventory);
         }
 
-        [HttpGet("GetAllItems")]
-        public async Task<IActionResult> GetAllItems()
+        [HttpGet("GetAllInventories")]
+        public async Task<IActionResult> GetAllInventories()
         {
-            var itemList = await _repo.GetAllItems();
+            var itemList = await _repo.GetAllInventories();
             return Ok(itemList);
         }
 
-        [HttpDelete("{Id}")] //[HttpDelete("DeleteItem/{Id}")]
-        public async Task<IActionResult> DeleteItem(int Id)
+        [HttpDelete("{Id}")] //[HttpDelete("DeleteInventory/{Id}")]
+        public async Task<IActionResult> DeleteInventory(int Id)
         {
-            var deletedItem = await _repo.DeleteItem(Id);
+            var deletedInventory = await _repo.DeleteInventory(Id);
             return StatusCode(201);
         }
 
-        [HttpPost("UpdateItem")]
-        public async Task<IActionResult> UpdateItem(ItemForUpdateDto updateItemDto)
+        [HttpPost("UpdateInventory")]
+        public async Task<IActionResult> UpdateInventory(InventoryForUpdateDto updateInventoryDto)
         {
-            Item item;
-            item = await _repo.GetItem(updateItemDto.Id);
+            Inventory inventory;
+            inventory = await _repo.GetInventory(updateInventoryDto.Id);
 
             //probably a much better way to do this
             //possibly something like:
-            //PropertyInfo[] properties = item.GetType().GetProperties();
+            //PropertyInfo[] properties = inventory.GetType().GetProperties();
             //foreach (PropertyInfo pi in properties)
-            item.Name = updateItemDto.Name;
-            item.UPC = updateItemDto.UPC;
-            item.Price = updateItemDto.Price;
-            item.Description = updateItemDto.Description;
-            item.Quantity = updateItemDto.Quantity;
-            item.AlertBit = updateItemDto.AlertBit;
+            inventory.Name = updateInventoryDto.Name;
+            inventory.UPC = updateInventoryDto.UPC;
+            inventory.Price = updateInventoryDto.Price;
+            inventory.Description = updateInventoryDto.Description;
+            inventory.Quantity = updateInventoryDto.Quantity;
+            inventory.AlertBit = updateInventoryDto.AlertBit;
 
-            var updatedItem = await _repo.UpdateItem(item);
+            var updatedInventory = await _repo.UpdateInventory(inventory);
 
             //created at root status code
             return StatusCode(201);
@@ -106,13 +106,13 @@ namespace CheckIT.API.Controllers
         [HttpPatch("CheckAlertBit/{Id}")]
         public async Task<IActionResult> CheckAlertBit(int Id)
         {
-            Item item;
-            item = await _repo.GetItem(Id);
+            Inventory inventory;
+            inventory = await _repo.GetInventory(Id);
 
-            if (item.AlertBit == false)
+            if (inventory.AlertBit == false)
             {
-                item.AlertBit = true;
-                var updatedItem = await _repo.UpdateItem(item);
+                inventory.AlertBit = true;
+                var updatedInventory = await _repo.UpdateInventory(inventory);
             }
 
             //created at root status code
@@ -122,13 +122,13 @@ namespace CheckIT.API.Controllers
         [HttpPatch("UncheckAlertBit/{Id}")]
         public async Task<IActionResult> UncheckAlertBit(int Id)
         {
-            Item item;
-            item = await _repo.GetItem(Id);
+            Inventory inventory;
+            inventory = await _repo.GetInventory(Id);
 
-            if (item.AlertBit == true)
+            if (inventory.AlertBit == true)
             {
-                item.AlertBit = false;
-                var updatedItem = await _repo.UpdateItem(item);
+                inventory.AlertBit = false;
+                var updatedInventory = await _repo.UpdateInventory(inventory);
             }
 
             //created at root status code

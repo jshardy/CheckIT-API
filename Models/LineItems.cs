@@ -14,7 +14,7 @@ namespace CheckIT.API.Models
         public int InvoiceID { get; set; }
         public Invoice invoice { get; set; }
 
-        public int ItemID { get; set; }
-        public Item item { get; set; }
+        public int IventoryID { get; set; }
+        public Inventory inventory { get; set; }
     }
 }
