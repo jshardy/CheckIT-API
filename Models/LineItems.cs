@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,10 +12,8 @@ namespace CheckIT.API.Models
         [Column(TypeName="Money")]
         public decimal Price { get; set; }
 
-        public int InvoiceID { get; set; }
-        public Invoice invoice { get; set; }
+        public ICollection<Invoice> Invoices { get; set; }
 
-        public int IventoryID { get; set; }
-        public Inventory inventory { get; set; }
+        public ICollection<Inventory> Inventories {get; set; } 
     }
 }
