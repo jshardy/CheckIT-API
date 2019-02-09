@@ -38,7 +38,7 @@ namespace CheckIT.API.Controllers
                     InvoiceDate = iData.InvoiceDate,
                     OutgoingInv = iData.OutgoingInv,
                     IncomingInv = iData.IncomingInv,
-                    AmmountPaid = iData.AmmountPaid
+                    AmountPaid = iData.AmountPaid
                 };
 
                 var createdInvoice = await _repo.AddInvoice(invoiceCreate);
@@ -69,29 +69,31 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> ReturnInvoices(DateTime InvoiceDate = default(DateTime),
                                                         bool OutgoingInv = false,
                                                         bool IncomingInv = false,
-                                                        decimal AmmountPaid = -1)
+                                                        decimal AmmountPaid = -1,
+                                                        int CustID = -1)
         {
             var invoiceList = await _repo.GetInvoices(InvoiceDate,
                                                       OutgoingInv,
                                                       IncomingInv,
-                                                      AmmountPaid);
+                                                      AmmountPaid,
+                                                      CustID);
             return Ok(invoiceList);
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> FillTable()
-        {
-            //calls the DataMocker classes FillTable method
-            _repo.FillMockTable();
-            return StatusCode(201);
-        }
+        // [HttpGet()]
+        // public async Task<IActionResult> FillTable()
+        // {
+        //     //calls the DataMocker classes FillTable method
+        //     DataMocker.InsertMockData(_repo._context);
+        //     return StatusCode(201);
+        // }
 
-        [HttpGet()]
-        public async Task<IActionResult> ClearTable()
-        {
-            //calls the DataMocker classes ClearTable method
-            _repo.ClearMockData();
-            return StatusCode(201);
-        }
+        // [HttpGet()]
+        // public async Task<IActionResult> ClearTable()
+        // {
+        //     //calls the DataMocker classes ClearTable method
+        //     DataMocker.RemoveMockData(_repo._context);
+        //     return StatusCode(201);;
+        // }
     }
 }

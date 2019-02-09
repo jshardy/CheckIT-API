@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckIT.API.Migrations
 {
-    public partial class Relationship_Update : Migration
+    public partial class Rebuild_For_Changes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,6 +39,11 @@ namespace CheckIT.API.Migrations
                 name: "BusinessID",
                 table: "Invoices",
                 newName: "InvoiceLineID");
+
+            migrationBuilder.RenameColumn(
+                name: "AmmountPaid",
+                table: "Invoices",
+                newName: "AmountPaid");
 
             migrationBuilder.RenameColumn(
                 name: "AddressID",
@@ -237,6 +242,11 @@ namespace CheckIT.API.Migrations
                 name: "InvoiceLineID",
                 table: "Invoices",
                 newName: "BusinessID");
+
+            migrationBuilder.RenameColumn(
+                name: "AmountPaid",
+                table: "Invoices",
+                newName: "AmmountPaid");
 
             migrationBuilder.RenameColumn(
                 name: "CustInvoiceID",

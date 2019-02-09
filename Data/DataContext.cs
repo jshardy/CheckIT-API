@@ -9,7 +9,14 @@ namespace CheckIT.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LineItem>();
+            // modelBuilder.Entity<Location>().OnDelete(DeleteBehavior.SetNull);
+            // modelBuilder.Entity<Alert>().OnDelete(DeleteBehavior.SetNull);
+            // modelBuilder.Entity<Address>().OnDelete(DeleteBehavior.SetNull);
+            // modelBuilder.Entity<LineItem>().OnDelete(DeleteBehavior.SetNull);
+            // modelBuilder.Entity<Invoice>().OnDelete(DeleteBehavior.SetNull);
+            // modelBuilder.Entity<Customer>().OnDelete(DeleteBehavior.SetNull);
+            // modelBuilder.Entity<Inventory>().OnDelete(DeleteBehavior.SetNull);
+
         }  
 
         public DbSet<User> Users { get; set; }

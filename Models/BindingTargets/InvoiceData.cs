@@ -7,28 +7,25 @@ namespace CheckIT.API.Models.BindingTargets
 {
     public class InvoiceData
     {
-        //[Required]
-        //[Range(1, int.MaxValue, ErrorMessage = "The Business ID must be entered!")]
-        //public int BusinessID {get; set;}
-        [Required]
         public DateTime InvoiceDate { get; set; }
-        [Required]
         public bool OutgoingInv { get; set; }
-        [Required]
         public bool IncomingInv { get; set; }
-        public decimal AmmountPaid { get; set; }
+        public decimal AmountPaid { get; set; }
+        public ICollection<Customer> Customers { get; set; }
+        public int InvoiceLineID { get; set; }
         public LineItem InvoiceLine { get; set; }
 
         public Invoice InvoiceDataBindOBJ => new Invoice
         {
             // I will need to impliment this differently once we get
             // the Business Model/Controller made
-            //BusinessID = InvoiceDataBindOBJ.BusinessID,
+            Customers = InvoiceDataBindOBJ.Customers,
             InvoiceDate = InvoiceDataBindOBJ.InvoiceDate,
             OutgoingInv = InvoiceDataBindOBJ.OutgoingInv,
             IncomingInv = InvoiceDataBindOBJ.IncomingInv,
-            AmmountPaid = InvoiceDataBindOBJ.AmmountPaid,
-            InvoiceLine = InvoiceDataBindOBJ.InvoiceLine
+            AmountPaid = InvoiceDataBindOBJ.AmountPaid,
+            InvoiceLine = InvoiceDataBindOBJ.InvoiceLine,
+            InvoiceLineID = InvoiceDataBindOBJ.InvoiceLineID
         };
     }
 }

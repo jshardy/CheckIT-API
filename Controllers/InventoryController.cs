@@ -106,6 +106,20 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
+        [HttpGet()]
+        public async Task<IActionResult> ReturnInventories(int Id,
+                                                      int UPC,
+                                                      string Name,
+                                                      decimal Price,
+                                                      int Quantity)
+        {
+            var inventoryList = await _repo.GetInventories(Id,
+                                                      UPC,
+                                                      Name,
+                                                      Price,
+                                                      Quantity);
+            return Ok(inventoryList);
+        }
         //The following are all methods for modifying the alertbit
         /* 
         [HttpPatch("CheckAlertBit/{Id}")]

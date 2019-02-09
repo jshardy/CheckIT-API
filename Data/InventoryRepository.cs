@@ -85,30 +85,25 @@ namespace CheckIT.API.Data
             return inventory;
         }
 
-        public async Task<IEnumerable<Inventory>> GetInventories(int Id, 
-                                                            int UPC, 
+        public async Task<IEnumerable<Inventory>> GetInventories(int UPC, 
                                                             string Name,
                                                             decimal Price,
-                                                            int Quantity)
+                                                            int Quantity,
+                                                            bool Archived)
         {
 
 
             IQueryable<Inventory> query = _context.Inventories;
-
-            if(Id != -1)
-            {
-                query = query.Where(p => p.Id == Id);
-            }
 
             if(UPC != -1)
             {
                 query = query.Where(p => p.UPC == UPC);
             }
 
-            //if(Name != "")
-            //{
-            query = query.Where(p => p.Name.Contains(Name));
-            //}
+            if(Name != "")
+            {
+                query = query.Where(p => p.Name.Contains(Name));
+            }
 
             if(Price != -1)
             {
@@ -120,16 +115,12 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.Quantity == Quantity);
             }
 
+            if(Archived)
+            {
+                query = query.Where(p => p.Archived == Archived);
+            }
+
             return await query.ToListAsync();
         }
-        /*
-        public async Task<bool> InventoryExists(string name)
-        {
-            if(await _context.Inventory.AnyAsync(x => x.Name == name))
-                return true;
-
-            return false;
-        }
-        */
     }
 }

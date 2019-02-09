@@ -8,12 +8,14 @@ namespace CheckIT.API.Models
     public class Invoice
     {
         public int Id { get; set; }
+        [Required]
         public DateTime InvoiceDate { get; set; }
+        [Required]
         public bool OutgoingInv { get; set; }
         public bool IncomingInv { get; set; }        
 
         [Column(TypeName="Money")]
-        public decimal AmmountPaid { get; set; }
+        public decimal AmountPaid { get; set; }
 
         public ICollection<Customer> Customers { get; set; }
 
