@@ -53,19 +53,19 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetLocation/{Id}")]
-        public async Task<Location> GetLocation(int Id)//GetLocation(GetByIDDto getLocationDto)
+        public async Task<IActionResult> GetLocation(int Id)//GetLocation(GetByIDDto getLocationDto)
         {
             Location loc;
             loc = await _repo.GetLocation(Id); //GetLocation(getLocationDto.Id);
 
-            return loc;
+            return Ok(loc);
         }
 
         [HttpGet("GetAllLocations")]
-        public async Task<List<Location>> GetAllLocations()
+        public async Task<IActionResult> GetAllLocations()
         {
             var locList = await _repo.GetAllLocations();
-            return locList;
+            return Ok(locList);
         }
 
         [HttpDelete("{Id}")] //[HttpPost("DeleteLocation/{Id}")]
