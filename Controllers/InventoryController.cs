@@ -134,5 +134,21 @@ namespace CheckIT.API.Controllers
             //created at root status code
             return StatusCode(201);
         }
+
+        [HttpPatch("SetAlertBit")]
+        public async Task<IActionResult> SetAlertBit(int Id, bool Set)
+        {
+            Inventory inventory;
+            inventory = await _repo.GetInventory(Id);
+
+            if (inventory.AlertBit != Set)
+            {
+                inventory.AlertBit = Set;
+                var updatedInventory = await _repo.UpdateInventory(inventory);
+            }
+
+            //created at root status code
+            return StatusCode(201);
+        }
     }
 }
