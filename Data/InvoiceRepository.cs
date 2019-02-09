@@ -52,7 +52,8 @@ namespace CheckIT.API.Data
         public async Task<IEnumerable<Invoice>> GetInvoices(DateTime InvDate, 
                                                             bool Out, 
                                                             bool In, 
-                                                            decimal Ammount)
+                                                            decimal Ammount,
+                                                            int CustID)
         {
 
 
@@ -61,6 +62,11 @@ namespace CheckIT.API.Data
             if(InvDate > DateTime.MinValue)
             {
                 query = query.Where(p => p.InvoiceDate.ToShortDateString() == InvDate.ToShortDateString());
+            }
+
+            if(BusinessID != -1)
+            {
+                query = query.Where(p => p.Customers.Select(p => p.ID == CustID));
             }
 
             if(Out != false)
