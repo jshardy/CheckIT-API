@@ -9,7 +9,7 @@ namespace CheckIT.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LineItem>()
+            modelBuilder.Entity<LineItem>();
         }  
 
         public DbSet<User> Users { get; set; }
