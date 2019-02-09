@@ -84,7 +84,7 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> FillTable()
         {
             //calls the DataMocker classes FillTable method
-            DataMocker.InsertMockData(_repo._context);
+            _repo.FillMockTable();
             return StatusCode(201);
         }
 
@@ -92,8 +92,8 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> ClearTable()
         {
             //calls the DataMocker classes ClearTable method
-            DataMocker.RemoveMockData(_repo._context);
-            return StatusCode(201);;
+            _repo.ClearMockData();
+            return StatusCode(201);
         }
     }
 }
