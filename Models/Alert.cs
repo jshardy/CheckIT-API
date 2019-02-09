@@ -13,6 +13,7 @@ namespace CheckIT.API.Models
         public int Threshold { get; set; }
         public DateTime DateUnder { get; set; }
         public DateTime DateOrdered { get; set; }
+        [Column(TypeName = "bit")]
         public bool AlertOn { get; set; }
     }
 }
