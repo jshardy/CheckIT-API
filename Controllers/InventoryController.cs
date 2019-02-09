@@ -46,7 +46,7 @@ namespace CheckIT.API.Controllers
                     Price = iData.Price,
                     Description = iData.Description,
                     Quantity = iData.Quantity,
-                    AlertBit = iData.AlertBit
+                    //AlertBit = iData.AlertBit
                 };
 
                 var createdInventory = await _repo.AddInventory(itemToCreate);
@@ -79,7 +79,7 @@ namespace CheckIT.API.Controllers
         [HttpDelete("{Id}")] //[HttpDelete("DeleteInventory/{Id}")]
         public async Task<IActionResult> DeleteInventory(int Id)
         {
-            var deletedInventory = await _repo.DeleteInventory(Id);
+            var deletedInventory = await _repo.ArchiveInventory(Id);
             return StatusCode(201);
         }
 
@@ -98,7 +98,7 @@ namespace CheckIT.API.Controllers
             inventory.Price = updateInventoryDto.Price;
             inventory.Description = updateInventoryDto.Description;
             inventory.Quantity = updateInventoryDto.Quantity;
-            inventory.AlertBit = updateInventoryDto.AlertBit;
+            //inventory.AlertBit = updateInventoryDto.AlertBit;
 
             var updatedInventory = await _repo.UpdateInventory(inventory);
 
@@ -106,6 +106,8 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
+        //The following are all methods for modifying the alertbit
+        /* 
         [HttpPatch("CheckAlertBit/{Id}")]
         public async Task<IActionResult> CheckAlertBit(int Id)
         {
@@ -152,6 +154,6 @@ namespace CheckIT.API.Controllers
 
             //created at root status code
             return StatusCode(201);
-        }
+        } */
     }
 }

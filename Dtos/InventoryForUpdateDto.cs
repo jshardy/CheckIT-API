@@ -14,6 +14,6 @@ namespace CheckIT.API.Dtos
 		public string Description { get; set; }
         [Required]
         public int Quantity { get; set; }
-        public bool AlertBit { get; set; }
+        //public bool AlertBit { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace CheckIT.API.Models.BindingTargets
 		public string Description { get; set; }
         [Required]
         public int Quantity { get; set; }
-        public bool AlertBit { get; set; }
+        //public bool AlertBit { get; set; }
 
         public Inventory InventoryDataBindOBJ => new Inventory
         {
@@ -24,7 +24,7 @@ namespace CheckIT.API.Models.BindingTargets
             Name = InventoryDataBindOBJ.Name,
             Description = InventoryDataBindOBJ.Description,
             Quantity = InventoryDataBindOBJ.Quantity,
-            AlertBit = InventoryDataBindOBJ.AlertBit
+            //AlertBit = InventoryDataBindOBJ.AlertBit
         };
     }
 }

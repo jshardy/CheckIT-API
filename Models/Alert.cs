@@ -10,6 +10,8 @@ namespace CheckIT.API.Models
     {
         public int Id { get; set; }
         public int IventoryId { get; set; }
-        public DateTime TimeCreated { get; set; }
+        public DateTime DateUnder { get; set; }
+        public DateTime DateOrdered { get; set; }
+        public bool AlertOn { get; set; }
     }
 }
