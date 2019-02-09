@@ -23,7 +23,7 @@ namespace CheckIT.API.Models.BindingTargets
         {
             // I will need to impliment this differently once we get
             // the Business Model/Controller made
-            BusinessID = InvoiceDataBindOBJ.BusinessID,
+            //BusinessID = InvoiceDataBindOBJ.BusinessID,
             InvoiceDate = InvoiceDataBindOBJ.InvoiceDate,
             OutgoingInv = InvoiceDataBindOBJ.OutgoingInv,
             IncomingInv = InvoiceDataBindOBJ.IncomingInv,

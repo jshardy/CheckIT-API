@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace CheckIT.API.Models
 {
 	public class Address
@@ -10,5 +12,7 @@ namespace CheckIT.API.Models
 		public string Street { get; set; }
 		public string AptNum { get; set; }
 		public bool DefaultAddress { get; set; }
+
+		public ICollection<Customer> Cutomers { get; set; }
 	}
 }
