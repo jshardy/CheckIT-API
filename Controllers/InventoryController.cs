@@ -60,7 +60,7 @@ namespace CheckIT.API.Controllers
            }
         }
 
-        [HttpGet("GetInventory/{Id}")]
+        [HttpGet("{Id}")]
         public async Task<IActionResult> GetInventory(int Id)//GetInventory(GetByIDDto getInventoryDto)
         {
             Inventory inventory;
@@ -106,18 +106,20 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> ReturnInventories(int Id,
+        [HttpGet("GetInventories")]
+        public async Task<IActionResult> GetInventories(int Id,
                                                       int UPC,
                                                       string Name,
                                                       decimal Price,
-                                                      int Quantity)
+                                                      int Quantity,
+                                                      bool Archived)
         {
             var inventoryList = await _repo.GetInventories(Id,
                                                       UPC,
                                                       Name,
                                                       Price,
-                                                      Quantity);
+                                                      Quantity,
+                                                      Archived);
             return Ok(inventoryList);
         }
         //The following are all methods for modifying the alertbit

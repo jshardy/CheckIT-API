@@ -48,7 +48,7 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("DeleteCustomer")]
+        [HttpPost("{Id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             if (await _repo.DeleteCustomer(id))
@@ -103,49 +103,5 @@ namespace CheckIT.API.Controllers
                 collection.Add(await _repo.GetCustomer(id));
             return collection;
         }
-
-        [HttpGet("GetCustomersByFirstName")]
-        public async Task<ICollection<Customer>> GetCustomersByFirstName(string firstName)
-        {
-            ICollection<Customer> collection = await GetCustomersByFirstName(firstName);
-            return collection;
-        }
-
-        [HttpGet("GetCustomersByLastName")]
-        public async Task<ICollection<Customer>> GetCustomersByLastName(string lastName)
-        {
-            ICollection<Customer> collection = await GetCustomersByLastName(lastName);
-            return collection;
-        }
-
-        [HttpGet("GetCustomersByCompanyName")]
-        public async Task<ICollection<Customer>> GetCustomersByCompanyName(string companyName)
-        {
-            ICollection<Customer> collection = await GetCustomersByCompanyName(companyName);
-            return collection;
-        }
-
-        [HttpGet("GetCustomersByAddress")]
-        public async Task<ICollection<Customer>> GetCustomersByAddress(Address address)
-        {
-            ICollection<Customer> collection = await GetCustomersByAddress(address);
-            return collection;
-        }
-
-        [HttpGet("GetCustomersPhoneNumber")]
-        public async Task<ICollection<Customer>> GetCustomersByPhoneNumber(string phone)
-        {
-            ICollection<Customer> collection = await GetCustomersByPhoneNumber(phone);
-            return collection;
-        }
-
-        [HttpGet("GetCustomersByEmail")]
-        public async Task<ICollection<Customer>> GetCustomersByEmail(string email)
-        {
-            ICollection<Customer> collection = await GetCustomersByEmail(email);
-            return collection;
-        }
-
-
     }
 }
