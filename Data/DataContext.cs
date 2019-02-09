@@ -41,6 +41,7 @@ namespace CheckIT.API.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Alert> Alerts { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
 
