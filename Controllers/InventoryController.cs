@@ -67,10 +67,10 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetAllItems")]
-        public async Task<List<Item>> GetAllItems()
+        public async Task<IActionResult> GetAllItems()
         {
             var itemList = await _repo.GetAllItems();
-            return itemList;
+            return Ok(itemList);
         }
 
         [HttpDelete("{Id}")] //[HttpDelete("DeleteItem/{Id}")]
