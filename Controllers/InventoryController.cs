@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
+using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -33,28 +34,30 @@ namespace CheckIT.API.Controllers
         //http://localhost:5000/api/Register
         //dto object to convert json to class
         [HttpPost("AddInventory")]
-        public async Task<IActionResult> AddInventory(InventoryForAddDto itemForAddDto)
+        public async Task<IActionResult> AddInventory([FromBody] InventoryData iData)
         {
-            //validate request
-            //itemForAddDto.Name = itemForAddDto.Name.ToLower();
+           if(ModelState.IsValid)
+           {
 
-            //check for duplicate name?
-            //if (await _repo.InventoryExists(itemForAddDto.Name)) return BadRequest("Inventory already exists");
+                var itemToCreate = new Inventory
+                {
+                    UPC = itemForAddDto.UPC,
+                    Name = itemForAddDto.Name,
+                    Price = itemForAddDto.Price,
+                    Description = itemForAddDto.Description,
+                    Quantity = itemForAddDto.Quantity,
+                    AlertBit = itemForAddDto.AlertBit
+                };
 
-            var itemToCreate = new Inventory
-            {
-                UPC = itemForAddDto.UPC,
-                Name = itemForAddDto.Name,
-                Price = itemForAddDto.Price,
-                Description = itemForAddDto.Description,
-                Quantity = itemForAddDto.Quantity,
-                AlertBit = itemForAddDto.AlertBit
-            };
+                var createdInventory = await _repo.AddInventory(itemToCreate);
 
-            var createdInventory = await _repo.AddInventory(itemToCreate);
-
-            //created at root status code
-            return StatusCode(201);
+                //created at root status code
+                return StatusCode(201);
+           }
+           else
+           {
+               return BadRequest(ModelState);
+           }
         }
 
         [HttpGet("GetInventory/{Id}")]
