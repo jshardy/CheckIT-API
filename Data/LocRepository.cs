@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
 {
-    public class LocRepository : ILocRepository
+    public class LocRepository
     {
         private readonly DataContext _context;
         public LocRepository(DataContext context)

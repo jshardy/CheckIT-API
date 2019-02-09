@@ -10,6 +10,7 @@ using CheckIT.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheckIT.API.Controllers
 {
@@ -18,16 +19,15 @@ namespace CheckIT.API.Controllers
     //IE they don't have to relogin every time.
     //Do not enable it here, this is the "inventory" controller.
     //Use [AllowAnonymous] for controllers that don't need auth
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class InventoryController : ControllerBase
     {
-        private readonly IItemRepository _repo;
-        private readonly IConfiguration _config;
+        private readonly ItemRepository _repo;
 
-        public InventoryController(IItemRepository repo, IConfiguration config)
+        public InventoryController(ItemRepository repo)
         {
-            _config = config;
             _repo = repo;
         }
         //http://localhost:5000/api/Register

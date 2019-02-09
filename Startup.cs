@@ -34,7 +34,16 @@ namespace CheckIT.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            bool useSQLServer = bool.Parse(Configuration.GetSection("AppSettings:UseSQLServer").Value);
+            /*  This is added so that I can work on project while
+                I'm not at a whitellisted locationn..
+                Please do not remove!
+            */
+            if(useSQLServer)
+                services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
+            else
+                services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("LocalSQLite")));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             // this adds JSON Security
             .AddJsonOptions( opt => {
@@ -42,12 +51,12 @@ namespace CheckIT.API
             });
 
             services.AddCors();
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<AuthRepository>();
             services.AddScoped<InvoiceRepository>();
-            services.AddScoped<ICustRepository, CustRepository>();
-            services.AddScoped<IAddressRepository, AddressRepository>();
-            services.AddScoped<IItemRepository, ItemRepository>();
-            services.AddScoped<ILocRepository, LocRepository>();
+            services.AddScoped<CustRepository>();
+            services.AddScoped<AddressRepository>();
+            services.AddScoped<ItemRepository>();
+            services.AddScoped<LocRepository>();
             //setup the use of token
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

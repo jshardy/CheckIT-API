@@ -21,9 +21,9 @@ namespace CheckIT.API.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly IAddressRepository _repo;
+        private readonly AddressRepository _repo;
 
-        public AddressController(IAddressRepository repo)
+        public AddressController(AddressRepository repo)
         {
             _repo = repo;
         }
@@ -60,11 +60,13 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> DeleteAddresses(ICollection<int> idCollection)
         {
             bool success = true;
+
             foreach (int id in idCollection)
                 if (await _repo.DeleteAddress(id) == false)
                     success = false;
             if (success)
                 return StatusCode(201);
+
             return BadRequest("One or more Addresses could not be found");
         }
 
@@ -101,8 +103,10 @@ namespace CheckIT.API.Controllers
         public async Task<ICollection<Address>> GetAddresses(ICollection<int> idCollection)
         {
             ICollection<Address> collection = new Collection<Address>();
+            
             foreach (int id in idCollection)
                 collection.Add(await _repo.GetAddress(id));
+
             return collection;
         }
 

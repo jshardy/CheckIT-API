@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
 {
-    public class ItemRepository : IItemRepository
+    public class ItemRepository
     {
         private readonly DataContext _context;
         public ItemRepository(DataContext context)

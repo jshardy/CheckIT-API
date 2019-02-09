@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthRepository
     {
         private readonly DataContext _context;
         public AuthRepository(DataContext context)
@@ -21,7 +21,7 @@ namespace CheckIT.API.Data
 
             if(!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
-            
+
             return user;
         }
 
@@ -34,11 +34,11 @@ namespace CheckIT.API.Data
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 for(int i = 0; i < computedHash.Length; i++)
                 {
-                    if(computedHash[i] != passwordHash[i]) 
+                    if(computedHash[i] != passwordHash[i])
                         return false;
                 }
             }
-            return true;        
+            return true;
         }
 
         public async Task<User> Register(User user, string password)

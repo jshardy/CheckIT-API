@@ -22,9 +22,9 @@ namespace CheckIT.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustRepository _repo;
+        private readonly CustRepository _repo;
 
-        public CustomerController(ICustRepository repo)
+        public CustomerController(CustRepository repo)
         {
              _repo = repo;
         }

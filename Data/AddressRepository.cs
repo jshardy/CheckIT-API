@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckIT.API.Data
 {
-    public class AddressRepository : IAddressRepository
+    public class AddressRepository
     {
         private readonly DataContext _context;
         public AddressRepository(DataContext context)
@@ -18,7 +18,7 @@ namespace CheckIT.API.Data
         {
 
             //save to database.
-            await _context.Addresses.AddAsync(address); 
+            await _context.Addresses.AddAsync(address);
             await _context.SaveChangesAsync();
 
             return address;
@@ -66,10 +66,10 @@ namespace CheckIT.API.Data
 
             await _context.Addresses.AddAsync(exist);
             await _context.SaveChangesAsync();
-            
+
             return true;
         }
-        
+
         public async Task<ICollection<Address>> GetAddressesByCountry(string country)
         {
             ICollection<Address> addresses = await _context.Addresses.Where(x => x.Country == country).ToListAsync();

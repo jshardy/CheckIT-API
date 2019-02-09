@@ -21,10 +21,10 @@ namespace CheckIT.API.Controllers
     [ApiController] //this allows us to use [required] and other manditory constraints.
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
+        private readonly AuthRepository _repo;
         private readonly IConfiguration _config;
 
-        public AuthController(IAuthRepository repo, IConfiguration config)
+        public AuthController(AuthRepository repo, IConfiguration config)
         {
             _config = config;
             _repo = repo;
