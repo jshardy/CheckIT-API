@@ -41,7 +41,7 @@ namespace CheckIT.API.Controllers
                     AmmountPaid = iData.AmmountPaid
                 };
 
-                var createdInvoice = await _repo.AddInvoiceAsync(invoiceCreate);
+                var createdInvoice = await _repo.AddInvoice(invoiceCreate);
 
                 return StatusCode(201);
             }
@@ -54,14 +54,14 @@ namespace CheckIT.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> ArchiveInvoice(int Id)
         {
-            var removedInvoice = await _repo.ArchiveInvoiceAsync(Id);
+            var removedInvoice = await _repo.ArchiveInvoice(Id);
             return StatusCode(201);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
-            var invoiceToFind = await _repo.GetOneInvoiceAsync(Id);
+            var invoiceToFind = await _repo.GetOneInvoice(Id);
             return Ok(invoiceToFind);
         }
 

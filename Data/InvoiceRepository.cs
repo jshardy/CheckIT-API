@@ -16,7 +16,7 @@ namespace CheckIT.API.Data
         {
             _context = context;
         }
-        public async Task<Invoice> AddInvoiceAsync(Invoice invoiceToAdd)
+        public async Task<Invoice> AddInvoice(Invoice invoiceToAdd)
         {
             await _context.Invoices.AddAsync(invoiceToAdd);
             await _context.SaveChangesAsync();
@@ -24,7 +24,7 @@ namespace CheckIT.API.Data
             return invoiceToAdd;
         }
 
-        public async Task<Invoice> ArchiveInvoiceAsync(int invoiceID)
+        public async Task<Invoice> ArchiveInvoice(int invoiceID)
         {
             var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
 
@@ -42,7 +42,7 @@ namespace CheckIT.API.Data
             return invoice;
         }
 
-        public async Task<Invoice> GetOneInvoiceAsync(int invoiceID)
+        public async Task<Invoice> GetOneInvoice(int invoiceID)
         {
             var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
 
