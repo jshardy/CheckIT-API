@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using CheckIT.API.Helpers;
 
 namespace CheckIT.API.Controllers
 {
@@ -78,6 +79,22 @@ namespace CheckIT.API.Controllers
                                                       IncomingInv,
                                                       AmmountPaid);
             return Ok(invoiceList);
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> FillTable()
+        {
+            //calls the DataMocker classes FillTable method
+            DataMocker.InsertMockData(_repo._context);
+            return StatusCode(201);
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> ClearTable()
+        {
+            //calls the DataMocker classes ClearTable method
+            DataMocker.RemoveMockData(_repo._context);
+            return StatusCode(201);;
         }
     }
 }
