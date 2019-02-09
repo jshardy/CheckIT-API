@@ -1,15 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CheckIT.API.Models
+namespace CheckIT.API.Dtos
 {
-    //This is just the base alert --- Still needs the design and fields to be finalized
-    public class Alert
+    //Data transfer Object
+    public class AlertDto
     {
+        [Required]
         public int Id { get; set; }
+        [Required]
         public int IventoryId { get; set; }
+        [Required]
         public int Threshold { get; set; }
         public DateTime DateUnder { get; set; }
         public DateTime DateOrdered { get; set; }
