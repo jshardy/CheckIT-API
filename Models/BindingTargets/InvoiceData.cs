@@ -17,7 +17,7 @@ namespace CheckIT.API.Models.BindingTargets
         [Required]
         public bool IncomingInv { get; set; }
         public decimal AmmountPaid { get; set; }
-        public IEnumerable<LineItem> LineItems { get; set; }
+        public LineItem InvoiceLine { get; set; }
 
         public Invoice InvoiceDataBindOBJ => new Invoice
         {
@@ -28,7 +28,7 @@ namespace CheckIT.API.Models.BindingTargets
             OutgoingInv = InvoiceDataBindOBJ.OutgoingInv,
             IncomingInv = InvoiceDataBindOBJ.IncomingInv,
             AmmountPaid = InvoiceDataBindOBJ.AmmountPaid,
-            LineItems = InvoiceDataBindOBJ.LineItems
+            InvoiceLine = InvoiceDataBindOBJ.InvoiceLine
         };
     }
 }

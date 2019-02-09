@@ -9,31 +9,7 @@ namespace CheckIT.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Entity<LineItem>().HasKey(li => new { li.InvoiceID, li.IventoryID });
-
-            // modelBuilder.Entity<Invoice>().HasOne<Customer>(x => x.Customer)
-            //                             .WithMany(x => x.Invoices)
-            //                             .HasForeignKey(x => x.CustInvoiceID);
-
-            // modelBuilder.Entity<Address>().HasOne<Customer>(x => x.Customer)
-            //                             .WithMany(x => x.Addresses)
-            //                             .HasForeignKey(x => x.CustAddressID);
-            
-            // modelBuilder.Entity<LineItem>().HasOne<Invoice>(x => x.Invoice)
-            //                             .WithMany(x => x.LineItems)
-            //                             .HasForeignKey(x => x.InvoiceLineID);
-
-            // modelBuilder.Entity<LineItem>().HasOne<Inventory>(x => x.Inventory)
-            //                             .WithMany(x => LineItems)
-            //                             .HasForeignKey(x => x.InventoryLineID);
-
-            // modelBuilder.Entity<Location>().HasOne<Inventory>(x => x.Inventory)
-            //                             .WithMany(x => x.Locations)
-            //                             .HasForeignKey(x => x.LocationInventoryID);
-
-            // modelBuilder.Entity<Alert>().HasOne<Inventory>(x => x.Inventory)
-            //                             .WithMany(x => Alerts)
-            //                             .HasForeignKey(x => x.AlertInventoryID);
+            modelBuilder.Entity<LineItem>()
         }  
 
         public DbSet<User> Users { get; set; }
