@@ -7,13 +7,15 @@ namespace CheckIT.API.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<LineItem> LineItems {get; set; }
+        public DbSet<LineItem> LineItems { get; set; }
 
-        // configures InvoiceID and ItemID as the composite key.
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<LineItem>().HasKey(li => new { li.InvoiceID, li.ItemID });
-        // }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<LineItem>().HasKey(li => new { li.InvoiceID, li.IventoryID });
+
+            ]
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Invoice> Invoices {get; set;}
