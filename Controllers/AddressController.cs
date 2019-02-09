@@ -91,12 +91,12 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetAddress")]
-        public async Task<Address> GetCustomer(int Id)
+        public async Task<IActionResult> GetCustomer(int Id)
         {
             Address address;
             address = await _repo.GetAddress(Id);
 
-            return address;
+            return Ok(address);
         }
 
         [HttpGet("GetAddresses")]

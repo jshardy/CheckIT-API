@@ -16,7 +16,7 @@ namespace CheckIT.API.Data
         {
             _context = context;
         }
-        public async Task<Invoice> AddInvoiceAsync(Invoice invoiceToAdd)
+        public async Task<Invoice> AddInvoice(Invoice invoiceToAdd)
         {
             await _context.Invoices.AddAsync(invoiceToAdd);
             await _context.SaveChangesAsync();
@@ -24,7 +24,7 @@ namespace CheckIT.API.Data
             return invoiceToAdd;
         }
 
-        public async Task<Invoice> ArchiveInvoiceAsync(int invoiceID)
+        public async Task<Invoice> ArchiveInvoice(int invoiceID)
         {
             var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
 
@@ -42,15 +42,14 @@ namespace CheckIT.API.Data
             return invoice;
         }
 
-        public async Task<Invoice> GetOneInvoiceAsync(int invoiceID)
+        public async Task<Invoice> GetOneInvoice(int invoiceID)
         {
             var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
 
             return invoice;
         }
 
-        public async Task<IEnumerable<Invoice>> GetInvoices(int BusID, 
-                                                            DateTime InvDate, 
+        public async Task<IEnumerable<Invoice>> GetInvoices(DateTime InvDate, 
                                                             bool Out, 
                                                             bool In, 
                                                             decimal Ammount)
@@ -58,11 +57,6 @@ namespace CheckIT.API.Data
 
 
             IQueryable<Invoice> query = _context.Invoices;
-
-            if(BusID != -1)
-            {
-                query = query.Where(p => p.BusinessID == BusID);
-            }
 
             if(InvDate > DateTime.MinValue)
             {
@@ -84,7 +78,7 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.AmmountPaid == Ammount);
             }
 
-            return await query.Include(p => p.LineItems).ToListAsync();
+            return await query.Include(p => p.InvoiceLine).ToListAsync();
         }
     }
 }

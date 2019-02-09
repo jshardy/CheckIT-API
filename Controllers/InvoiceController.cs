@@ -36,13 +36,12 @@ namespace CheckIT.API.Controllers
                 var invoiceCreate = new Invoice
                 {
                     InvoiceDate = iData.InvoiceDate,
-                    BusinessID  = iData.BusinessID,
                     OutgoingInv = iData.OutgoingInv,
                     IncomingInv = iData.IncomingInv,
                     AmmountPaid = iData.AmmountPaid
                 };
 
-                var createdInvoice = await _repo.AddInvoiceAsync(invoiceCreate);
+                var createdInvoice = await _repo.AddInvoice(invoiceCreate);
 
                 return StatusCode(201);
             }
@@ -55,26 +54,24 @@ namespace CheckIT.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> ArchiveInvoice(int Id)
         {
-            var removedInvoice = await _repo.ArchiveInvoiceAsync(Id);
+            var removedInvoice = await _repo.ArchiveInvoice(Id);
             return StatusCode(201);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
-            var invoiceToFind = await _repo.GetOneInvoiceAsync(Id);
+            var invoiceToFind = await _repo.GetOneInvoice(Id);
             return Ok(invoiceToFind);
         }
 
         [HttpGet()]
-        public async Task<IActionResult> ReturnInvoices(int BusinessID = -1,
-                                                        DateTime InvoiceDate = default(DateTime),
+        public async Task<IActionResult> ReturnInvoices(DateTime InvoiceDate = default(DateTime),
                                                         bool OutgoingInv = false,
                                                         bool IncomingInv = false,
                                                         decimal AmmountPaid = -1)
         {
-            var invoiceList = await _repo.GetInvoices(BusinessID,
-                                                      InvoiceDate,
+            var invoiceList = await _repo.GetInvoices(InvoiceDate,
                                                       OutgoingInv,
                                                       IncomingInv,
                                                       AmmountPaid);

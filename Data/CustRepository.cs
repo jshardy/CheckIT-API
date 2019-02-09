@@ -22,7 +22,7 @@ namespace CheckIT.API.Data
 
             //save to database.
 
-            customer.Address = await _AddRepo.GetAddress(AddressId);
+            customer.CustAddress = await _AddRepo.GetAddress(AddressId);
 
             await _context.Customers.AddAsync(customer);
             await _context.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace CheckIT.API.Data
             if (change.CompanyName != null)
                 exist.CompanyName = change.CompanyName;
             if (newAddress != default(int))
-                exist.Address = await _AddRepo.GetAddress(newAddress);
+                exist.CustAddress = await _AddRepo.GetAddress(newAddress);
             if (change.PhoneNumber != null)
                 exist.PhoneNumber = change.PhoneNumber;
             if (change.Email != null)
@@ -96,7 +96,7 @@ namespace CheckIT.API.Data
         }
         public async Task<ICollection<Customer>> GetCustomersByAddress(Address address)
         {
-            ICollection<Customer> customers = await _context.Customers.Where(x => x.Address == address).ToListAsync();
+            ICollection<Customer> customers = await _context.Customers.Where(x => x.CustAddress == address).ToListAsync();
             return customers;
         }
         public async Task<ICollection<Customer>> GetCustomersByPhoneNumber(string phone)

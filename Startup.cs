@@ -35,12 +35,16 @@ namespace CheckIT.API
         public void ConfigureServices(IServiceCollection services)
         {
             bool useSQLServer = bool.Parse(Configuration.GetSection("AppSettings:UseSQLServer").Value);
+            bool useSQLServerLocal = bool.Parse(Configuration.GetSection("AppSettings:UseSQLServerLocal").Value);
             /*  This is added so that I can work on project while
                 I'm not at a whitellisted locationn..
                 Please do not remove!
             */
             if(useSQLServer)
-                services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
+                if(useSQLServerLocal)
+                    services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnectionLocal")));
+                else
+                    services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
             else
                 services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("LocalSQLite")));
 
@@ -55,8 +59,9 @@ namespace CheckIT.API
             services.AddScoped<InvoiceRepository>();
             services.AddScoped<CustRepository>();
             services.AddScoped<AddressRepository>();
-            services.AddScoped<ItemRepository>();
+            services.AddScoped<InventoryRepository>();
             services.AddScoped<LocRepository>();
+            services.AddScoped<AlertRepository>();
             //setup the use of token
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

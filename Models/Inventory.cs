@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CheckIT.API.Models
 {
-    public class Item
+    public class Inventory
     {
         public int Id { get; set; }
 		public int UPC { get; set; }
@@ -15,8 +15,11 @@ namespace CheckIT.API.Models
         public string Name { get; set; }
 		public string Description { get; set; }
         public int Quantity { get; set; }
-        public bool AlertBit { get; set; }
-        public IEnumerable<LineItem> LineItems { get; set; }
         public bool Archived { get; set; }
+
+        public int InventoryLocationID { get; set; }
+        public Location InventoryLocation { get; set; }
+        public int InventoryAlertID { get; set; }
+        public Alert InventoryAlert { get; set; }
     }
 }
