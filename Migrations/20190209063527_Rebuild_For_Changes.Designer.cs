@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190209043251_Relationship_Update")]
-    partial class Relationship_Update
+    [Migration("20190209063527_Rebuild_For_Changes")]
+    partial class Rebuild_For_Changes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,7 +140,7 @@ namespace CheckIT.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("AmmountPaid")
+                    b.Property<decimal>("AmountPaid")
                         .HasColumnType("Money");
 
                     b.Property<bool>("IncomingInv");
