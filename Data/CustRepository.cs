@@ -78,36 +78,60 @@ namespace CheckIT.API.Data
             return true;
         }
 
-        public async Task<ICollection<Customer>> GetCustomersByFirstName(string firstName)
+        public async Task<IEnumerable<Customer>> GetCustomers(string FirstName, 
+                                                            string LastName, 
+                                                            string CompanyName, 
+                                                            bool IsCompany,
+                                                            string PhoneNumber,
+                                                            string Email,
+                                                            int CustAddID,
+                                                            int CustInvoiceID)
         {
-            ICollection<Customer> customers = await _context.Customers.Where(x => x.FirstName == firstName).ToListAsync();
-            return customers;
-        }
 
-        public async Task<ICollection<Customer>> GetCustomersByLastName(string lastName)
-        {
-            ICollection<Customer> customers = await _context.Customers.Where(x => x.LastName == lastName).ToListAsync();
-            return customers;
-        }
-        public async Task<ICollection<Customer>> GetCustomersByCompanyName(string companyName)
-        {
-            ICollection<Customer> customers = await _context.Customers.Where(x => x.CompanyName == companyName).ToListAsync();
-            return customers;
-        }
-        public async Task<ICollection<Customer>> GetCustomersByAddress(Address address)
-        {
-            ICollection<Customer> customers = await _context.Customers.Where(x => x.CustAddress == address).ToListAsync();
-            return customers;
-        }
-        public async Task<ICollection<Customer>> GetCustomersByPhoneNumber(string phone)
-        {
-            ICollection<Customer> customers = await _context.Customers.Where(x => x.PhoneNumber == phone).ToListAsync();
-            return customers;
-        }
-        public async Task<ICollection<Customer>> GetCustomersByEmail(string email)
-        {
-            ICollection<Customer> customers = await _context.Customers.Where(x => x.Email == email).ToListAsync();
-            return customers;
+
+            IQueryable<Customer> query = _context.Customers;
+
+            if(FirstName != "")
+            {
+                query = query.Where(p => p.FirstName.Contains(FirstName));
+            }
+
+            if(LastName != "")
+            {
+                query = query.Where(p => p.LastName.Contains(LastName));
+            }
+
+            if(CompanyName != "")
+            {
+                query = query.Where(p => p.CompanyName.Contains(CompanyName));
+            }
+
+            if(IsCompany)
+            {
+                query = query.Where(p => p.IsCompany == true);
+            }
+
+            if(PhoneNumber != "")
+            {
+                query = query.Where(p => p.PhoneNumber.Contains(PhoneNumber));
+            }
+
+            if(Email != "")
+            {
+                query = query.Where(p => p.Email.Contains(Email));
+            }
+
+            if(CustAddID != -1)
+            {
+                query = query.Where(p => p.CustAddressID == CustAddID);
+            }
+
+            if(CustInvoiceID != -1)
+            {
+                query = query.Where(p => p.CustInvoiceID == CustInvoiceID);
+            }
+
+            return await query.Include(p => p.CustAddress).Include(p => p.CustInvoice).ToListAsync();
         }
 
     }

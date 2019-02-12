@@ -65,9 +65,9 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.InvoiceDate.ToShortDateString() == InvDate.ToShortDateString());
             }
 
-            if(BusinessID != -1)
+            if(CustID!= -1)
             {
-                query = query.Where(p => p.Customers.Select(p => p.ID == CustID));
+                //query = query.Include(p => p.Customers).ThenInclude(x => x.Id);
             }
 
             if(Out != false)
