@@ -89,7 +89,7 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Customer> query = _context.Invoices;
+            IQueryable<Customer> query = _context.Customers;
 
             if(FirstName != "")
             {
@@ -108,7 +108,7 @@ namespace CheckIT.API.Data
 
             if(IsCompany)
             {
-                query = query.Where(p => p.IsCompany = true);
+                query = query.Where(p => p.IsCompany == true);
             }
 
             if(PhoneNumber != "")
@@ -131,7 +131,7 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.CustInvoiceID == CustInvoiceID);
             }
 
-            return await query.Include(p => p.InvoiceLine).ToListAsync();
+            return await query.Include(p => p.CustAddress).Include(p => p.CustInvoice).ToListAsync();
         }
 
     }

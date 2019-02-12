@@ -56,17 +56,18 @@ namespace CheckIT.API.Controllers
             return BadRequest("Could not find Customer");
         }
 
-        [HttpPost("DeleteCustomers")]
-        public async Task<IActionResult> DeleteCustomers(ICollection<int> idCollection)
-        {
-            bool success = true;
-            foreach(int id in idCollection)
-                if (await _repo.DeleteCustomer(id) == false)
-                    success = false;
-            if(success)
-                return StatusCode(201);
-            return BadRequest("One or more Customers could not be found");
-        }
+        // I don't think we need this functionality
+        // [HttpPost("DeleteCustomers")]
+        // public async Task<IActionResult> DeleteCustomers(ICollection<int> idCollection)
+        // {
+        //     bool success = true;
+        //     foreach(int id in idCollection)
+        //         if (await _repo.DeleteCustomer(id) == false)
+        //             success = false;
+        //     if(success)
+        //         return StatusCode(201);
+        //     return BadRequest("One or more Customers could not be found");
+        // }
 
         [HttpPost("ModifyCustomer")]
         public async Task<IActionResult> ModifyCustomer(int id, CustomerCreateDto dataDto)
@@ -86,7 +87,7 @@ namespace CheckIT.API.Controllers
             return BadRequest("Could not find Customer");
         }
 
-        [HttpGet("GetCustomer")]
+        [HttpGet("{id}")]
         public async Task<Customer> GetCustomer(int id)
         {
             Customer customer;
@@ -95,13 +96,26 @@ namespace CheckIT.API.Controllers
             return customer;
         }
 
-        [HttpGet("GetCustomers")]
-        public async Task<ICollection<Customer>> GetCustomers(ICollection<int> idCollection)
+        [HttpGet()]
+        public async Task<IActionResult> GetCustomers(string FirstName, 
+                                                            string LastName, 
+                                                            string CompanyName, 
+                                                            bool IsCompany,
+                                                            string PhoneNumber,
+                                                            string Email,
+                                                            int CustAddID,
+                                                            int CustInvoiceID)
         {
-            ICollection<Customer> collection = new Collection<Customer>();
-            foreach(int id in idCollection)
-                collection.Add(await _repo.GetCustomer(id));
-            return collection;
+            var customerList = await _repo.GetCustomers(FirstName, 
+                                                        LastName, 
+                                                        CompanyName, 
+                                                        IsCompany,
+                                                        PhoneNumber,
+                                                        Email,
+                                                        CustAddID,
+                                                        CustInvoiceID);
+
+            return Ok(customerList);
         }
     }
 }

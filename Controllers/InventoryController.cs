@@ -114,8 +114,7 @@ namespace CheckIT.API.Controllers
                                                       int Quantity,
                                                       bool Archived)
         {
-            var inventoryList = await _repo.GetInventories(Id,
-                                                      UPC,
+            var inventoryList = await _repo.GetInventories(UPC,
                                                       Name,
                                                       Price,
                                                       Quantity,
