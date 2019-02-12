@@ -50,7 +50,8 @@ namespace CheckIT.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("AlertOn");
+                    b.Property<bool>("AlertOn")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("DateOrdered");
 
@@ -205,12 +206,12 @@ namespace CheckIT.API.Migrations
             modelBuilder.Entity("CheckIT.API.Models.Customer", b =>
                 {
                     b.HasOne("CheckIT.API.Models.Address", "CustAddress")
-                        .WithMany("Cutomers")
+                        .WithMany("Customers")
                         .HasForeignKey("CustAddressID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CheckIT.API.Models.Invoice", "CustInvoice")
-                        .WithMany("Customers")
+                        .WithMany("InvoiceCustomerList")
                         .HasForeignKey("CustInvoiceID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -228,7 +229,7 @@ namespace CheckIT.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CheckIT.API.Models.Location", "InventoryLocation")
-                        .WithMany("Inventories")
+                        .WithMany("InventoryLocList")
                         .HasForeignKey("InventoryLocationID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

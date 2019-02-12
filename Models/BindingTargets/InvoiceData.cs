@@ -11,7 +11,7 @@ namespace CheckIT.API.Models.BindingTargets
         public bool OutgoingInv { get; set; }
         public bool IncomingInv { get; set; }
         public decimal AmountPaid { get; set; }
-        public ICollection<Customer> Customers { get; set; }
+        public ICollection<Customer> InvoiceCustomerList { get; set; }
         public int InvoiceLineID { get; set; }
         public LineItem InvoiceLine { get; set; }
 
@@ -19,7 +19,7 @@ namespace CheckIT.API.Models.BindingTargets
         {
             // I will need to impliment this differently once we get
             // the Business Model/Controller made
-            Customers = InvoiceDataBindOBJ.Customers,
+            InvoiceCustomerList = InvoiceDataBindOBJ.InvoiceCustomerList,
             InvoiceDate = InvoiceDataBindOBJ.InvoiceDate,
             OutgoingInv = InvoiceDataBindOBJ.OutgoingInv,
             IncomingInv = InvoiceDataBindOBJ.IncomingInv,

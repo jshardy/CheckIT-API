@@ -51,7 +51,7 @@ namespace CheckIT.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteInvoice")]
         public async Task<IActionResult> ArchiveInvoice(int Id)
         {
             var removedInvoice = await _repo.ArchiveInvoice(Id);
@@ -70,26 +70,28 @@ namespace CheckIT.API.Controllers
                                                         bool OutgoingInv = false,
                                                         bool IncomingInv = false,
                                                         decimal AmmountPaid = -1,
-                                                        int CustID = -1)
+                                                        int CustID = -1,
+                                                        int InvoiceLineId = -1)
         {
             var invoiceList = await _repo.GetInvoices(InvoiceDate,
-                                                      OutgoingInv,
-                                                      IncomingInv,
-                                                      AmmountPaid,
-                                                      CustID);
+                                                    OutgoingInv,
+                                                    IncomingInv,
+                                                    AmmountPaid,
+                                                    CustID,
+                                                    InvoiceLineId);
             return Ok(invoiceList);
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> FillTable()
+        [HttpPut()]
+        public IActionResult FillTable()
         {
             //calls the DataMocker classes FillTable method
             _repo.FillMockTable();
             return StatusCode(201);
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> ClearTable()
+        [HttpPut()]
+        public IActionResult ClearTable()
         {
             //calls the DataMocker classes ClearTable method
             _repo.ClearMockData();

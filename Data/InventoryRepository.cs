@@ -89,11 +89,16 @@ namespace CheckIT.API.Data
                                                             string Name,
                                                             decimal Price,
                                                             int Quantity,
-                                                            bool Archived)
+                                                            bool Archived,
+                                                            int LocationId,
+                                                            int AlertId,
+                                                            int LineItemId)
         {
 
 
-            IQueryable<Inventory> query = _context.Inventories;
+            IQueryable<Inventory> query = _context.Inventories.Include(p => p.InventoryLocation)
+                                                            .Include(p => p.InventoryAlert)
+                                                            .Include(p => p.InventoryLine);
 
             if(UPC != -1)
             {
@@ -118,6 +123,21 @@ namespace CheckIT.API.Data
             if(Archived)
             {
                 query = query.Where(p => p.Archived == Archived);
+            }
+
+            if(LocationId != -1)
+            {
+                query = query.Where(p => p.InventoryLocation.Equals(LocationId));
+            }
+
+            if(AlertId != -1)
+            {
+                query = query.Where(p => p.InventoryAlert.Equals(AlertId));
+            }
+
+            if(LineItemId != -1)
+            {
+                query = query.Where(p => p.InventoryLine.Equals(LineItemId));
             }
 
             return await query.ToListAsync();

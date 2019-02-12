@@ -70,31 +70,48 @@ namespace CheckIT.API.Data
             return true;
         }
 
-        public async Task<ICollection<Address>> GetAddressesByCountry(string country)
+        public async Task<IEnumerable<Address>> GetAddresses(string country, 
+                                                            string state,
+                                                            string zip,
+                                                            string city,
+                                                            string street,
+                                                            int CustomerAddID)
         {
-            ICollection<Address> addresses = await _context.Addresses.Where(x => x.Country == country).ToListAsync();
-            return addresses;
-        }
-        public async Task<ICollection<Address>> GetAddressesByState(string state)
-        {
-            ICollection<Address> addresses = await _context.Addresses.Where(x => x.State == state).ToListAsync();
-            return addresses;
-        }
-        public async Task<ICollection<Address>> GetAddressesByZip(string zip)
-        {
-            ICollection<Address> addresses = await _context.Addresses.Where(x => x.ZipCode == zip).ToListAsync();
-            return addresses;
-        }
-        public async Task<ICollection<Address>> GetAddressesByCity(string city)
-        {
-            ICollection<Address> addresses = await _context.Addresses.Where(x => x.City == city).ToListAsync();
-            return addresses;
-        }
-        public async Task<ICollection<Address>> GetAddressesByStreet(string street)
-        {
-            ICollection<Address> addresses = await _context.Addresses.Where(x => x.Street == street).ToListAsync();
-            return addresses;
-        }
 
+
+            IQueryable<Address> query = _context.Addresses.Include(p => p.Customers);
+
+            if(country != "")
+            {
+                query = query.Where(x => x.Country == country);
+            }
+
+            if(state != "")
+            {
+                query = query.Where(x => x.State == state);
+            }
+
+            if(zip != "")
+            {
+                query = query.Where(x => x.ZipCode == zip);
+            }
+
+            if(city != "")
+            {
+                query = query.Where(x => x.City == city);
+            }
+
+            if(street != "")
+            {
+                query = query.Where(x => x.Street == street);
+            }
+
+            if(CustomerAddID != -1)
+            {
+                query = query.Where(x => x.Customers.Equals(CustomerAddID));
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

@@ -56,19 +56,19 @@ namespace CheckIT.API.Controllers
             return BadRequest("Could not find Address");
         }
 
-        [HttpPost("DeleteAddresses")]
-        public async Task<IActionResult> DeleteAddresses(ICollection<int> idCollection)
-        {
-            bool success = true;
+        // [HttpPost("DeleteAddresses")]
+        // public async Task<IActionResult> DeleteAddresses(ICollection<int> idCollection)
+        // {
+        //     bool success = true;
 
-            foreach (int id in idCollection)
-                if (await _repo.DeleteAddress(id) == false)
-                    success = false;
-            if (success)
-                return StatusCode(201);
+        //     foreach (int id in idCollection)
+        //         if (await _repo.DeleteAddress(id) == false)
+        //             success = false;
+        //     if (success)
+        //         return StatusCode(201);
 
-            return BadRequest("One or more Addresses could not be found");
-        }
+        //     return BadRequest("One or more Addresses could not be found");
+        // }
 
         [HttpPost("ModifyAddress")]
         public async Task<IActionResult> ModifyAddress(int id, AddressCreateDto dataDto)
@@ -90,7 +90,8 @@ namespace CheckIT.API.Controllers
             return BadRequest("Could not find Address");
         }
 
-        [HttpGet("GetAddress")]
+        // What does this intend to do?
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int Id)
         {
             Address address;
@@ -99,51 +100,57 @@ namespace CheckIT.API.Controllers
             return Ok(address);
         }
 
-        [HttpGet("GetAddresses")]
-        public async Task<ICollection<Address>> GetAddresses(ICollection<int> idCollection)
+        [HttpGet()]
+        public async Task<IActionResult> GetAddresses(string country, 
+                                                            string state,
+                                                            string zip,
+                                                            string city,
+                                                            string street,
+                                                            int CustomerAddID)
         {
-            ICollection<Address> collection = new Collection<Address>();
-            
-            foreach (int id in idCollection)
-                collection.Add(await _repo.GetAddress(id));
-
-            return collection;
+            var AddressList = await _repo.GetAddresses(country, 
+                                                    state,
+                                                    zip,
+                                                    city,
+                                                    street,
+                                                    CustomerAddID);
+            return Ok(AddressList);
         }
 
-        [HttpGet("GetAddressesByCountry")]
-        public async Task<ICollection<Address>> GetAddressesByCountry(string country)
-        {
-            ICollection<Address> collection = await GetAddressesByCountry(country);
-            return collection;
-        }
+        // [HttpGet("GetAddressesByCountry")]
+        // public async Task<ICollection<Address>> GetAddressesByCountry(string country)
+        // {
+        //     ICollection<Address> collection = await GetAddressesByCountry(country);
+        //     return collection;
+        // }
 
-        [HttpGet("GetAddressesByState")]
-        public async Task<ICollection<Address>> GetAddressesByState(string state)
-        {
-            ICollection<Address> collection = await GetAddressesByState(state);
-            return collection;
-        }
+        // [HttpGet("GetAddressesByState")]
+        // public async Task<ICollection<Address>> GetAddressesByState(string state)
+        // {
+        //     ICollection<Address> collection = await GetAddressesByState(state);
+        //     return collection;
+        // }
 
-        [HttpGet("GetAddressesByZip")]
-        public async Task<ICollection<Address>> GetAddressesByZip(string zip)
-        {
-            ICollection<Address> collection = await GetAddressesByZip(zip);
-            return collection;
-        }
+        // [HttpGet("GetAddressesByZip")]
+        // public async Task<ICollection<Address>> GetAddressesByZip(string zip)
+        // {
+        //     ICollection<Address> collection = await GetAddressesByZip(zip);
+        //     return collection;
+        // }
 
-        [HttpGet("GetAddressesByCity")]
-        public async Task<ICollection<Address>> GetAddressesByCity(string city)
-        {
-            ICollection<Address> collection = await GetAddressesByCity(city);
-            return collection;
-        }
+        // [HttpGet("GetAddressesByCity")]
+        // public async Task<ICollection<Address>> GetAddressesByCity(string city)
+        // {
+        //     ICollection<Address> collection = await GetAddressesByCity(city);
+        //     return collection;
+        // }
 
-        [HttpGet("GetAddressesByStreet")]
-        public async Task<ICollection<Address>> GetAddressesByStreet(string street)
-        {
-            ICollection<Address> collection = await GetAddressesByStreet(street);
-            return collection;
-        }
+        // [HttpGet("GetAddressesByStreet")]
+        // public async Task<ICollection<Address>> GetAddressesByStreet(string street)
+        // {
+        //     ICollection<Address> collection = await GetAddressesByStreet(street);
+        //     return collection;
+        // }
 
 
     }

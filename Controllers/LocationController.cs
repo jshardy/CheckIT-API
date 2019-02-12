@@ -68,6 +68,13 @@ namespace CheckIT.API.Controllers
             return Ok(locList);
         }
 
+        [HttpGet()]
+        public async Task<IActionResult> GetLocations(string Name, int LocInvID)
+        {
+            var AddressList = await _repo.GetLocations(Name, LocInvID);
+            return Ok(AddressList);
+        }
+
         [HttpDelete("{Id}")] //[HttpPost("DeleteLocation/{Id}")]
         public async Task<IActionResult> DeleteLocation(int Id)
         {

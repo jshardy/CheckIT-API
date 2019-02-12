@@ -6,9 +6,6 @@ namespace CheckIT.API.Models
     {
         public int Id { get; set; }
 		public string Name { get; set; }
-
-        public ICollection<Inventory> Inventories { get; set; }
-
-        
+        public IList<Inventory> InventoryLocList { get; set; }
     }
 }

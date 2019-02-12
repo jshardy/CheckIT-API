@@ -37,6 +37,23 @@ namespace CheckIT.API.Data
             return locs;
         }
 
+        public async Task<IEnumerable<Location>> GetLocations(string Name, int LocInvID)
+        {
+            IQueryable<Location> query = _context.Locations.Include(p => p.InventoryLocList);
+
+            if(Name != "")
+            {
+                query = query.Where(p => p.Name.Contains(Name));
+            }
+
+            if(LocInvID != -1)
+            {
+                query = query.Where(p => p.InventoryLocList.Equals(LocInvID));
+            }
+
+            return await query.ToListAsync();
+        }
+
         public async Task<Location> DeleteLocation(int locID)
         {
             var loc = await _context.Locations.FirstOrDefaultAsync(x => x.Id == locID);

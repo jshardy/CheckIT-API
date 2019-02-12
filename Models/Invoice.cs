@@ -17,7 +17,7 @@ namespace CheckIT.API.Models
         [Column(TypeName="Money")]
         public decimal AmountPaid { get; set; }
 
-        public ICollection<Customer> Customers { get; set; }
+        public IList<Customer> InvoiceCustomerList { get; set; }
 
         public int InvoiceLineID { get; set; }
         public LineItem InvoiceLine { get; set; }

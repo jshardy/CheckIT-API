@@ -54,11 +54,13 @@ namespace CheckIT.API.Data
                                                             bool Out, 
                                                             bool In, 
                                                             decimal Ammount,
-                                                            int CustID)
+                                                            int CustID,
+                                                            int InvoiceLineId)
         {
 
 
-            IQueryable<Invoice> query = _context.Invoices;
+            IQueryable<Invoice> query = _context.Invoices.Include(p => p.InvoiceLine)
+                                                        .Include(p => p.InvoiceCustomerList);
 
             if(InvDate > DateTime.MinValue)
             {
@@ -67,7 +69,7 @@ namespace CheckIT.API.Data
 
             if(CustID!= -1)
             {
-                //query = query.Include(p => p.Customers).ThenInclude(x => x.Id);
+                query = query.Where(p => p.InvoiceCustomerList.Equals(CustID));
             }
 
             if(Out != false)
@@ -85,15 +87,20 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.AmountPaid == Ammount);
             }
 
-            return await query.Include(p => p.InvoiceLine).ToListAsync();
+            if(InvoiceLineId != -1)
+            {
+                query = query.Where(p => p.InvoiceLineID == InvoiceLineId);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task FillMockTable()
+        public void FillMockTable()
         {
             DataMocker.InsertMockData(_context);
         }
 
-        public async Task ClearMockData()
+        public void ClearMockData()
         {
             DataMocker.RemoveMockData(_context);
         }
