@@ -9,11 +9,11 @@ namespace CheckIT.API.Models
     public class Alert
     {
         public int Id { get; set; }
-        public int IventoryId { get; set; }
+        public int AlertInvId { get; set; }
         public int Threshold { get; set; }
         public DateTime DateUnder { get; set; }
         public DateTime DateOrdered { get; set; }
-        [Column(TypeName = "bit")]
+        //[Column(TypeName = "bit")]
         public bool AlertOn { get; set; }
     }
 }

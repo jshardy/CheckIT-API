@@ -82,7 +82,7 @@ namespace CheckIT.API.Controllers
             return Ok(invoiceList);
         }
 
-        [HttpPut()]
+        [HttpPut("FillTable")]
         public IActionResult FillTable()
         {
             //calls the DataMocker classes FillTable method
@@ -90,7 +90,7 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPut()]
+        [HttpPut("ClearTable")]
         public IActionResult ClearTable()
         {
             //calls the DataMocker classes ClearTable method

@@ -9,7 +9,7 @@ namespace CheckIT.API.Dtos
         [Required]
         public int Id { get; set; }
         [Required]
-        public int IventoryId { get; set; }
+        public int AlertInvId { get; set; }
         [Required]
         public int Threshold { get; set; }
         public DateTime DateUnder { get; set; }
