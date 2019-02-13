@@ -37,9 +37,10 @@ namespace CheckIT.API.Data
             return items;
         }
 
-        public async Task<Inventory> ArchiveInventory(int itemID)
+        //Archives Inventory with inventoryID by setting Archived to true
+        public async Task<Inventory> ArchiveInventory(int inventoryID)
         {
-            var inventory = await _context.Inventories.FirstOrDefaultAsync(x => x.Id == itemID);
+            var inventory = await _context.Inventories.FirstOrDefaultAsync(x => x.Id == inventoryID);
 
             if(inventory == null)
             {
@@ -49,7 +50,6 @@ namespace CheckIT.API.Data
             {
                 inventory.Archived = true;
                 _context.Inventories.Update(inventory);
-                //_context.Inventory.Remove(inventory); //removes inventory from database completely
             }
 
             await _context.SaveChangesAsync();
@@ -57,9 +57,10 @@ namespace CheckIT.API.Data
             return inventory;
         }
 
-        public async Task<Inventory> DeleteInventory(int itemID)
+        //Fully Deletes an inventory item
+        public async Task<Inventory> DeleteInventory(int inventoryID)
         {
-            var inventory = await _context.Inventories.FirstOrDefaultAsync(x => x.Id == itemID);
+            var inventory = await _context.Inventories.FirstOrDefaultAsync(x => x.Id == inventoryID);
 
             if(inventory == null)
             {

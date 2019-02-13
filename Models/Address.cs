@@ -14,6 +14,6 @@ namespace CheckIT.API.Models
 		public bool DefaultAddress { get; set; }
 
 		public int CustomerID { get; set; }
-		public Address AddressofCust { get; set;}
+		public Customer Customer { get; set;}
 	}
 }
