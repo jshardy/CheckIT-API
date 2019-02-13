@@ -28,8 +28,8 @@ namespace CheckIT.API.Controllers
             _repo = repo;
         }
 
-        [HttpPost("CreateAddress")]
-        public async Task<IActionResult> CreateAddress(AddressCreateDto addressCreateDto)
+        [HttpPost("AddAddress")]
+        public async Task<IActionResult> AddAddress(AddressCreateDto addressCreateDto)
         {
             var addressToCreate = new Address
             {
@@ -48,7 +48,7 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("DeleteAddress")]
+        [HttpDelete("DeleteAddress")]
         public async Task<IActionResult> DeleteAddress(int id)
         {
             if (await _repo.DeleteAddress(id))
@@ -70,7 +70,7 @@ namespace CheckIT.API.Controllers
         //     return BadRequest("One or more Addresses could not be found");
         // }
 
-        [HttpPost("ModifyAddress")]
+        [HttpPatch("ModifyAddress")]
         public async Task<IActionResult> ModifyAddress(int id, AddressCreateDto dataDto)
         {
             var addressToPass = new Address

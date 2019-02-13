@@ -76,10 +76,10 @@ namespace CheckIT.API.Controllers
             return Ok(itemList);
         }
 
-        [HttpDelete("{Id}")] //[HttpDelete("DeleteInventory/{Id}")]
+        [HttpDelete("DeleteInventory")] //[HttpDelete("DeleteInventory/{Id}")]
         public async Task<IActionResult> DeleteInventory(int Id)
         {
-            var deletedInventory = await _repo.ArchiveInventory(Id);
+            var archivedInventory = await _repo.ArchiveInventory(Id);
             return StatusCode(201);
         }
 

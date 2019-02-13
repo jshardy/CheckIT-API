@@ -26,18 +26,14 @@ namespace CheckIT.API.Controllers
     {
         private readonly LocRepository _repo;
 
-        public LocationController(LocRepository repo, IConfiguration config)
+        public LocationController(LocRepository repo)
         {
             _repo = repo;
         }
-        //http://localhost:5000/api/Register
-        //dto object to convert json to class
+        
         [HttpPost("AddLocation/{locName}")]
         public async Task<IActionResult> AddLocation(string locName)
         {
-            //validate request
-            //locForAddDto.Name = locForAddDto.Name.ToLower();
-
             //check for duplicate name?
             //if (await _repo.LocationExists(locForAddDto.Name)) return BadRequest("Location already exists");
 
@@ -52,7 +48,7 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet("GetLocation/{Id}")]
+        [HttpGet("{Id}")]
         public async Task<IActionResult> GetLocation(int Id)//GetLocation(GetByIDDto getLocationDto)
         {
             Location loc;
@@ -71,11 +67,11 @@ namespace CheckIT.API.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetLocations(string Name, int LocInvID)
         {
-            var AddressList = await _repo.GetLocations(Name, LocInvID);
-            return Ok(AddressList);
+            var LocList = await _repo.GetLocations(Name, LocInvID);
+            return Ok(LocList);
         }
 
-        [HttpDelete("{Id}")] //[HttpPost("DeleteLocation/{Id}")]
+        [HttpDelete("DeleteLocation")] //[HttpPost("DeleteLocation/{Id}")]
         public async Task<IActionResult> DeleteLocation(int Id)
         {
             var deletedLocation = await _repo.DeleteLocation(Id);

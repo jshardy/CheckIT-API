@@ -73,7 +73,7 @@ namespace CheckIT.API.Controllers
             return Ok(itemList);
         }
 
-        [HttpDelete("{Id}")] //[HttpDelete("DeleteAlert/{Id}")]
+        [HttpDelete("DeleteAlert")] //[HttpDelete("DeleteAlert/{Id}")]
         public async Task<IActionResult> DeleteAlert(int Id)
         {
             var deletedAlert = await _repo.DeleteAlert(Id);
