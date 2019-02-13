@@ -95,7 +95,7 @@ namespace CheckIT.API.Data
 
 
             IQueryable<Customer> query = _context.Customers.Include(p => p.CustAddress)
-                                                        .Include(p => p.InvoiceCustomerList);
+                                                        .Include(p => p.CustomerInvoiceList);
 
             if(FirstName != "")
             {
@@ -134,7 +134,7 @@ namespace CheckIT.API.Data
 
             if(CustInvoiceID != -1)
             {
-                query = query.Where(p => p.InvoiceCustomerList.Equals(CustInvoiceID));
+                query = query.Where(p => p.CustomerInvoiceList.Equals(CustInvoiceID));
             }
 
             return await query.ToListAsync();

@@ -29,7 +29,7 @@ namespace CheckIT.API.Models.BindingTargets
             Email = CustomerDataBindOBJ.Email,
             //CustAddressID = CustomerDataBindOBJ.CustAddressID,
             CustAddress = CustomerDataBindOBJ.CustAddress,
-            InvoiceCustomerList = CustomerDataBindOBJ.InvoiceCustomerList
+            CustomerInvoiceList = CustomerDataBindOBJ.CustomerInvoiceList
         };
     }
 }

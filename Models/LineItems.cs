@@ -13,7 +13,7 @@ namespace CheckIT.API.Models
         public decimal Price { get; set; }
 
         public int LineInvoiceID { get; set; }
-        public LineItem LineInvoice { get; set; }
+        public Invoice LineInvoice { get; set; }
 
         public int LineInventoryID { get; set; }
         public Inventory LineInventory { get; set; }

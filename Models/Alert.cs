@@ -9,7 +9,7 @@ namespace CheckIT.API.Models
     public class Alert
     {
         public int Id { get; set; }
-        public int AlertInvId { get; set; }
+        public Inventory AlertInv { get; set; }
         public int Threshold { get; set; }
         public DateTime DateUnder { get; set; }
         public DateTime DateOrdered { get; set; }

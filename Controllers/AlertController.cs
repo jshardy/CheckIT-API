@@ -41,7 +41,6 @@ namespace CheckIT.API.Controllers
 
                 var alertToCreate = new Alert
                 {
-                    AlertInvId = alertDto.AlertInvId,
                     Threshold = alertDto.Threshold,
                     AlertOn = alertDto.AlertOn
                 };
@@ -90,7 +89,6 @@ namespace CheckIT.API.Controllers
             //possibly something like:
             //PropertyInfo[] properties = alert.GetType().GetProperties();
             //foreach (PropertyInfo pi in properties)
-            alert.AlertInvId = alertDto.AlertInvId;
             alert.Threshold = alertDto.Threshold;
             alert.AlertOn = alertDto.AlertOn;
             //alert.AlertBit = updateAlertDto.AlertBit;

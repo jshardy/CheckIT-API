@@ -14,7 +14,7 @@ namespace CheckIT.API.Models.BindingTargets
         public bool AlertOn { get; set; }
         public Alert AlertDataBindOBJ => new Alert
         {
-            AlertInvId = AlertDataBindOBJ.AlertInvId,
+            AlertInv = AlertDataBindOBJ.AlertInv,
             Threshold = AlertDataBindOBJ.Threshold,
             DateUnder = AlertDataBindOBJ.DateUnder,
             DateOrdered = AlertDataBindOBJ.DateOrdered,

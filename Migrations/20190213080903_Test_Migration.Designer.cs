@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190213034950_Testing_No_Sutomers")]
-    partial class Testing_No_Sutomers
+    [Migration("20190213080903_Test_Migration")]
+    partial class Test_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,15 +27,13 @@ namespace CheckIT.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressofCustId");
+                    b.Property<int>("AddressCustID");
 
                     b.Property<string>("AptNum");
 
                     b.Property<string>("City");
 
                     b.Property<string>("Country");
-
-                    b.Property<int>("CustomerID");
 
                     b.Property<bool>("DefaultAddress");
 
@@ -47,9 +45,7 @@ namespace CheckIT.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressofCustId");
-
-                    b.HasIndex("CustomerID")
+                    b.HasIndex("AddressCustID")
                         .IsUnique();
 
                     b.ToTable("Addresses");
@@ -60,8 +56,6 @@ namespace CheckIT.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AlertInvId");
 
                     b.Property<bool>("AlertOn");
 
@@ -78,13 +72,11 @@ namespace CheckIT.API.Migrations
 
             modelBuilder.Entity("CheckIT.API.Models.Customer", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CompanyName");
-
-                    b.Property<int>("CustInvoiceID");
 
                     b.Property<string>("Email");
 
@@ -96,9 +88,7 @@ namespace CheckIT.API.Migrations
 
                     b.Property<string>("PhoneNumber");
 
-                    b.HasKey("ID");
-
-                    b.HasIndex("CustInvoiceID");
+                    b.HasKey("Id");
 
                     b.ToTable("Customers");
                 });
@@ -115,8 +105,6 @@ namespace CheckIT.API.Migrations
 
                     b.Property<int>("InventoryAlertID");
 
-                    b.Property<int>("InventoryLineID");
-
                     b.Property<int>("InventoryLocationID");
 
                     b.Property<string>("Name");
@@ -130,9 +118,8 @@ namespace CheckIT.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InventoryAlertID");
-
-                    b.HasIndex("InventoryLineID");
+                    b.HasIndex("InventoryAlertID")
+                        .IsUnique();
 
                     b.HasIndex("InventoryLocationID");
 
@@ -148,15 +135,15 @@ namespace CheckIT.API.Migrations
                     b.Property<decimal>("AmountPaid")
                         .HasColumnType("Money");
 
-                    b.Property<DateTime>("InvoiceDate");
+                    b.Property<int>("InvoiceCustID");
 
-                    b.Property<int>("InvoiceLineID");
+                    b.Property<DateTime>("InvoiceDate");
 
                     b.Property<bool>("OutgoingInv");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceLineID");
+                    b.HasIndex("InvoiceCustID");
 
                     b.ToTable("Invoices");
                 });
@@ -167,12 +154,20 @@ namespace CheckIT.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("LineInventoryID");
+
+                    b.Property<int>("LineInvoiceID");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("Money");
 
                     b.Property<int>("QuantitySold");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LineInventoryID");
+
+                    b.HasIndex("LineInvoiceID");
 
                     b.ToTable("LineItems");
                 });
@@ -196,6 +191,8 @@ namespace CheckIT.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("AddAlert");
+
                     b.Property<bool>("AddInvoice");
 
                     b.Property<bool>("AddIventory");
@@ -206,9 +203,19 @@ namespace CheckIT.API.Migrations
 
                     b.Property<bool>("ArchiveIventory");
 
+                    b.Property<bool>("DeleteAlert");
+
                     b.Property<bool>("DeleteLocation");
 
-                    b.Property<bool>("UserPermissions");
+                    b.Property<bool>("SetUserPermissions");
+
+                    b.Property<bool>("UpdateAlert");
+
+                    b.Property<bool>("UpdateInventory");
+
+                    b.Property<bool>("ViewInvoices");
+
+                    b.Property<bool>("ViewUserPermissions");
 
                     b.HasKey("Id");
 
@@ -238,34 +245,17 @@ namespace CheckIT.API.Migrations
 
             modelBuilder.Entity("CheckIT.API.Models.Address", b =>
                 {
-                    b.HasOne("CheckIT.API.Models.Address", "AddressofCust")
-                        .WithMany()
-                        .HasForeignKey("AddressofCustId");
-
-                    b.HasOne("CheckIT.API.Models.Customer")
+                    b.HasOne("CheckIT.API.Models.Customer", "AddressCust")
                         .WithOne("CustAddress")
-                        .HasForeignKey("CheckIT.API.Models.Address", "CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CheckIT.API.Models.Customer", b =>
-                {
-                    b.HasOne("CheckIT.API.Models.Invoice", "CustInvoice")
-                        .WithMany("InvoiceCustomerList")
-                        .HasForeignKey("CustInvoiceID")
+                        .HasForeignKey("CheckIT.API.Models.Address", "AddressCustID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CheckIT.API.Models.Inventory", b =>
                 {
                     b.HasOne("CheckIT.API.Models.Alert", "InventoryAlert")
-                        .WithMany()
-                        .HasForeignKey("InventoryAlertID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CheckIT.API.Models.LineItem", "InventoryLine")
-                        .WithMany("Inventories")
-                        .HasForeignKey("InventoryLineID")
+                        .WithOne("AlertInv")
+                        .HasForeignKey("CheckIT.API.Models.Inventory", "InventoryAlertID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CheckIT.API.Models.Location", "InventoryLocation")
@@ -276,9 +266,22 @@ namespace CheckIT.API.Migrations
 
             modelBuilder.Entity("CheckIT.API.Models.Invoice", b =>
                 {
-                    b.HasOne("CheckIT.API.Models.LineItem", "InvoiceLine")
-                        .WithMany("Invoices")
-                        .HasForeignKey("InvoiceLineID")
+                    b.HasOne("CheckIT.API.Models.Customer", "InvoiceCust")
+                        .WithMany("CustomerInvoiceList")
+                        .HasForeignKey("InvoiceCustID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CheckIT.API.Models.LineItem", b =>
+                {
+                    b.HasOne("CheckIT.API.Models.Inventory", "LineInventory")
+                        .WithMany("InventoryLineList")
+                        .HasForeignKey("LineInventoryID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CheckIT.API.Models.Invoice", "LineInvoice")
+                        .WithMany("InvoicesLineList")
+                        .HasForeignKey("LineInvoiceID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

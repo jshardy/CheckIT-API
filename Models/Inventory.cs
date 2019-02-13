@@ -7,9 +7,7 @@ namespace CheckIT.API.Models
 {
     public class Inventory
     {
-        [Required]
         public int Id { get; set; }
-        [Required]
 		public int UPC { get; set; }
 
         [Column(TypeName="Money")]
