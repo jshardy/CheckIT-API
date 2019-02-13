@@ -106,7 +106,7 @@ namespace CheckIT.API.Controllers
                                                             string zip = "",
                                                             string city = "",
                                                             string street = "",
-                                                            int CustomerAddID = 1)
+                                                            int CustomerAddID = -1)
         {
             var AddressList = await _repo.GetAddresses(country, 
                                                     state,

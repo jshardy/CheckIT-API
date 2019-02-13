@@ -97,14 +97,14 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetCustomers(string FirstName, 
-                                                            string LastName, 
-                                                            string CompanyName, 
-                                                            bool IsCompany,
-                                                            string PhoneNumber,
-                                                            string Email,
-                                                            int CustAddID,
-                                                            int CustInvoiceID)
+        public async Task<IActionResult> GetCustomers(string FirstName = "", 
+                                                            string LastName = "", 
+                                                            string CompanyName = "", 
+                                                            bool IsCompany = false,
+                                                            string PhoneNumber = "",
+                                                            string Email = "",
+                                                            int CustAddID = -1,
+                                                            int CustInvoiceID = -1)
         {
             var customerList = await _repo.GetCustomers(FirstName, 
                                                         LastName, 
