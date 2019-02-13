@@ -12,8 +12,8 @@ namespace CheckIT.API.Models
         [Column(TypeName="Money")]
         public decimal Price { get; set; }
 
-        public IList<Invoice> Invoices { get; set; }
+        public IEnumerable<Invoice> Invoices { get; set; }
 
-        public IList<Inventory> Inventories {get; set; } 
+        public IEnumerable<Inventory> Inventories {get; set; } 
     }
 }
