@@ -101,12 +101,12 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetAddresses(string country, 
-                                                            string state,
-                                                            string zip,
-                                                            string city,
-                                                            string street,
-                                                            int CustomerAddID)
+        public async Task<IActionResult> GetAddresses(string country = "", 
+                                                            string state = "",
+                                                            string zip = "",
+                                                            string city = "",
+                                                            string street = "",
+                                                            int CustomerAddID = 1)
         {
             var AddressList = await _repo.GetAddresses(country, 
                                                     state,

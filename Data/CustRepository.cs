@@ -129,7 +129,7 @@ namespace CheckIT.API.Data
 
             if(CustAddID != -1)
             {
-                query = query.Where(p => p.CustAddressID == CustAddID);
+                query = query.Where(p => p.CustAddress.Id == CustAddID);
             }
 
             if(CustInvoiceID != -1)

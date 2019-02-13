@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190213015605_Fixed_Inventory_Spelling")]
-    partial class Fixed_Inventory_Spelling
+    [Migration("20190213034950_Testing_No_Sutomers")]
+    partial class Testing_No_Sutomers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,11 +27,15 @@ namespace CheckIT.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AddressofCustId");
+
                     b.Property<string>("AptNum");
 
                     b.Property<string>("City");
 
                     b.Property<string>("Country");
+
+                    b.Property<int>("CustomerID");
 
                     b.Property<bool>("DefaultAddress");
 
@@ -42,6 +46,11 @@ namespace CheckIT.API.Migrations
                     b.Property<string>("ZipCode");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressofCustId");
+
+                    b.HasIndex("CustomerID")
+                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
@@ -75,8 +84,6 @@ namespace CheckIT.API.Migrations
 
                     b.Property<string>("CompanyName");
 
-                    b.Property<int>("CustAddressID");
-
                     b.Property<int>("CustInvoiceID");
 
                     b.Property<string>("Email");
@@ -90,8 +97,6 @@ namespace CheckIT.API.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("CustAddressID");
 
                     b.HasIndex("CustInvoiceID");
 
@@ -185,6 +190,31 @@ namespace CheckIT.API.Migrations
                     b.ToTable("Locations");
                 });
 
+            modelBuilder.Entity("CheckIT.API.Models.Permissions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("AddInvoice");
+
+                    b.Property<bool>("AddIventory");
+
+                    b.Property<bool>("AddLocation");
+
+                    b.Property<bool>("ArchiveInvoice");
+
+                    b.Property<bool>("ArchiveIventory");
+
+                    b.Property<bool>("DeleteLocation");
+
+                    b.Property<bool>("UserPermissions");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+                });
+
             modelBuilder.Entity("CheckIT.API.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -195,20 +225,31 @@ namespace CheckIT.API.Migrations
 
                     b.Property<byte[]>("PasswordSalt");
 
+                    b.Property<int?>("UserPermissionsId");
+
                     b.Property<string>("Username");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserPermissionsId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CheckIT.API.Models.Address", b =>
+                {
+                    b.HasOne("CheckIT.API.Models.Address", "AddressofCust")
+                        .WithMany()
+                        .HasForeignKey("AddressofCustId");
+
+                    b.HasOne("CheckIT.API.Models.Customer")
+                        .WithOne("CustAddress")
+                        .HasForeignKey("CheckIT.API.Models.Address", "CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CheckIT.API.Models.Customer", b =>
                 {
-                    b.HasOne("CheckIT.API.Models.Address", "CustAddress")
-                        .WithMany("Customers")
-                        .HasForeignKey("CustAddressID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("CheckIT.API.Models.Invoice", "CustInvoice")
                         .WithMany("InvoiceCustomerList")
                         .HasForeignKey("CustInvoiceID")
@@ -239,6 +280,13 @@ namespace CheckIT.API.Migrations
                         .WithMany("Invoices")
                         .HasForeignKey("InvoiceLineID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CheckIT.API.Models.User", b =>
+                {
+                    b.HasOne("CheckIT.API.Models.Permissions", "UserPermissions")
+                        .WithMany()
+                        .HasForeignKey("UserPermissionsId");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,8 +11,8 @@ namespace CheckIT.API.Models
 		public bool IsCompany { get; set; }
 		public string PhoneNumber { get; set; }
 		public string Email { get; set; }
-		public int CustAddressID { get; set; }
-		public Address CustAddress { get; set; }
+
+		public Address CustAddress {get; set; }
 
 		public int CustInvoiceID { get; set; }
 		public Invoice CustInvoice { get; set; }
