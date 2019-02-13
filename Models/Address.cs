@@ -13,7 +13,7 @@ namespace CheckIT.API.Models
 		public string AptNum { get; set; }
 		public bool DefaultAddress { get; set; }
 
-		public int CustomerID { get; set; }
-		public Customer Customer { get; set;}
+		public int AddressCustID { get; set; }
+		public Customer AddressCust { get; set;}
 	}
 }

@@ -12,10 +12,7 @@ namespace CheckIT.API.Models
 		public string PhoneNumber { get; set; }
 		public string Email { get; set; }
 
-		public Address CustAddress {get; set; }
-
-		public int CustInvoiceID { get; set; }
-		public Invoice CustInvoice { get; set; }
-
+		public IEnumerable<Address> CustAddresses {get; set; }
+		public IEnumerable<Customer> InvoiceCustomerList { get; set; }
 	}
 }

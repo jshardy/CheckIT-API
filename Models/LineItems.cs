@@ -12,8 +12,10 @@ namespace CheckIT.API.Models
         [Column(TypeName="Money")]
         public decimal Price { get; set; }
 
-        public IEnumerable<Invoice> Invoices { get; set; }
+        public int LineInvoiceeID { get; set; }
+        public LineItem LineInvoice { get; set; }
 
-        public IEnumerable<Inventory> Inventories {get; set; } 
+        public int LineInventoryID { get; set; }
+        public LineItem LineInventory { get; set; }
     }
 }

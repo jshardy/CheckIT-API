@@ -23,7 +23,7 @@ namespace CheckIT.API.Models
         public Location InventoryLocation { get; set; }
         public int InventoryAlertID { get; set; }
         public Alert InventoryAlert { get; set; }
-        public int InventoryLineID { get; set; }
-        public LineItem InventoryLine { get; set; }
+
+        public IEnumerable<LineItem> InventoryLineList {get; set; }
     }
 }
