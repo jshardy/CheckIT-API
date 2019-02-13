@@ -142,7 +142,34 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Alerts (InventoryId, Threshold, DateUnder, DateOrdered, AlertOn) values (19, 67, '01/10/2019', '01/25/2018', 1)");
             context.Database.ExecuteSqlCommand("insert into Alerts (InventoryId, Threshold, DateUnder, DateOrdered, AlertOn) values (8, 11, '01/19/2019', '12/17/2018', 0)");
             context.Database.ExecuteSqlCommand("insert into Alerts (InventoryId, Threshold, DateUnder, DateOrdered, AlertOn) values (14, 93, '01/16/2018', '10/14/2018', 1)");
-            context.Database.ExecuteSqlCommand("insert into Alerts (InventoryId, Threshold, DateUnder, DateOrdered, AlertOn) values (23, 66, '08/27/2018', '03/30/2018', 1)");          
+            context.Database.ExecuteSqlCommand("insert into Alerts (InventoryId, Threshold, DateUnder, DateOrdered, AlertOn) values (23, 66, '08/27/2018', '03/30/2018', 1)");
+
+            //insert mock data into the LineItems table            
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (86, '$7.32')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (24, '$4.29')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (48, '$2.22')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (60, '$1.53')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (71, '$0.34')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (45, '$3.85')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (73, '$1.71')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (76, '$2.36')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (19, '$2.28')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (62, '$8.64')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (73, '$8.92')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (52, '$4.96')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (90, '$3.23')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (96, '$0.74')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (11, '$0.13')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (17, '$7.15')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (55, '$3.35')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (9, '$9.24')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (32, '$0.21')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (87, '$0.55')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (89, '$7.90')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (48, '$1.19')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (5, '$9.80')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (10, '$7.83')");
+            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (69, '$5.47')");          
 
             //insert mock data into the Invoices table
             context.Database.ExecuteSqlCommand("insert into Invoices ( InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values ('03/18/2018', 1, 0, '$0.09')");
@@ -170,33 +197,6 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Invoices ( InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values ('12/14/2018', 1, 0, '$8.26')");
             context.Database.ExecuteSqlCommand("insert into Invoices ( InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values ('02/08/2018', 1, 0, '$5.53')");
             context.Database.ExecuteSqlCommand("insert into Invoices ( InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values ('01/30/2018', 0, 1, '$9.20')");
-            
-            //insert mock data into the LineItems table            
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (86, '$7.32')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (24, '$4.29')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (48, '$2.22')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (60, '$1.53')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (71, '$0.34')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (45, '$3.85')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (73, '$1.71')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (76, '$2.36')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (19, '$2.28')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (62, '$8.64')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (73, '$8.92')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (52, '$4.96')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (90, '$3.23')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (96, '$0.74')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (11, '$0.13')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (17, '$7.15')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (55, '$3.35')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (9, '$9.24')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (32, '$0.21')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (87, '$0.55')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (89, '$7.90')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (48, '$1.19')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (5, '$9.80')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (10, '$7.83')");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (69, '$5.47')");
         }
 
         public static void RemoveMockData(DataContext context)
