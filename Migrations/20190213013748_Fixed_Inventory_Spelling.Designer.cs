@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190212223631_Fixed_Inventory_Spelling")]
+    [Migration("20190213013748_Fixed_Inventory_Spelling")]
     partial class Fixed_Inventory_Spelling
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -82,20 +82,20 @@ namespace CheckIT.API.Controllers
             return Ok(invoiceList);
         }
 
-        [HttpPut("FillTable")]
-        public IActionResult FillTable()
-        {
-            //calls the DataMocker classes FillTable method
-            _repo.FillMockTable();
-            return StatusCode(201);
-        }
+        // [HttpPut("FillTable")]
+        // public IActionResult FillTable()
+        // {
+        //     //calls the DataMocker classes FillTable method
+        //     _repo.FillMockTable();
+        //     return StatusCode(201);
+        // }
 
-        [HttpPut("ClearTable")]
-        public IActionResult ClearTable()
-        {
-            //calls the DataMocker classes ClearTable method
-            _repo.ClearMockData();
-            return StatusCode(201);
-        }
+        // [HttpPut("ClearTable")]
+        // public IActionResult ClearTable()
+        // {
+        //     //calls the DataMocker classes ClearTable method
+        //     _repo.ClearMockData();
+        //     return StatusCode(201);
+        // }
     }
 }
