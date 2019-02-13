@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190213080903_Test_Migration")]
+    [Migration("20190213082041_Test_Migration")]
     partial class Test_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,7 +114,7 @@ namespace CheckIT.API.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.Property<int>("UPC");
+                    b.Property<long>("UPC");
 
                     b.HasKey("Id");
 

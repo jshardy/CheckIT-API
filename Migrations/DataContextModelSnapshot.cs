@@ -112,7 +112,7 @@ namespace CheckIT.API.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.Property<int>("UPC");
+                    b.Property<long>("UPC");
 
                     b.HasKey("Id");
 

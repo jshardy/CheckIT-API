@@ -91,6 +91,12 @@ namespace CheckIT.API.Migrations
                 nullable: false,
                 defaultValue: 0);
 
+            migrationBuilder.AlterColumn<long>(
+                name: "UPC",
+                table: "Inventories",
+                nullable: false,
+                oldClrType: typeof(int));
+
             migrationBuilder.AddColumn<int>(
                 name: "AddressCustID",
                 table: "Addresses",
@@ -271,6 +277,12 @@ namespace CheckIT.API.Migrations
                 table: "Invoices",
                 nullable: false,
                 defaultValue: false);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "UPC",
+                table: "Inventories",
+                nullable: false,
+                oldClrType: typeof(long));
 
             migrationBuilder.AddColumn<int>(
                 name: "InventoryLineID",

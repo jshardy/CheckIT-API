@@ -86,7 +86,7 @@ namespace CheckIT.API.Data
             return inventory;
         }
 
-        public async Task<IEnumerable<Inventory>> GetInventories(int UPC, 
+        public async Task<IEnumerable<Inventory>> GetInventories(long UPC, 
                                                             string Name,
                                                             decimal Price,
                                                             int Quantity,

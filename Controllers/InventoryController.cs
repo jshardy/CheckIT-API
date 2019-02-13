@@ -107,8 +107,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetInventories")]
-        public async Task<IActionResult> GetInventories(int Id,
-                                                    int UPC,
+        public async Task<IActionResult> GetInventories(long UPC,
                                                     string Name,
                                                     decimal Price,
                                                     int Quantity,
