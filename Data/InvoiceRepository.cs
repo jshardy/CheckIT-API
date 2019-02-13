@@ -52,7 +52,6 @@ namespace CheckIT.API.Data
 
         public async Task<IEnumerable<Invoice>> GetInvoices(DateTime InvDate, 
                                                             bool Out, 
-                                                            bool In, 
                                                             decimal Ammount,
                                                             int CustID,
                                                             int InvoiceLineId)
@@ -77,11 +76,6 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.OutgoingInv == Out);
             }
 
-            if(In != false)
-            {
-                query = query.Where(p => p.IncomingInv == In);
-            }
-
             if(Ammount != -1)
             {
                 query = query.Where(p => p.AmountPaid == Ammount);
@@ -93,16 +87,6 @@ namespace CheckIT.API.Data
             }
 
             return await query.ToListAsync();
-        }
-
-        public void FillMockTable()
-        {
-            DataMocker.InsertMockData(_context);
-        }
-
-        public void ClearMockData()
-        {
-            DataMocker.RemoveMockData(_context);
         }
     }
 }

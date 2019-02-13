@@ -37,7 +37,6 @@ namespace CheckIT.API.Controllers
                 {
                     InvoiceDate = iData.InvoiceDate,
                     OutgoingInv = iData.OutgoingInv,
-                    IncomingInv = iData.IncomingInv,
                     AmountPaid = iData.AmountPaid
                 };
 
@@ -68,34 +67,16 @@ namespace CheckIT.API.Controllers
         [HttpGet()]
         public async Task<IActionResult> ReturnInvoices(DateTime InvoiceDate = default(DateTime),
                                                         bool OutgoingInv = false,
-                                                        bool IncomingInv = false,
                                                         decimal AmmountPaid = -1,
                                                         int CustID = -1,
                                                         int InvoiceLineId = -1)
         {
             var invoiceList = await _repo.GetInvoices(InvoiceDate,
                                                     OutgoingInv,
-                                                    IncomingInv,
                                                     AmmountPaid,
                                                     CustID,
                                                     InvoiceLineId);
             return Ok(invoiceList);
         }
-
-        // [HttpPut("FillTable")]
-        // public IActionResult FillTable()
-        // {
-        //     //calls the DataMocker classes FillTable method
-        //     _repo.FillMockTable();
-        //     return StatusCode(201);
-        // }
-
-        // [HttpPut("ClearTable")]
-        // public IActionResult ClearTable()
-        // {
-        //     //calls the DataMocker classes ClearTable method
-        //     _repo.ClearMockData();
-        //     return StatusCode(201);
-        // }
     }
 }

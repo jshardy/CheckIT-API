@@ -91,31 +91,31 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, Zipcode, Street, AptNum, DefaultAddress, City) VALUES ('United States', 'California', '92160', '155 Claremont Crossing', 48,  0, 'San Diego');");
 
             //insert mock data into the Invoices table
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('03/18/2018', 1, 0, '$0.09', 1)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('11/29/2018', 1, 0, '$4.80', 2)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('05/07/2018', 0, 1, '$0.46', 3)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('01/26/2019', 1, 0, '$3.42', 4)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('10/11/2018', 0, 1, '$0.89', 5)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('02/06/2019', 1, 0, '$4.94', 6)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('03/21/2018', 1, 0, '$1.70', 7)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('09/16/2018', 0, 1, '$5.30', 8)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('05/31/2018', 0, 1, '$2.68', 9)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('01/28/2018', 0, 1, '$6.70', 10)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('08/30/2018', 0, 1, '$1.24', 11)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('12/22/2018', 1, 0, '$5.39', 12)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('04/28/2018', 0, 1, '$3.71', 13)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('07/20/2018', 0, 1, '$7.06', 14)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('01/24/2018', 1, 0, '$3.77', 15)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('04/26/2018', 1, 0, '$9.78', 16)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('05/15/2018', 0, 1, '$0.02', 17)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('03/23/2018', 0, 1, '$1.93', 18)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('09/01/2018', 1, 0, '$8.12', 19)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('02/15/2018', 0, 1, '$6.50', 20)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('02/15/2018', 0, 1, '$1.58', 21)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('06/27/2018', 1, 0, '$6.64', 22)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('12/14/2018', 1, 0, '$8.26', 23)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('02/08/2018', 1, 0, '$5.53', 24)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, IncomingInv, AmountPaid, InvoiceLineID) values ('01/30/2018', 0, 1, '$9.20', 25)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('03/18/2018', 1, '$0.09', 1)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('11/29/2018', 1, '$4.80', 2)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('05/07/2018', 0, '$0.46', 3)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('01/26/2019', 1, '$3.42', 4)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('10/11/2018', 0, '$0.89', 5)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('02/06/2019', 1, '$4.94', 6)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('03/21/2018', 1, '$1.70', 7)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('09/16/2018', 0, '$5.30', 8)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('05/31/2018', 0, '$2.68', 9)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('01/28/2018', 0, '$6.70', 10)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('08/30/2018', 0, '$1.24', 11)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('12/22/2018', 1, '$5.39', 12)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('04/28/2018', 0, '$3.71', 13)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('07/20/2018', 0, '$7.06', 14)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('01/24/2018', 1, '$3.77', 15)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('04/26/2018', 1, '$9.78', 16)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('05/15/2018', 0, '$0.02', 17)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('03/23/2018', 0, '$1.93', 18)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('09/01/2018', 1, '$8.12', 19)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('02/15/2018', 0, '$6.50', 20)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('02/15/2018', 0, '$1.58', 21)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('06/27/2018', 1, '$6.64', 22)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('12/14/2018', 1, '$8.26', 23)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('02/08/2018', 1, '$5.53', 24)");
+            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceLineID) values ('01/30/2018', 0, '$9.20', 25)");
 
             //insert mock data into the customers table
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, CustInvoiceID, PhoneNumber, Email, CustAddressID, IsCompany) values ('Joni', 'Kermit', 'Marks, Rogahn and Schmidt', 1, '(271)-501-9894', 'nfeetham0@ocn.ne.jp', 1, 1)");

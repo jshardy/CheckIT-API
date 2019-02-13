@@ -6,6 +6,10 @@ namespace CheckIT.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "IncomingInv",
+                table: "Invoices");
+
             migrationBuilder.RenameColumn(
                 name: "IventoryId",
                 table: "Alerts",
@@ -18,6 +22,12 @@ namespace CheckIT.API.Migrations
                 name: "AlertInvId",
                 table: "Alerts",
                 newName: "IventoryId");
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IncomingInv",
+                table: "Invoices",
+                nullable: false,
+                defaultValue: false);
         }
     }
 }

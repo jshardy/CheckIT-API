@@ -92,7 +92,7 @@ namespace CheckIT.API.Controllers
 
         // What does this intend to do?
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCustomer(int Id)
+        public async Task<IActionResult> GetAddress(int Id)
         {
             Address address;
             address = await _repo.GetAddress(Id);
@@ -116,42 +116,5 @@ namespace CheckIT.API.Controllers
                                                     CustomerAddID);
             return Ok(AddressList);
         }
-
-        // [HttpGet("GetAddressesByCountry")]
-        // public async Task<ICollection<Address>> GetAddressesByCountry(string country)
-        // {
-        //     ICollection<Address> collection = await GetAddressesByCountry(country);
-        //     return collection;
-        // }
-
-        // [HttpGet("GetAddressesByState")]
-        // public async Task<ICollection<Address>> GetAddressesByState(string state)
-        // {
-        //     ICollection<Address> collection = await GetAddressesByState(state);
-        //     return collection;
-        // }
-
-        // [HttpGet("GetAddressesByZip")]
-        // public async Task<ICollection<Address>> GetAddressesByZip(string zip)
-        // {
-        //     ICollection<Address> collection = await GetAddressesByZip(zip);
-        //     return collection;
-        // }
-
-        // [HttpGet("GetAddressesByCity")]
-        // public async Task<ICollection<Address>> GetAddressesByCity(string city)
-        // {
-        //     ICollection<Address> collection = await GetAddressesByCity(city);
-        //     return collection;
-        // }
-
-        // [HttpGet("GetAddressesByStreet")]
-        // public async Task<ICollection<Address>> GetAddressesByStreet(string street)
-        // {
-        //     ICollection<Address> collection = await GetAddressesByStreet(street);
-        //     return collection;
-        // }
-
-
     }
 }

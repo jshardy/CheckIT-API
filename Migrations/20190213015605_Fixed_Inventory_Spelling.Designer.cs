@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190213013748_Fixed_Inventory_Spelling")]
+    [Migration("20190213015605_Fixed_Inventory_Spelling")]
     partial class Fixed_Inventory_Spelling
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,8 +142,6 @@ namespace CheckIT.API.Migrations
 
                     b.Property<decimal>("AmountPaid")
                         .HasColumnType("Money");
-
-                    b.Property<bool>("IncomingInv");
 
                     b.Property<DateTime>("InvoiceDate");
 

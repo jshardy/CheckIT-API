@@ -9,7 +9,6 @@ namespace CheckIT.API.Models.BindingTargets
     {
         public DateTime InvoiceDate { get; set; }
         public bool OutgoingInv { get; set; }
-        public bool IncomingInv { get; set; }
         public decimal AmountPaid { get; set; }
         public ICollection<Customer> InvoiceCustomerList { get; set; }
         public int InvoiceLineID { get; set; }
@@ -22,7 +21,6 @@ namespace CheckIT.API.Models.BindingTargets
             InvoiceCustomerList = InvoiceDataBindOBJ.InvoiceCustomerList,
             InvoiceDate = InvoiceDataBindOBJ.InvoiceDate,
             OutgoingInv = InvoiceDataBindOBJ.OutgoingInv,
-            IncomingInv = InvoiceDataBindOBJ.IncomingInv,
             AmountPaid = InvoiceDataBindOBJ.AmountPaid,
             InvoiceLine = InvoiceDataBindOBJ.InvoiceLine,
             InvoiceLineID = InvoiceDataBindOBJ.InvoiceLineID

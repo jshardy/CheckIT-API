@@ -141,8 +141,6 @@ namespace CheckIT.API.Migrations
                     b.Property<decimal>("AmountPaid")
                         .HasColumnType("Money");
 
-                    b.Property<bool>("IncomingInv");
-
                     b.Property<DateTime>("InvoiceDate");
 
                     b.Property<int>("InvoiceLineID");

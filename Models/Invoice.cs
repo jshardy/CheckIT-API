@@ -11,8 +11,7 @@ namespace CheckIT.API.Models
         [Required]
         public DateTime InvoiceDate { get; set; }
         [Required]
-        public bool OutgoingInv { get; set; }
-        public bool IncomingInv { get; set; }        
+        public bool OutgoingInv { get; set; }        
 
         [Column(TypeName="Money")]
         public decimal AmountPaid { get; set; }
