@@ -10,20 +10,19 @@ namespace CheckIT.API.Models.BindingTargets
         public DateTime InvoiceDate { get; set; }
         public bool OutgoingInv { get; set; }
         public decimal AmountPaid { get; set; }
-        public ICollection<Customer> InvoiceCustomerList { get; set; }
-        public int InvoiceLineID { get; set; }
-        public LineItem InvoiceLine { get; set; }
+        public int InvoiceCustID { get; set; }
+		public Customer InvoiceCust { get; set; }        
+        public IEnumerable<LineItem> InvoicesLineList { get; set; }
 
         public Invoice InvoiceDataBindOBJ => new Invoice
         {
             // I will need to impliment this differently once we get
             // the Business Model/Controller made
-            InvoiceCustomerList = InvoiceDataBindOBJ.InvoiceCustomerList,
+            InvoiceCustID = InvoiceDataBindOBJ.InvoiceCustID,
+            InvoicesLineList = InvoiceDataBindOBJ.InvoicesLineList,
             InvoiceDate = InvoiceDataBindOBJ.InvoiceDate,
             OutgoingInv = InvoiceDataBindOBJ.OutgoingInv,
-            AmountPaid = InvoiceDataBindOBJ.AmountPaid,
-            InvoiceLine = InvoiceDataBindOBJ.InvoiceLine,
-            InvoiceLineID = InvoiceDataBindOBJ.InvoiceLineID
+            AmountPaid = InvoiceDataBindOBJ.AmountPaid
         };
     }
 }

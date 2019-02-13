@@ -17,7 +17,7 @@ namespace CheckIT.API.Models
         public decimal AmountPaid { get; set; }
 
         public int InvoiceCustID { get; set; }
-		public Invoice InvoiceCust { get; set; }
+		public Customer InvoiceCust { get; set; }
 
         public IEnumerable<LineItem> InvoicesLineList { get; set; }
     }

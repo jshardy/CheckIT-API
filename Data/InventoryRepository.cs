@@ -99,7 +99,7 @@ namespace CheckIT.API.Data
 
             IQueryable<Inventory> query = _context.Inventories.Include(p => p.InventoryLocation)
                                                             .Include(p => p.InventoryAlert)
-                                                            .Include(p => p.InventoryLine);
+                                                            .Include(p => p.InventoryLineList);
 
             if(UPC != -1)
             {
@@ -128,17 +128,17 @@ namespace CheckIT.API.Data
 
             if(LocationId != -1)
             {
-                query = query.Where(p => p.InventoryLocation.Equals(LocationId));
+                query = query.Where(p => p.InventoryLocation.Id == LocationId);
             }
 
             if(AlertId != -1)
             {
-                query = query.Where(p => p.InventoryAlert.Equals(AlertId));
+                query = query.Where(p => p.InventoryAlert.Id == AlertId);
             }
 
             if(LineItemId != -1)
             {
-                query = query.Where(p => p.InventoryLine.Equals(LineItemId));
+                query = query.Where(p => p.InventoryLineList.Equals(LineItemId));
             }
 
             return await query.ToListAsync();

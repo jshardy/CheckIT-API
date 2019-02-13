@@ -79,7 +79,7 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Address> query = _context.Addresses.Include(p => p.Customer);
+            IQueryable<Address> query = _context.Addresses.Include(p => p.AddressCust);
 
             if(country != "")
             {
@@ -108,7 +108,7 @@ namespace CheckIT.API.Data
 
             if(CustomerAddID != -1)
             {
-                query = query.Where(x => x.Customer.Id == CustomerAddID);
+                query = query.Where(x => x.AddressCust.Id == CustomerAddID);
             }
 
             return await query.ToListAsync();

@@ -58,8 +58,8 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Invoice> query = _context.Invoices.Include(p => p.InvoiceLine)
-                                                        .Include(p => p.InvoiceCustomerList);
+            IQueryable<Invoice> query = _context.Invoices.Include(p => p.InvoicesLineList)
+                                                        .Include(p => p.InvoiceCust);
 
             if(InvDate > DateTime.MinValue)
             {
@@ -68,7 +68,7 @@ namespace CheckIT.API.Data
 
             if(CustID!= -1)
             {
-                query = query.Where(p => p.InvoiceCustomerList.Equals(CustID));
+                query = query.Where(p => p.InvoiceCust.Id == CustID);
             }
 
             if(Out != false)
@@ -83,7 +83,7 @@ namespace CheckIT.API.Data
 
             if(InvoiceLineId != -1)
             {
-                query = query.Where(p => p.InvoiceLineID == InvoiceLineId);
+                query = query.Where(p => p.InvoicesLineList.Equals(InvoiceLineId));
             }
 
             return await query.ToListAsync();

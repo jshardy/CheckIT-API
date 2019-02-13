@@ -13,10 +13,11 @@ namespace CheckIT.API.Models.BindingTargets
 		public bool IsCompany { get; set; }
 		public string PhoneNumber { get; set; }
 		public string Email { get; set; }
-		public Address CustAddress { get; set; }
+		public int CustAddressID { get; set; }
+		public Address CustAddress { get; set;}
 
-		public int CustInvoiceID { get; set; }
-		public Invoice CustInvoice { get; set; }
+		//public IEnumerable<Address> CustAddresses {get; set; }
+		public IEnumerable<Customer> InvoiceCustomerList { get; set; }
 
         public Customer CustomerDataBindOBJ => new Customer
         {
@@ -26,9 +27,9 @@ namespace CheckIT.API.Models.BindingTargets
             IsCompany = CustomerDataBindOBJ.IsCompany,
             PhoneNumber = CustomerDataBindOBJ.PhoneNumber,
             Email = CustomerDataBindOBJ.Email,
+            CustAddressID = CustomerDataBindOBJ.CustAddressID,
             CustAddress = CustomerDataBindOBJ.CustAddress,
-            CustInvoiceID = CustomerDataBindOBJ.CustInvoiceID,
-            CustInvoice = CustomerDataBindOBJ.CustInvoice
+            InvoiceCustomerList = CustomerDataBindOBJ.InvoiceCustomerList
         };
     }
 }
