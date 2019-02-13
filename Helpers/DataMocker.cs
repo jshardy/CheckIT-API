@@ -63,7 +63,6 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, Zipcode, Street, AptNum, DefaultAddress, City) VALUES ('United States', 'California', '95160', '0024 Cardinal Crossing', 13, 0, 'San Jose');");
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, Zipcode, Street, AptNum, DefaultAddress, City) VALUES ('United States', 'California', '92160', '155 Claremont Crossing', 48,  0, 'San Diego');");
 
->>>>>>> 3c9393c3d12957d43236dae03e83ef682eafde2c
             //insert mock data into the customers table
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, CustInvoiceID, PhoneNumber, Email, CustAddressID, IsCompany) values ('Joni', 'Kermit', 'Marks, Rogahn and Schmidt', 15, '(271)-501-9894', 'nfeetham0@ocn.ne.jp', 11, 1)");
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, CustInvoiceID, PhoneNumber, Email, CustAddressID, IsCompany) values ('Emelda', 'Lassells', 'Steuber Inc', 16, '(886)-254-0398', 'wdinnies1@stanford.edu', 10, 1)");
@@ -146,35 +145,6 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Alerts (InventoryId, Threshold, DateUnder, DateOrdered, AlertOn) values (23, 66, '08/27/2018', '03/30/2018', 1)");          
 
             //insert mock data into the Invoices table
-<<<<<<< HEAD
-            context.Database.ExecuteSqlCommand(
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (46, '03/18/2018', 1, 0, '$0.09')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (69, '11/29/2018', 1, 0, '$4.80')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (95, '05/07/2018', 0, 1, '$0.46')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (2, '01/26/2019', 1, 0, '$3.42')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (38, '10/11/2018', 0, 1, '$0.89')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (95, '02/06/2019', 1, 0, '$4.94')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (53, '03/21/2018', 1, 0, '$1.70')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (61, '09/16/2018', 0, 1, '$5.30')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (34, '05/31/2018', 0, 1, '$2.68')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (50, '01/28/2018', 0, 1, '$6.70')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (90, '08/30/2018', 0, 1, '$1.24')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (2, '12/22/2018', 1, 0, '$5.39')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (7, '04/28/2018', 0, 1, '$3.71')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (25, '07/20/2018', 0, 1, '$7.06')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (5, '01/24/2018', 1, 0, '$3.77')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (92, '04/26/2018', 1, 0, '$9.78')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (9, '05/15/2018', 0, 1, '$0.02')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (19, '03/23/2018', 0, 1, '$1.93')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (95, '09/01/2018', 1, 0, '$8.12')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (95, '02/15/2018', 0, 1, '$6.50')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (3, '02/15/2018', 0, 1, '$1.58')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (59, '06/27/2018', 1, 0, '$6.64')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (33, '12/14/2018', 1, 0, '$8.26')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (77, '02/08/2018', 1, 0, '$5.53')",
-                "insert into Invoices (InvoiceLineID, InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values (28, '01/30/2018', 0, 1, '$9.20')"
-            );
-=======
             context.Database.ExecuteSqlCommand("insert into Invoices ( InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values ('03/18/2018', 1, 0, '$0.09')");
             context.Database.ExecuteSqlCommand("insert into Invoices ( InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values ('11/29/2018', 1, 0, '$4.80')");
             context.Database.ExecuteSqlCommand("insert into Invoices ( InvoiceDate, OutgoingInv, IncomingInv, AmountPaid) values ('05/07/2018', 0, 1, '$0.46')");
@@ -227,7 +197,6 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (5, '$9.80')");
             context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (10, '$7.83')");
             context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price) values (69, '$5.47')");
->>>>>>> 3c9393c3d12957d43236dae03e83ef682eafde2c
         }
 
         public static void RemoveMockData(DataContext context)
