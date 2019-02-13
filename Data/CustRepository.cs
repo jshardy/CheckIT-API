@@ -32,18 +32,18 @@ namespace CheckIT.API.Data
 
         public int GetCustomerID(Customer toFind)
         {
-            return toFind.ID;
+            return toFind.Id;
         }
 
         public async Task<Customer> GetCustomer(int ID)
         {
-            Customer cust = await _context.Customers.FirstOrDefaultAsync(x => x.ID == ID);
+            Customer cust = await _context.Customers.FirstOrDefaultAsync(x => x.Id == ID);
             return cust;
         }
 
         public async Task<bool> DeleteCustomer(int ID)
         {
-            Customer cust = await _context.Customers.FirstOrDefaultAsync(x => x.ID == ID);
+            Customer cust = await _context.Customers.FirstOrDefaultAsync(x => x.Id == ID);
 
             if (cust == null)
                 return false;
@@ -57,7 +57,7 @@ namespace CheckIT.API.Data
 
         public async Task<bool> ModifyCustomer(int ID, Customer change, int newAddress)
         {
-            Customer exist = await _context.Customers.FirstOrDefaultAsync(x => x.ID == ID);
+            Customer exist = await _context.Customers.FirstOrDefaultAsync(x => x.Id == ID);
 
             if (exist == null)
                 return false;
