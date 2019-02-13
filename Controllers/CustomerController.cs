@@ -30,8 +30,8 @@ namespace CheckIT.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("CreateCustomer")]
-        public async Task<IActionResult> CreateCustomer(CustomerCreateDto customerCreateDto)
+        [HttpPost("AddCustomer")]
+        public async Task<IActionResult> AddCustomer(CustomerCreateDto customerCreateDto)
         {
             var customerToCreate = new Customer
             {
@@ -48,7 +48,7 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("{Id}")]
+        [HttpDelete("DeleteCustomer")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             if (await _repo.DeleteCustomer(id))
@@ -69,7 +69,7 @@ namespace CheckIT.API.Controllers
         //     return BadRequest("One or more Customers could not be found");
         // }
 
-        [HttpPost("ModifyCustomer")]
+        [HttpPatch("ModifyCustomer")]
         public async Task<IActionResult> ModifyCustomer(int id, CustomerCreateDto dataDto)
         {
             var custToPass = new Customer

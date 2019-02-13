@@ -1,3 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+using System.Collections.Generic;
+
 namespace CheckIT.API.Models
 {
     public class User
@@ -6,5 +11,6 @@ namespace CheckIT.API.Models
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public Permissions UserPermissions { get; set; }
     }
 }
