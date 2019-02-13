@@ -15,8 +15,6 @@ namespace CheckIT.API.Models.BindingTargets
 		public string AptNum { get; set; }
 		public bool DefaultAddress { get; set; }
 
-		//public IList<Customer> Customers { get; set; }
-
         public Address AddressDataBindOBJ => new Address
         {
             Country = AddressDataBindOBJ.Country,
