@@ -102,18 +102,14 @@ namespace CheckIT.API.Controllers
                                                             string CompanyName = "", 
                                                             bool IsCompany = false,
                                                             string PhoneNumber = "",
-                                                            string Email = "",
-                                                            int CustAddID = -1,
-                                                            int CustInvoiceID = -1)
+                                                            string Email = "")
         {
             var customerList = await _repo.GetCustomers(FirstName, 
                                                         LastName, 
                                                         CompanyName, 
                                                         IsCompany,
                                                         PhoneNumber,
-                                                        Email,
-                                                        CustAddID,
-                                                        CustInvoiceID);
+                                                        Email);
 
             return Ok(customerList);
         }

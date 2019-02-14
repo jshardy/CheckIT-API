@@ -92,8 +92,7 @@ namespace CheckIT.API.Data
                                                             int Quantity,
                                                             bool Archived,
                                                             int LocationId,
-                                                            int AlertId,
-                                                            int LineItemId)
+                                                            int AlertId)
         {
 
 
@@ -134,11 +133,6 @@ namespace CheckIT.API.Data
             if(AlertId != -1)
             {
                 query = query.Where(p => p.InventoryAlert.Id == AlertId);
-            }
-
-            if(LineItemId != -1)
-            {
-                query = query.Where(p => p.InventoryLineList.Equals(LineItemId));
             }
 
             return await query.ToListAsync();

@@ -88,9 +88,7 @@ namespace CheckIT.API.Data
                                                             string CompanyName, 
                                                             bool IsCompany,
                                                             string PhoneNumber,
-                                                            string Email,
-                                                            int CustAddID,
-                                                            int CustInvoiceID)
+                                                            string Email)
         {
 
 
@@ -125,16 +123,6 @@ namespace CheckIT.API.Data
             if(Email != "")
             {
                 query = query.Where(p => p.Email.Contains(Email));
-            }
-
-            if(CustAddID != -1)
-            {
-                query = query.Where(p => p.CustAddress.Id == CustAddID);
-            }
-
-            if(CustInvoiceID != -1)
-            {
-                query = query.Where(p => p.CustomerInvoiceList.Equals(CustInvoiceID));
             }
 
             return await query.ToListAsync();

@@ -68,14 +68,12 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> ReturnInvoices(DateTime InvoiceDate = default(DateTime),
                                                         bool OutgoingInv = false,
                                                         decimal AmmountPaid = -1,
-                                                        int CustID = -1,
-                                                        int InvoiceLineId = -1)
+                                                        int CustID = -1)
         {
             var invoiceList = await _repo.GetInvoices(InvoiceDate,
                                                     OutgoingInv,
                                                     AmmountPaid,
-                                                    CustID,
-                                                    InvoiceLineId);
+                                                    CustID);
             return Ok(invoiceList);
         }
     }
