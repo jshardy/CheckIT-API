@@ -34,15 +34,17 @@ namespace CheckIT.API.Controllers
         //http://localhost:5000/api/Register
         //dto object to convert json to class
         [HttpPost("AddAlert")]
-        public async Task<IActionResult> AddAlert(AlertDto alertDto)
+        public async Task<IActionResult> AddAlert([FromBody] AlertData alData)
         {
            if(ModelState.IsValid)
            {
 
                 var alertToCreate = new Alert
                 {
-                    Threshold = alertDto.Threshold,
-                    AlertOn = alertDto.AlertOn
+                    Threshold = alData.Threshold,
+                    DateUnder = alData.DateUnder,
+                    DateOrdered = alData.DateOrdered,
+                    AlertOn = alData.AlertOn
                 };
 
                 var createdAlert = await _repo.AddAlert(alertToCreate);

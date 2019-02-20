@@ -34,18 +34,23 @@ namespace CheckIT.API.Controllers
         [HttpPost("AddLocation/{locName}")]
         public async Task<IActionResult> AddLocation(string locName)
         {
-            //check for duplicate name?
-            //if (await _repo.LocationExists(locForAddDto.Name)) return BadRequest("Location already exists");
-
-            var locToCreate = new Location
+            if (ModelState.IsValid)
             {
-                Name = locName
-            };
+                var locToCreate = new Location
+                {
+                    Name = locName
+                };
+            
 
             var createdLocation = await _repo.AddLocation(locToCreate);
 
             //created at root status code
             return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpGet("{Id}")]

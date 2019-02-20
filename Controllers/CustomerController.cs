@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
+using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -31,21 +32,28 @@ namespace CheckIT.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("AddCustomer")]
-        public async Task<IActionResult> AddCustomer(CustomerCreateDto customerCreateDto)
+        public async Task<IActionResult> AddCustomer([FromBody] CustomerData cData, int AddressID)
         {
-            var customerToCreate = new Customer
+            if (ModelState.IsValid)
             {
-                FirstName = customerCreateDto.FirstName,
-                LastName = customerCreateDto.LastName,
-                CompanyName = customerCreateDto.CompanyName,
-                PhoneNumber = customerCreateDto.PhoneNumber,
-                Email = customerCreateDto.Email
-            };
+                var customerToCreate = new Customer
+                {
+                    FirstName = cData.FirstName,
+                    LastName = cData.LastName,
+                    CompanyName = cData.CompanyName,
+                    PhoneNumber = cData.PhoneNumber,
+                    Email = cData.Email
+                }; 
 
-            var createdCustomer = await _repo.CreateCustomer(customerToCreate, customerCreateDto.AddressID);
+            var createdCustomer = await _repo.CreateCustomer(customerToCreate, AddressID);
 
             //created at root status code
-            return StatusCode(201);
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpDelete("DeleteCustomer")]
