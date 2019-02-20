@@ -53,8 +53,7 @@ namespace CheckIT.API.Data
         public async Task<IEnumerable<Invoice>> GetInvoices(DateTime InvDate, 
                                                             bool Out, 
                                                             decimal Ammount,
-                                                            int CustID,
-                                                            int InvoiceLineId)
+                                                            int CustID)
         {
 
 
@@ -79,11 +78,6 @@ namespace CheckIT.API.Data
             if(Ammount != -1)
             {
                 query = query.Where(p => p.AmountPaid == Ammount);
-            }
-
-            if(InvoiceLineId != -1)
-            {
-                query = query.Where(p => p.InvoicesLineList.Equals(InvoiceLineId));
             }
 
             return await query.ToListAsync();

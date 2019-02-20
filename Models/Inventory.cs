@@ -22,6 +22,6 @@ namespace CheckIT.API.Models
         public int InventoryAlertID { get; set; }
         public Alert InventoryAlert { get; set; }
 
-        public IEnumerable<LineItem> InventoryLineList {get; set; }
+        public ICollection<LineItem> InventoryLineList {get; set; }
     }
 }

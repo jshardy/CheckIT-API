@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
+using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -29,23 +30,29 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("AddAddress")]
-        public async Task<IActionResult> AddAddress(AddressCreateDto addressCreateDto)
+        public async Task<IActionResult> AddAddress([FromBody] AddressData aData)
         {
-            var addressToCreate = new Address
+            if (ModelState.IsValid)
             {
-                Country = addressCreateDto.Country,
-                State = addressCreateDto.State,
-                ZipCode = addressCreateDto.ZipCode,
-                City = addressCreateDto.City,
-                Street = addressCreateDto.Street,
-                AptNum = addressCreateDto.AptNum,
-                DefaultAddress = addressCreateDto.DefaultAddress
-            };
-
-            var CreatedAddress = await _repo.CreateAddress(addressToCreate);
-
-            //created at root status code
-            return StatusCode(201);
+                var addressToCreate = new Address
+                {
+                    Country = aData.Country,
+                    State = aData.State,
+                    ZipCode = aData.ZipCode,
+                    City = aData.City,
+                    Street = aData.Street,
+                    AptNum = aData.AptNum,
+                    DefaultAddress = aData.DefaultAddress
+                };
+            
+                var CreatedAddress = await _repo.CreateAddress(addressToCreate);
+                
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpDelete("DeleteAddress")]

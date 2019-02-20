@@ -19,6 +19,6 @@ namespace CheckIT.API.Models
         public int InvoiceCustID { get; set; }
 		public Customer InvoiceCust { get; set; }
 
-        public IEnumerable<LineItem> InvoicesLineList { get; set; }
+        public ICollection<LineItem> InvoicesLineList { get; set; }
     }
 }

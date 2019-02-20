@@ -38,7 +38,11 @@ namespace CheckIT.API
 
             if (useSQLServer)
             {
+<<<<<<< HEAD
                 //services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnectionLocal")));
+=======
+                // services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnectionLocal")));
+>>>>>>> 1d3990caaefc72ce91f362a92f5b8e3c17eaffd2
                 services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
             }
             else
