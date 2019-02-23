@@ -132,13 +132,19 @@ namespace CheckIT.API.Controllers
 
         public class UpcDatabaseResponse
         {
-            public long Upc { get; set; }
-            public string Name { get; set; }
+            public long UpcNumber { get; set; }
+            public string Title { get; set; }
             public string Description { get; set; }
             public string Brand { get; set; }
         }
 
-        [AllowAnonymous]
+        //example call: http://localhost:5000/api/Inventory/UpcInfo/028400003001
+        //example response: {"upcnumber":"028400003001","st0s":"","newupc":"","type":"","title":"Lay's\u00ae Barbecue Flavored Potato Chips 1.5 oz. Bag",
+        //"alias":"","description":"&lt;ul&gt;&lt;li&gt;1.5 oz. bag of LAY'S Barbecue Flavored Potato Chips&lt;\/li&gt;&lt;li&gt;Loved LAY'S flavor 
+        //to enjoy as an any time snack&lt;\/li&gt;&lt;li&gt;Delicious snack for pairing with a small meal&lt;\/li&gt;&lt;li&gt;
+        //Delicious LAY'S crunchy snack&lt;\/li&gt;&lt;\/ul&gt;","brand":"Lay's","category":"Food\/Snacks, Cookies & Chips\/Chips","size":"1.5 oz",
+        //"color":"Other","gender":"","age":"","unit":"","msrp":"70.48","rate\/up":"0","rate\/down":"0","status":200,"error":false}
+        [AllowAnonymous] //remove -- just for testing
         [HttpGet("UpcInfo/{upc}")]
         public async Task<IActionResult> UpcInfo(string upc)
         {
@@ -152,12 +158,13 @@ namespace CheckIT.API.Controllers
                     var response = await client.GetAsync($"/product/{upc}/{api_key}");
                     response.EnsureSuccessStatusCode();
 
-                    //return Ok(response);
+                    //return Ok(response); //returns raw request response
 
                     var stringResult = await response.Content.ReadAsStringAsync();
-                    return Ok(stringResult);
-                    //var rawProduct = JsonConvert.DeserializeObject<UpcDatabaseResponse>(stringResult);
-                    /*/return Ok(new {
+                    //return Ok(stringResult); //returns entire database response, all json info
+                    var rawProduct = JsonConvert.DeserializeObject<UpcDatabaseResponse>(stringResult);
+                    return Ok(rawProduct); //returns just neccessariy info
+                    /*return Ok(new {
                         Upc = rawProduct.Upc,
                         Name = rawProduct.Name,
                         Description = rawProduct.Description,
