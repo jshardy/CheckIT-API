@@ -12,12 +12,5 @@ namespace CheckIT.API.Models.BindingTargets
         public DateTime DateUnder { get; set; }
         public DateTime DateOrdered { get; set; }
         public bool AlertOn { get; set; }
-        public Alert AlertDataBindOBJ => new Alert
-        {
-            Threshold = AlertDataBindOBJ.Threshold,
-            DateUnder = AlertDataBindOBJ.DateUnder,
-            DateOrdered = AlertDataBindOBJ.DateOrdered,
-            AlertOn = AlertDataBindOBJ.AlertOn
-        };
     }
 }

@@ -15,15 +15,5 @@ namespace CheckIT.API.Models.BindingTargets
 		public string AptNum { get; set; }
 		public bool DefaultAddress { get; set; }
 
-        public Address AddressDataBindOBJ => new Address
-        {
-            Country = AddressDataBindOBJ.Country,
-            State = AddressDataBindOBJ.State,
-            ZipCode = AddressDataBindOBJ.ZipCode,
-            City = AddressDataBindOBJ.City,
-            Street = AddressDataBindOBJ.Street,
-            AptNum = AddressDataBindOBJ.AptNum,
-            DefaultAddress = AddressDataBindOBJ.DefaultAddress
-        };
     }
 }
