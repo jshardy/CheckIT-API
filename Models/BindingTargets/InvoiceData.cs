@@ -13,16 +13,5 @@ namespace CheckIT.API.Models.BindingTargets
         public int InvoiceCustID { get; set; }
 		public Customer InvoiceCust { get; set; }        
         public IEnumerable<LineItem> InvoicesLineList { get; set; }
-
-        public Invoice InvoiceDataBindOBJ => new Invoice
-        {
-            // I will need to impliment this differently once we get
-            // the Business Model/Controller made
-            InvoiceCustID = InvoiceDataBindOBJ.InvoiceCustID,
-            InvoicesLineList = InvoiceDataBindOBJ.InvoicesLineList,
-            InvoiceDate = InvoiceDataBindOBJ.InvoiceDate,
-            OutgoingInv = InvoiceDataBindOBJ.OutgoingInv,
-            AmountPaid = InvoiceDataBindOBJ.AmountPaid
-        };
     }
 }

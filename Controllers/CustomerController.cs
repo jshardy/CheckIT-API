@@ -30,9 +30,8 @@ namespace CheckIT.API.Controllers
              _repo = repo;
         }
 
-        [AllowAnonymous]
         [HttpPost("AddCustomer")]
-        public async Task<IActionResult> AddCustomer([FromBody] CustomerData cData, int AddressID)
+        public async Task<IActionResult> AddCustomer(CustomerData cData)
         {
             if (ModelState.IsValid)
             {
@@ -43,16 +42,32 @@ namespace CheckIT.API.Controllers
                     CompanyName = cData.CompanyName,
                     PhoneNumber = cData.PhoneNumber,
                     Email = cData.Email
-                }; 
+                };
 
-            var createdCustomer = await _repo.CreateCustomer(customerToCreate, AddressID);
+                var addressToCreate = new Address
+                {
+                    Country = cData.CustAddress.Country,
+                    State = cData.CustAddress.State,
+                    ZipCode = cData.CustAddress.ZipCode,
+                    City = cData.CustAddress.City,
+                    Street = cData.CustAddress.Street,
+                    AptNum = cData.CustAddress.AptNum,
+                    DefaultAddress = cData.CustAddress.DefaultAddress,
+                    AddressCustID = customerToCreate.Id,
+                    AddressCust = customerToCreate
+                };
 
-            //created at root status code
+                customerToCreate.CustAddress = addressToCreate;
+
+                var createdCustomer = await _repo.CreateCustomer(customerToCreate);
+
+                //created at root status code
                 return StatusCode(201);
             }
             else
             {
                 return BadRequest(ModelState);
+                
             }
         }
 
