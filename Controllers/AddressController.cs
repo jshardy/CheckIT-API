@@ -47,7 +47,7 @@ namespace CheckIT.API.Controllers
             
                 var CreatedAddress = await _repo.CreateAddress(addressToCreate);
                 
-                return StatusCode(201);
+                return Ok(CreatedAddress);
             }
             else
             {

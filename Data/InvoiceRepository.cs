@@ -45,7 +45,9 @@ namespace CheckIT.API.Data
 
         public async Task<Invoice> GetOneInvoice(int invoiceID)
         {
-            var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
+            var invoice = await _context.Invoices.Include(p => p.InvoicesLineList)
+                                                 .Include(p => p.InvoiceCust)
+                                                 .FirstOrDefaultAsync(x => x.Id == invoiceID);
 
             return invoice;
         }
@@ -57,8 +59,7 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Invoice> query = _context.Invoices.Include(p => p.InvoicesLineList)
-                                                        .Include(p => p.InvoiceCust);
+            IQueryable<Invoice> query = _context.Invoices;
 
             if(InvDate > DateTime.MinValue)
             {
