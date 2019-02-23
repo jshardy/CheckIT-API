@@ -42,7 +42,7 @@ namespace CheckIT.API.Data
         {
             IQueryable<Location> query = _context.Locations;
 
-            if(Name != "")
+            if(Name != null)
             {
                 query = query.Where(p => p.Name.Contains(Name));
             }
