@@ -29,7 +29,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("AddInvoice")]
-        public async Task<IActionResult> AddInvoice([FromBody] InvoiceData iData)
+        public async Task<IActionResult> AddInvoice(InvoiceData iData)
         {
             if (ModelState.IsValid)
             {
@@ -37,10 +37,11 @@ namespace CheckIT.API.Controllers
                 {
                     InvoiceDate = iData.InvoiceDate,
                     OutgoingInv = iData.OutgoingInv,
-                    AmountPaid = iData.AmountPaid
+                    AmountPaid = iData.AmountPaid,
+                    InvoiceCustID = iData.InvoiceCustID
                 };
 
-                var createdInvoice = await _repo.AddInvoice(invoiceCreate);
+                var createdInvoice = await _repo.AddInvoice(invoiceCreate, iData.ItemList);
 
                 return StatusCode(201);
             }

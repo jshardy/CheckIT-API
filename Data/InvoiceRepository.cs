@@ -13,12 +13,42 @@ namespace CheckIT.API.Data
     public class InvoiceRepository
     {
         private readonly DataContext _context;
+        private CustRepository _CustRepo;
+        private InventoryRepository _InvRepo;
         public InvoiceRepository(DataContext context)
         {
             _context = context;
+            _CustRepo = new CustRepository(context);
+            _InvRepo = new InventoryRepository(context);
         }
-        public async Task<Invoice> AddInvoice(Invoice invoiceToAdd)
+        public async Task<Invoice> AddInvoice(Invoice invoiceToAdd, ICollection<LineItemData> ItemList)
         {
+            invoiceToAdd.InvoiceCust = _CustRepo.GetCustomer(invoiceToAdd.InvoiceCustID).Result;
+
+            foreach (var item in ItemList)
+            {
+                var newLineItem = new LineItem
+                {
+                    QuantitySold = item.Quantity,
+                    Price = item.Price,
+                    LineInvoiceID = invoiceToAdd.Id,
+                    LineInvoice = invoiceToAdd,
+                    LineInventoryID = item.ItemId,
+                    LineInventory = _InvRepo.GetInventory(item.ItemId).Result
+                };
+
+                _InvRepo.GetInventory(newLineItem.LineInventoryID).Result.InventoryLineList.Add(newLineItem);
+
+                if(invoiceToAdd.OutgoingInv == true)
+                {
+                    _InvRepo.GetInventory(newLineItem.LineInventoryID).Result.Quantity -= newLineItem.QuantitySold;
+                }
+                else
+                {
+                    _InvRepo.GetInventory(newLineItem.LineInventoryID).Result.Quantity += newLineItem.QuantitySold;
+                }
+            }
+
             await _context.Invoices.AddAsync(invoiceToAdd);
             await _context.SaveChangesAsync();
 

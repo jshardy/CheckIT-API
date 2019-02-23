@@ -121,11 +121,11 @@ namespace CheckIT.API.Controllers
 
         [HttpGet()]
         public async Task<IActionResult> GetCustomers(string FirstName = "", 
-                                                            string LastName = "", 
-                                                            string CompanyName = "", 
-                                                            bool IsCompany = false,
-                                                            string PhoneNumber = "",
-                                                            string Email = "")
+                                                        string LastName = "", 
+                                                        string CompanyName = "", 
+                                                        bool IsCompany = false,
+                                                        string PhoneNumber = "",
+                                                        string Email = "")
         {
             var customerList = await _repo.GetCustomers(FirstName, 
                                                         LastName, 

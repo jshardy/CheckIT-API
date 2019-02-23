@@ -27,10 +27,10 @@ namespace CheckIT.API.Data
             return customer;
         }
 
-        public int GetCustomerID(Customer toFind)
-        {
-            return toFind.Id;
-        }
+        // public int GetCustomerID(Customer toFind)
+        // {
+        //     return toFind.Id;
+        // }
 
         public async Task<Customer> GetCustomer(int ID)
         {

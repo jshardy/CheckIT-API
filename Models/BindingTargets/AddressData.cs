@@ -7,13 +7,19 @@ namespace CheckIT.API.Models.BindingTargets
 {
     public class AddressData
     {
-		public string Country { get; set; }
-		public string State { get; set; }
-		public string ZipCode {get; set; }
-		public string City {get; set; }
-		public string Street { get; set; }
-		public string AptNum { get; set; }
-		public bool DefaultAddress { get; set; }
-
+			[Required]
+			public string Country { get; set; }
+			[Required]
+			public string State { get; set; }
+			[Required]
+			public string ZipCode {get; set; }
+			[Required]
+			public string City {get; set; }
+			[Required]
+			public string Street { get; set; }
+			[Required]
+			public string AptNum { get; set; }
+			[Required]
+			public bool DefaultAddress { get; set; }
     }
 }
