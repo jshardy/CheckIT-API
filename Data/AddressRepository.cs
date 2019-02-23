@@ -82,27 +82,27 @@ namespace CheckIT.API.Data
 
             IQueryable<Address> query = _context.Addresses;
 
-            if(country != "")
+            if(country != null)
             {
                 query = query.Where(x => x.Country == country);
             }
 
-            if(state != "")
+            if(state != null)
             {
                 query = query.Where(x => x.State == state);
             }
 
-            if(zip != "")
+            if(zip != null)
             {
                 query = query.Where(x => x.ZipCode == zip);
             }
 
-            if(city != "")
+            if(city != null)
             {
                 query = query.Where(x => x.City == city);
             }
 
-            if(street != "")
+            if(street != null)
             {
                 query = query.Where(x => x.Street == street);
             }

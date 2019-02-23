@@ -106,7 +106,7 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.UPC == UPC);
             }
 
-            if(Name != "")
+            if(Name != null)
             {
                 query = query.Where(p => p.Name.Contains(Name));
             }

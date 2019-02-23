@@ -138,6 +138,7 @@ namespace CheckIT.API.Controllers
             public string Brand { get; set; }
         }
 
+        //https://jonhilton.net/2017/01/24/retrieve-data-from-a-third-party-openweather-api-using-asp-net-core-web-api/
         //example call: http://localhost:5000/api/Inventory/UpcInfo/028400003001
         //example response: {"upcnumber":"028400003001","st0s":"","newupc":"","type":"","title":"Lay's\u00ae Barbecue Flavored Potato Chips 1.5 oz. Bag",
         //"alias":"","description":"&lt;ul&gt;&lt;li&gt;1.5 oz. bag of LAY'S Barbecue Flavored Potato Chips&lt;\/li&gt;&lt;li&gt;Loved LAY'S flavor 
