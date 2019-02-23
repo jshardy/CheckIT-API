@@ -37,7 +37,10 @@ namespace CheckIT.API.Data
 
         public async Task<Customer> GetCustomer(int ID)
         {
-            Customer cust = await _context.Customers.FirstOrDefaultAsync(x => x.Id == ID);
+            Customer cust = await _context.Customers.Include(x => x.CustAddress)
+                                                    .Include(x => x.CustomerInvoiceList)
+                                                        .ThenInclude(x => x.InvoicesLineList)
+                                                    .FirstOrDefaultAsync(x => x.Id == ID);
             return cust;
         }
 
@@ -92,8 +95,7 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Customer> query = _context.Customers.Include(p => p.CustAddress)
-                                                        .Include(p => p.CustomerInvoiceList);
+            IQueryable<Customer> query = _context.Customers;
 
             if(FirstName != "")
             {
