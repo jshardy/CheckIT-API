@@ -39,11 +39,10 @@ namespace CheckIT.API.Controllers
         //http://localhost:5000/api/Register
         //dto object to convert json to class
         [HttpPost("AddInventory")]
-        public async Task<IActionResult> AddInventory([FromBody] InventoryData iData)
+        public async Task<IActionResult> AddInventory(InventoryData iData)
         {
            if(ModelState.IsValid)
            {
-
                 var itemToCreate = new Inventory
                 {
                     UPC = iData.UPC,
@@ -51,7 +50,8 @@ namespace CheckIT.API.Controllers
                     Price = iData.Price,
                     Description = iData.Description,
                     Quantity = iData.Quantity,
-                    //AlertBit = iData.AlertBit
+                    InventoryLocationID = iData.InventoryLocationID,
+                    InventoryAlertID = iData.InventoryAlertID
                 };
 
                 var createdInventory = await _repo.AddInventory(itemToCreate);

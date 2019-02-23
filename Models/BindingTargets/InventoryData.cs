@@ -7,7 +7,6 @@ namespace CheckIT.API.Models.BindingTargets
 {
     public class InventoryData
     {
-        [Required]
 		public int UPC { get; set; }
         [Required]
 		public decimal Price { get; set; }
@@ -16,5 +15,7 @@ namespace CheckIT.API.Models.BindingTargets
 		public string Description { get; set; }
         [Required]
         public int Quantity { get; set; }
+        public int InventoryLocationID { get; set; }
+        public int InventoryAlertID { get; set; }
     }
 }

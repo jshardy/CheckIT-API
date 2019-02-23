@@ -11,14 +11,31 @@ namespace CheckIT.API.Data
     public class InventoryRepository
     {
         private readonly DataContext _context;
+
+        private LocRepository _LocRepo;
+        private AlertRepository _AlertRepo;
         public InventoryRepository(DataContext context)
         {
             _context = context;
+            _LocRepo = new LocRepository(context);
+            _AlertRepo = new AlertRepository(context);
         }
 
         public async Task<Inventory> AddInventory(Inventory inventory)
         {
-            //save to database.
+            
+            if(inventory.InventoryLocationID != 0)
+            {
+                inventory.InventoryLocation = _LocRepo.GetLocation(inventory.InventoryLocationID).Result;
+                _LocRepo.GetLocation(inventory.InventoryLocationID).Result.InventoryLocList.Add(inventory);
+            }
+
+            if(inventory.InventoryAlertID != 0)
+            {
+                inventory.InventoryAlert = _AlertRepo.GetAlert(inventory.InventoryAlertID).Result;
+                _AlertRepo.GetAlert(inventory.InventoryAlertID).Result.AlertInv = inventory;
+            }
+
             await _context.Inventories.AddAsync(inventory);
             await _context.SaveChangesAsync();
 
