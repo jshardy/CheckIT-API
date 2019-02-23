@@ -94,17 +94,17 @@ namespace CheckIT.API.Data
 
             IQueryable<Customer> query = _context.Customers;
 
-            if(FirstName != "")
+            if(FirstName != null)
             {
                 query = query.Where(p => p.FirstName.Contains(FirstName));
             }
 
-            if(LastName != "")
+            if(LastName != null)
             {
                 query = query.Where(p => p.LastName.Contains(LastName));
             }
 
-            if(CompanyName != "")
+            if(CompanyName != null)
             {
                 query = query.Where(p => p.CompanyName.Contains(CompanyName));
             }
@@ -114,12 +114,12 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.IsCompany == true);
             }
 
-            if(PhoneNumber != "")
+            if(PhoneNumber != null)
             {
                 query = query.Where(p => p.PhoneNumber.Contains(PhoneNumber));
             }
 
-            if(Email != "")
+            if(Email != null)
             {
                 query = query.Where(p => p.Email.Contains(Email));
             }
