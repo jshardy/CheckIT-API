@@ -58,7 +58,7 @@ namespace CheckIT.API.Controllers
            }
         }
 
-        [HttpGet("GetAlert/{Id}")]
+        [HttpGet("{Id}")]
         public async Task<IActionResult> GetAlert(int Id)//GetAlert(GetByIDDto getAlertDto)
         {
             Alert alert;

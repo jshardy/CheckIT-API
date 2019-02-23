@@ -27,7 +27,10 @@ namespace CheckIT.API.Data
 
         public async Task<Inventory> GetInventory(int ID)
         {
-            Inventory inventory = await _context.Inventories.FirstOrDefaultAsync(x => x.Id == ID);
+            Inventory inventory = await _context.Inventories.Include(p => p.InventoryLocation)
+                                                            .Include(p => p.InventoryAlert)
+                                                            .Include(p => p.InventoryLineList)
+                                                            .FirstOrDefaultAsync(x => x.Id == ID);
             return inventory;
         }
 
@@ -96,9 +99,7 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Inventory> query = _context.Inventories.Include(p => p.InventoryLocation)
-                                                            .Include(p => p.InventoryAlert)
-                                                            .Include(p => p.InventoryLineList);
+            IQueryable<Inventory> query = _context.Inventories;
 
             if(UPC != -1)
             {

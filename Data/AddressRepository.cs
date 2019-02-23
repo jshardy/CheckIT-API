@@ -26,7 +26,8 @@ namespace CheckIT.API.Data
 
         public async Task<Address> GetAddress(int ID)
         {
-            Address address = await _context.Addresses.FirstOrDefaultAsync(x => x.Id == ID);
+            Address address = await _context.Addresses.Include(p => p.AddressCust)
+                                                      .FirstOrDefaultAsync(x => x.Id == ID);
             return address;
         }
 
@@ -79,7 +80,7 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Address> query = _context.Addresses.Include(p => p.AddressCust);
+            IQueryable<Address> query = _context.Addresses;
 
             if(country != "")
             {

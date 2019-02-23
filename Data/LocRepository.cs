@@ -27,7 +27,8 @@ namespace CheckIT.API.Data
 
         public async Task<Location> GetLocation(int locID)
         {
-            Location loc = await _context.Locations.FirstOrDefaultAsync(x => x.Id == locID);
+            Location loc = await _context.Locations.Include(p => p.InventoryLocList)
+                                                   .FirstOrDefaultAsync(x => x.Id == locID);
             return loc;
         }
 
@@ -39,7 +40,7 @@ namespace CheckIT.API.Data
 
         public async Task<IEnumerable<Location>> GetLocations(string Name, int LocInvID)
         {
-            IQueryable<Location> query = _context.Locations.Include(p => p.InventoryLocList);
+            IQueryable<Location> query = _context.Locations;
 
             if(Name != "")
             {
