@@ -13,6 +13,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 
+//For WebAPI
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Linq;
+
 namespace CheckIT.API.Controllers
 {
     //[Authorize] <-- you need to put this in any controller made
@@ -124,6 +129,49 @@ namespace CheckIT.API.Controllers
                                                       AlertId);
             return Ok(inventoryList);
         }
+
+        public class UpcDatabaseResponse
+        {
+            public long Upc { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Brand { get; set; }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("UpcInfo/{upc}")]
+        public async Task<IActionResult> UpcInfo(string upc)
+        {
+            string api_key = "885E280DD8093B3A325FC573847937CB";
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.BaseAddress = new Uri("https://api.upcdatabase.org");
+                    //var response = await client.GetAsync($"/data/2.5/weather?q={city}&appid=YOUR_API_KEY_HERE&units=metric");
+                    var response = await client.GetAsync($"/product/{upc}/{api_key}");
+                    response.EnsureSuccessStatusCode();
+
+                    //return Ok(response);
+
+                    var stringResult = await response.Content.ReadAsStringAsync();
+                    return Ok(stringResult);
+                    //var rawProduct = JsonConvert.DeserializeObject<UpcDatabaseResponse>(stringResult);
+                    /*/return Ok(new {
+                        Upc = rawProduct.Upc,
+                        Name = rawProduct.Name,
+                        Description = rawProduct.Description,
+                        Brand = rawProduct.Brand
+                    });*/
+                    //example:  Description = string.Join(",", rawWeather.Weather.Select(x=>x.Main)),
+                }
+                catch (HttpRequestException httpRequestException)
+                {
+                    return BadRequest($"Error getting data from UPCDatabase: {httpRequestException.Message}");
+                }
+            }
+        }
+        
         //The following are all methods for modifying the alertbit
         /* 
         [HttpPatch("CheckAlertBit/{Id}")]
