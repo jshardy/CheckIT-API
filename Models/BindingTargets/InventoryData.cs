@@ -15,14 +15,5 @@ namespace CheckIT.API.Models.BindingTargets
 		public string Description { get; set; }
         [Required]
         public int Quantity { get; set; }
-
-        public Inventory InventoryDataBindOBJ => new Inventory
-        {
-            UPC = InventoryDataBindOBJ.UPC,
-            Price = InventoryDataBindOBJ.Price,
-            Name = InventoryDataBindOBJ.Name,
-            Description = InventoryDataBindOBJ.Description,
-            Quantity = InventoryDataBindOBJ.Quantity,
-        };
     }
 }
