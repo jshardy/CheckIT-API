@@ -67,7 +67,7 @@ namespace CheckIT.API.Controllers
             else
             {
                 return BadRequest(ModelState);
-                
+
             }
         }
 
@@ -80,6 +80,7 @@ namespace CheckIT.API.Controllers
         }
 
         // I don't think we need this functionality
+        // Yeah, screw that! If a mothersucker posts something, it should follow him for the rest of his life!
         // [HttpPost("DeleteCustomers")]
         // public async Task<IActionResult> DeleteCustomers(ICollection<int> idCollection)
         // {
@@ -120,16 +121,16 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetCustomers(string FirstName = "", 
-                                                        string LastName = "", 
-                                                        string CompanyName = "", 
+        public async Task<IActionResult> GetCustomers(string FirstName = "",
+                                                        string LastName = "",
+                                                        string CompanyName = "",
                                                         bool IsCompany = false,
                                                         string PhoneNumber = "",
                                                         string Email = "")
         {
-            var customerList = await _repo.GetCustomers(FirstName, 
-                                                        LastName, 
-                                                        CompanyName, 
+            var customerList = await _repo.GetCustomers(FirstName,
+                                                        LastName,
+                                                        CompanyName,
                                                         IsCompany,
                                                         PhoneNumber,
                                                         Email);

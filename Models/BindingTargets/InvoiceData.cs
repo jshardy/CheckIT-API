@@ -7,6 +7,7 @@ namespace CheckIT.API.Models.BindingTargets
 {
     public class InvoiceData
     {
+        //TODO: Add money tag.
         public DateTime InvoiceDate { get; set; }
         public bool OutgoingInv { get; set; }
         public decimal AmountPaid { get; set; }
