@@ -88,7 +88,10 @@ namespace CheckIT.API.Controllers
             Invoice invoice;
             invoice = await _repo.GetOneInvoice(Id);
 
-            //if (InvoiceDate != null) invoice.InvoiceDate = InvoiceDate;
+            if (InvoiceDate != null) invoice.InvoiceDate = InvoiceDate.GetValueOrDefault();
+            if (OutgoingInv != null) invoice.OutgoingInv = OutgoingInv.GetValueOrDefault();
+            if (AmmountPaid != null) invoice.AmountPaid = AmmountPaid.GetValueOrDefault();
+            //cust stuff?
 
             var updatedInventory = await _repo.ModifyInvoice(invoice);
 
