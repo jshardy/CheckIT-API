@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using CheckIT.API.Models;
 
-namespace CheckIT.API.Models.BindingTargets
+namespace CheckIT.API.Dtos
 {
+    //Data transfer Object
     public class AddressData
     {
+			public int Id { get; set; }
 			[Required]
 			public string Country { get; set; }
 			[Required]

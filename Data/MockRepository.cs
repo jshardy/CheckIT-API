@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CheckIT.API.Models;
-using CheckIT.API.Models.BindingTargets;
+using CheckIT.API.Dtos;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using CheckIT.API.Helpers;

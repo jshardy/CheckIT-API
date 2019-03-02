@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -59,6 +60,7 @@ namespace CheckIT.API
                 });
 
                 services.AddCors();
+                services.AddAutoMapper();
                 services.AddScoped<AuthRepository>();
                 services.AddScoped<InvoiceRepository>();
                 services.AddScoped<CustRepository>();

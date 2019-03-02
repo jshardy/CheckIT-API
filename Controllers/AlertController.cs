@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
-using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -82,17 +81,17 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("UpdateAlert")]
-        public async Task<IActionResult> UpdateAlert(AlertDto alertDto)
+        public async Task<IActionResult> UpdateAlert(AlertData alertData)
         {
             Alert alert;
-            alert = await _repo.GetAlert(alertDto.Id);
+            alert = await _repo.GetAlert(alertData.Id);
 
             //probably a much better way to do this
             //possibly something like:
             //PropertyInfo[] properties = alert.GetType().GetProperties();
             //foreach (PropertyInfo pi in properties)
-            alert.Threshold = alertDto.Threshold;
-            alert.AlertOn = alertDto.AlertOn;
+            alert.Threshold = alertData.Threshold;
+            alert.AlertOn = alertData.AlertOn;
             //alert.AlertBit = updateAlertDto.AlertBit;
 
             var updatedAlert = await _repo.UpdateAlert(alert);

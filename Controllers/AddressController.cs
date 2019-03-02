@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
-using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -78,17 +77,17 @@ namespace CheckIT.API.Controllers
         // }
 
         [HttpPatch("ModifyAddress")]
-        public async Task<IActionResult> ModifyAddress(int id, AddressCreateDto dataDto)
+        public async Task<IActionResult> ModifyAddress(int id, AddressData AddData)
         {
             var addressToPass = new Address
             {
-                Country = dataDto.Country,
-                State = dataDto.State,
-                ZipCode = dataDto.ZipCode,
-                City = dataDto.City,
-                Street = dataDto.Street,
-                AptNum = dataDto.AptNum,
-                DefaultAddress = dataDto.DefaultAddress
+                Country = AddData.Country,
+                State = AddData.State,
+                ZipCode = AddData.ZipCode,
+                City = AddData.City,
+                Street = AddData.Street,
+                AptNum = AddData.AptNum,
+                DefaultAddress = AddData.DefaultAddress
             };
 
             if (await _repo.ModifyAddress(id, addressToPass))

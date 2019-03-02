@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
-using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -93,18 +92,18 @@ namespace CheckIT.API.Controllers
         // }
 
         [HttpPatch("ModifyCustomer")]
-        public async Task<IActionResult> ModifyCustomer(int id, CustomerCreateDto dataDto)
+        public async Task<IActionResult> ModifyCustomer(int id, CustomerData CustData)
         {
             var custToPass = new Customer
             {
-                FirstName = dataDto.FirstName,
-                LastName = dataDto.LastName,
-                CompanyName = dataDto.CompanyName,
-                PhoneNumber = dataDto.PhoneNumber,
-                Email = dataDto.Email
+                FirstName = CustData.FirstName,
+                LastName = CustData.LastName,
+                CompanyName = CustData.CompanyName,
+                PhoneNumber = CustData.PhoneNumber,
+                Email = CustData.Email
             };
 
-            if (await _repo.ModifyCustomer(id, custToPass, dataDto.AddressID))
+            if (await _repo.ModifyCustomer(id, custToPass, CustData.AddressID))
                 return StatusCode(201);
 
             return BadRequest("Could not find Customer");

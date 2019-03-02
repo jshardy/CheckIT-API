@@ -1,21 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CheckIT.API.Dtos
 {
     //Data transfer Object
-    public class InvoiceDto
+    public class InvoiceData
     {
-        [Required]
         public int Id { get; set; }
-        [Required]
-        public int BusinessID {get; set;}
-        [Required]
         public DateTime InvoiceDate { get; set; }
-        [Required]
         public bool OutgoingInv { get; set; }
-        [Required]
-        public bool IncomingInv { get; set; }
-        public decimal AmmountPaid { get; set; }
+        public decimal AmountPaid { get; set; }
+        public int InvoiceCustID { get; set; }
+        public ICollection<LineItemData> ItemList { get; set; }
     }
 }

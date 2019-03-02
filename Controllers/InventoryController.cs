@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
-using CheckIT.API.Models.BindingTargets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -89,21 +88,21 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("UpdateInventory")]
-        public async Task<IActionResult> UpdateInventory(InventoryForUpdateDto updateInventoryDto)
+        public async Task<IActionResult> UpdateInventory(InventoryData InvenData)
         {
             Inventory inventory;
-            inventory = await _repo.GetInventory(updateInventoryDto.Id);
+            inventory = await _repo.GetInventory(InvenData.Id);
 
             //probably a much better way to do this
             //possibly something like:
             //PropertyInfo[] properties = inventory.GetType().GetProperties();
             //foreach (PropertyInfo pi in properties)
-            inventory.Name = updateInventoryDto.Name;
-            inventory.UPC = updateInventoryDto.UPC;
-            inventory.Price = updateInventoryDto.Price;
-            inventory.Description = updateInventoryDto.Description;
-            inventory.Quantity = updateInventoryDto.Quantity;
-            //inventory.AlertBit = updateInventoryDto.AlertBit;
+            inventory.Name = InvenData.Name;
+            inventory.UPC = InvenData.UPC;
+            inventory.Price = InvenData.Price;
+            inventory.Description = InvenData.Description;
+            inventory.Quantity = InvenData.Quantity;
+            //inventory.AlertBit = InvenData.AlertBit;
 
             var updatedInventory = await _repo.UpdateInventory(inventory);
 
