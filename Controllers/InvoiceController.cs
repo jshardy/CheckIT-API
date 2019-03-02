@@ -76,5 +76,28 @@ namespace CheckIT.API.Controllers
                                                     CustID);
             return Ok(invoiceList);
         }
+
+        [HttpPatch()]
+        public async Task<IActionResult> ModifyInvoice(int Id,
+                                                        DateTime? InvoiceDate,
+                                                        bool? OutgoingInv,
+                                                        decimal? AmmountPaid,
+                                                        int? CustID)
+        {
+            Invoice invoice;
+            invoice = await _repo.GetOneInvoice(Id);
+
+            if (InvoiceDate != null) invoice.InvoiceDate = InvoiceDate.GetValueOrDefault();
+            if (OutgoingInv != null) invoice.OutgoingInv = OutgoingInv.GetValueOrDefault();
+            if (AmmountPaid != null) invoice.AmountPaid = AmmountPaid.GetValueOrDefault();
+            //cust stuff?
+
+            var updatedInventory = await _repo.ModifyInvoice(invoice);
+
+
+            var modifiedInvoice = await _repo.ModifyInvoice(invoice);
+            
+            return Ok(modifiedInvoice);
+        }
     }
 }

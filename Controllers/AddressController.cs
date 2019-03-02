@@ -43,9 +43,9 @@ namespace CheckIT.API.Controllers
                     AptNum = aData.AptNum,
                     DefaultAddress = aData.DefaultAddress
                 };
-            
+
                 var CreatedAddress = await _repo.CreateAddress(addressToCreate);
-                
+
                 return Ok(CreatedAddress);
             }
             else
@@ -103,18 +103,28 @@ namespace CheckIT.API.Controllers
             Address address;
             address = await _repo.GetAddress(Id);
 
-            return Ok(address);
+            //Could use automapper and make life much easier... O well.
+            //Remap adddress so it's useable to outside world.
+            AddressData returnAddress = new AddressData();
+            returnAddress.AptNum = address.AptNum;
+            returnAddress.City = address.City;
+            returnAddress.Country = address.Country;
+            returnAddress.DefaultAddress = address.DefaultAddress;
+            returnAddress.State = address.State;
+            returnAddress.Street = address.Street;
+            returnAddress.ZipCode = address.ZipCode;
+            return Ok(returnAddress);
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetAddresses(string country = "", 
+        public async Task<IActionResult> GddresseetAs(string country = "",
                                                             string state = "",
                                                             string zip = "",
                                                             string city = "",
                                                             string street = "",
                                                             int CustomerAddID = -1)
         {
-            var AddressList = await _repo.GetAddresses(country, 
+            var AddressList = await _repo.GetAddresses(country,
                                                     state,
                                                     zip,
                                                     city,
