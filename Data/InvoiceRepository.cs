@@ -73,6 +73,21 @@ namespace CheckIT.API.Data
             return invoice;
         }
 
+        public async Task<Invoice> ModifyInvoice(int invoiceID)
+        {
+            var invoice = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceID);
+
+            return invoice;
+        }
+
+        public async Task<Invoice> ModifyInvoice(Invoice invoice)
+        {
+            _context.Invoices.Update(invoice);
+            await _context.SaveChangesAsync();
+
+            return invoice;
+        }
+
         public async Task<Invoice> GetOneInvoice(int invoiceID)
         {
             var invoice = await _context.Invoices.Include(p => p.InvoicesLineList)
