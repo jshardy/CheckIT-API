@@ -117,7 +117,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GddresseetAs(string country = "",
+        public async Task<IActionResult> GetAddresses(string country = "",
                                                             string state = "",
                                                             string zip = "",
                                                             string city = "",

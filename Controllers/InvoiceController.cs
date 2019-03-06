@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -21,9 +22,11 @@ namespace CheckIT.API.Controllers
     public class InvoiceController : ControllerBase
     {
         private readonly InvoiceRepository _repo;
+        private readonly IMapper _mapper;
 
-        public InvoiceController(InvoiceRepository repo)
+        public InvoiceController(InvoiceRepository repo, IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
         }
 
@@ -61,7 +64,10 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
             var invoiceToFind = await _repo.GetOneInvoice(Id);
-            return Ok(invoiceToFind);
+
+            var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
+
+            return Ok(invoiceToReturn);
         }
 
         [HttpGet()]
@@ -96,7 +102,7 @@ namespace CheckIT.API.Controllers
 
 
             var modifiedInvoice = await _repo.ModifyInvoice(invoice);
-            
+
             return Ok(modifiedInvoice);
         }
     }
