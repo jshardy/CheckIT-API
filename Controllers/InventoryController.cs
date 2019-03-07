@@ -111,7 +111,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetInventories(long UPC = -1,
+        public async Task<IActionResult> GetInventories(string UPC = "",
                                                     string Name = "",
                                                     decimal Price = -1,
                                                     int Quantity = -1,
@@ -154,7 +154,7 @@ namespace CheckIT.API.Controllers
                 try
                 {
                     client.BaseAddress = new Uri("https://api.upcdatabase.org");
-                    //var response = await client.GetAsync($"/data/2.5/weather?q={city}&appid=YOUR_API_KEY_HERE&units=metric");
+                    //example:      var response = await client.GetAsync($"/data/2.5/weather?q={city}&appid=YOUR_API_KEY_HERE&units=metric");
                     var response = await client.GetAsync($"/product/{upc}/{api_key}");
                     response.EnsureSuccessStatusCode();
 

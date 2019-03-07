@@ -106,7 +106,7 @@ namespace CheckIT.API.Data
             return inventory;
         }
 
-        public async Task<IEnumerable<Inventory>> GetInventories(long UPC, 
+        public async Task<IEnumerable<Inventory>> GetInventories(string UPC, 
                                                             string Name,
                                                             decimal Price,
                                                             int Quantity,
@@ -118,9 +118,9 @@ namespace CheckIT.API.Data
 
             IQueryable<Inventory> query = _context.Inventories;
 
-            if(UPC != -1)
+            if(UPC != null)
             {
-                query = query.Where(p => p.UPC == UPC);
+                query = query.Where(p => p.UPC.Equals(UPC));
             }
 
             if(Name != null)

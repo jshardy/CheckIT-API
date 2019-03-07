@@ -8,7 +8,7 @@ namespace CheckIT.API.Models
     public class Inventory
     {
         public int Id { get; set; }
-		public long UPC { get; set; }
+		public string UPC { get; set; }
 
         [Column(TypeName="Money")]
 		public decimal Price { get; set; }
