@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Collections.ObjectModel;
 using CheckIT.API.Data;
 using CheckIT.API.Dtos;
 using CheckIT.API.Models;
+using CheckIT.API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -23,10 +25,12 @@ namespace CheckIT.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly CustRepository _repo;
+        private readonly IMapper _mapper;
 
-        public CustomerController(CustRepository repo)
+        public CustomerController(CustRepository repo, IMapper mapper)
         {
-             _repo = repo;
+            _mapper = mapper;
+            _repo = repo;
         }
 
         [HttpPost("AddCustomer")]
@@ -43,20 +47,20 @@ namespace CheckIT.API.Controllers
                     Email = cData.Email
                 };
 
-                var addressToCreate = new Address
-                {
-                    Country = cData.CustAddress.Country,
-                    State = cData.CustAddress.State,
-                    ZipCode = cData.CustAddress.ZipCode,
-                    City = cData.CustAddress.City,
-                    Street = cData.CustAddress.Street,
-                    AptNum = cData.CustAddress.AptNum,
-                    DefaultAddress = cData.CustAddress.DefaultAddress,
-                    AddressCustID = customerToCreate.Id,
-                    AddressCust = customerToCreate
-                };
+                // var addressToCreate = new Address
+                // {
+                //     Country = cData.CustAddress.Country,
+                //     State = cData.CustAddress.State,
+                //     ZipCode = cData.CustAddress.ZipCode,
+                //     City = cData.CustAddress.City,
+                //     Street = cData.CustAddress.Street,
+                //     AptNum = cData.CustAddress.AptNum,
+                //     DefaultAddress = cData.CustAddress.DefaultAddress,
+                //     AddressCustID = customerToCreate.Id,
+                //     AddressCust = customerToCreate
+                // };
 
-                customerToCreate.CustAddress = addressToCreate;
+                customerToCreate.CustAddress = null;
 
                 var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
@@ -115,6 +119,8 @@ namespace CheckIT.API.Controllers
         {
             Customer customer;
             customer = await _repo.GetCustomer(id);
+
+            var customerToReturn = _mapper.Map<CustomerData>(customer);
 
             return customer;
         }

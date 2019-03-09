@@ -35,15 +35,19 @@ namespace CheckIT.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var invoiceCreate = new Invoice
-                {
-                    InvoiceDate = iData.InvoiceDate,
-                    OutgoingInv = iData.OutgoingInv,
-                    AmountPaid = iData.AmountPaid,
-                    InvoiceCustID = iData.InvoiceCustID
-                };
+                // var invoiceCreate = new Invoice
+                // {
+                //     InvoiceDate = iData.InvoiceDate,
+                //     OutgoingInv = iData.OutgoingInv,
+                //     AmountPaid = iData.AmountPaid,
+                //     InvoiceCustID = iData.InvoiceCustID
+                // };
 
-                var createdInvoice = await _repo.AddInvoice(invoiceCreate, iData.ItemList);
+                var invoiceToCreate = _mapper.Map<Invoice>(iData);
+
+                var createdInvoice = await _repo.AddInvoice(invoiceToCreate);
+
+
 
                 return StatusCode(201);
             }

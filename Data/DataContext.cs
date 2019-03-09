@@ -17,7 +17,7 @@ namespace CheckIT.API.Data
             // modelBuilder.Entity<Customer>().OnDelete(DeleteBehavior.SetNull);
             // modelBuilder.Entity<Inventory>().OnDelete(DeleteBehavior.SetNull);
 
-        }  
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Invoice> Invoices {get; set;}

@@ -12,6 +12,6 @@ namespace CheckIT.API.Dtos
         public bool OutgoingInv { get; set; }
         public decimal AmountPaid { get; set; }
         public int InvoiceCustID { get; set; }
-        public ICollection<LineItemData> ItemList { get; set; }
+        public ICollection<int> ItemList { get; set; }
     }
 }

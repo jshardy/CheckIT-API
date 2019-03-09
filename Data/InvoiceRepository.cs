@@ -21,31 +21,31 @@ namespace CheckIT.API.Data
             _CustRepo = new CustRepository(context);
             _InvRepo = new InventoryRepository(context);
         }
-        public async Task<Invoice> AddInvoice(Invoice invoiceToAdd, ICollection<LineItemData> ItemList)
+        public async Task<Invoice> AddInvoice(Invoice invoiceToAdd)
         {
             invoiceToAdd.InvoiceCust = _CustRepo.GetCustomer(invoiceToAdd.InvoiceCustID).Result;
 
-            foreach (var item in ItemList)
+            foreach (var item in invoiceToAdd.InvoicesLineList)
             {
-                var newLineItem = new LineItem
-                {
-                    QuantitySold = item.Quantity,
-                    Price = item.Price,
-                    LineInvoiceID = invoiceToAdd.Id,
-                    LineInvoice = invoiceToAdd,
-                    LineInventoryID = item.ItemId,
-                    LineInventory = _InvRepo.GetInventory(item.ItemId).Result
-                };
+                // var newLineItem = new LineItem
+                // {
+                //     QuantitySold = item.Quantity,
+                //     Price = item.Price,
+                //     LineInvoiceID = invoiceToAdd.Id,
+                //     LineInvoice = invoiceToAdd,
+                //     LineInventoryID = item.ItemId,
+                //     LineInventory = _InvRepo.GetInventory(item.ItemId).Result
+                // };
 
-                _InvRepo.GetInventory(newLineItem.LineInventoryID).Result.InventoryLineList.Add(newLineItem);
+                _InvRepo.GetInventory(item.LineInventoryID).Result.InventoryLineList.Add(item);
 
                 if(invoiceToAdd.OutgoingInv == true)
                 {
-                    _InvRepo.GetInventory(newLineItem.LineInventoryID).Result.Quantity -= newLineItem.QuantitySold;
+                    _InvRepo.GetInventory(item.LineInventoryID).Result.Quantity -= item.QuantitySold;
                 }
                 else
                 {
-                    _InvRepo.GetInventory(newLineItem.LineInventoryID).Result.Quantity += newLineItem.QuantitySold;
+                    _InvRepo.GetInventory(item.LineInventoryID).Result.Quantity += item.QuantitySold;
                 }
             }
 
