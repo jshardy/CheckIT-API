@@ -15,8 +15,7 @@ namespace CheckIT.API.Data
             _context = context;
         }
         public async Task<Address> CreateAddress(Address address)
-        {
-
+        {            
             //save to database.
             await _context.Addresses.AddAsync(address);
             await _context.SaveChangesAsync();

@@ -33,8 +33,6 @@ namespace CheckIT.API.Migrations
 
                     b.Property<string>("Country");
 
-                    b.Property<bool>("DefaultAddress");
-
                     b.Property<string>("State");
 
                     b.Property<string>("Street");

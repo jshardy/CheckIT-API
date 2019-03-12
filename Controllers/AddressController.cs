@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 namespace CheckIT.API.Controllers
 {
@@ -22,10 +23,13 @@ namespace CheckIT.API.Controllers
     public class AddressController : ControllerBase
     {
         private readonly AddressRepository _repo;
+        private readonly IMapper _mapper;
 
-        public AddressController(AddressRepository repo)
+        public AddressController(AddressRepository repo,
+                                 IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpPost("AddAddress")]
@@ -33,16 +37,18 @@ namespace CheckIT.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var addressToCreate = new Address
-                {
-                    Country = aData.Country,
-                    State = aData.State,
-                    ZipCode = aData.ZipCode,
-                    City = aData.City,
-                    Street = aData.Street,
-                    AptNum = aData.AptNum //,
-                    //DefaultAddress = aData.DefaultAddress
-                };
+                // var addressToCreate = new Address
+                // {
+                //     Country = aData.Country,
+                //     State = aData.State,
+                //     ZipCode = aData.ZipCode,
+                //     City = aData.City,
+                //     Street = aData.Street,
+                //     AptNum = aData.AptNum //,
+                //     //DefaultAddress = aData.DefaultAddress
+                // };
+
+                var addressToCreate = _mapper.Map<Address>(aData);
 
                 var CreatedAddress = await _repo.CreateAddress(addressToCreate);
 
@@ -103,17 +109,9 @@ namespace CheckIT.API.Controllers
             Address address;
             address = await _repo.GetAddress(Id);
 
-            //Could use automapper and make life much easier... O well.
-            //Remap adddress so it's useable to outside world.
-            AddressData returnAddress = new AddressData();
-            returnAddress.AptNum = address.AptNum;
-            returnAddress.City = address.City;
-            returnAddress.Country = address.Country;
-            //returnAddress.DefaultAddress = address.DefaultAddress;
-            returnAddress.State = address.State;
-            returnAddress.Street = address.Street;
-            returnAddress.ZipCode = address.ZipCode;
-            return Ok(returnAddress);
+            var addressToReturn = _mapper.Map<CustomerData>(address);
+            
+            return Ok(addressToReturn);
         }
 
         [HttpGet()]
@@ -130,7 +128,15 @@ namespace CheckIT.API.Controllers
                                                     city,
                                                     street,
                                                     CustomerAddID);
-            return Ok(AddressList);
+            
+            List<AddressData> addressListToReturn = new List<AddressData>();
+            
+            foreach (var item in AddressList)
+            {
+                addressListToReturn.Add(_mapper.Map<AddressData>(item));
+            }
+
+            return Ok(addressListToReturn);
         }
     }
 }

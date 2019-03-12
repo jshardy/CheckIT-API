@@ -17,16 +17,8 @@ namespace CheckIT.API.Data
             _context = context;
             _AddRepo = new AddressRepository(context);
         }
-        public async Task<Customer> CreateCustomer(Customer customer, int AddressID)
+        public async Task<Customer> CreateCustomer(Customer customer)
         {
-            if(AddressID == 0)
-            {
-                customer.CustAddress = null;
-            }
-            else
-            {
-                customer.CustAddress = _AddRepo.GetAddress(AddressID).Result;
-            }
             //save to database.
             await _context.Customers.AddAsync(customer);
             await _context.SaveChangesAsync();

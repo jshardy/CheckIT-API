@@ -20,7 +20,7 @@ namespace CheckIT.API.Helpers
         {
             List<int> IntListReturn = new List<int>() {};
 
-            if (InvoiceList == null)
+            if (InvoiceList.Count == 0)
             {
                 return null;
             }

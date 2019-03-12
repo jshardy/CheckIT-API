@@ -43,8 +43,9 @@ namespace CheckIT.API.Controllers
             if (ModelState.IsValid)
             {
                 var customerToCreate = _mapper.Map<Customer>(cData);
+                customerToCreate.CustAddress = _mapper.Map<Address>(cData.CustAddress);
 
-                var createdCustomer = await _repo.CreateCustomer(customerToCreate, cData.AddressID);
+                var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
                 //created at root status code
                 //return StatusCode(201);
@@ -77,7 +78,7 @@ namespace CheckIT.API.Controllers
                 Email = CustData.Email
             };
 
-            if (await _repo.ModifyCustomer(id, custToPass, CustData.AddressID))
+            if (await _repo.ModifyCustomer(id, custToPass, CustData.CustAddressId))
                 return StatusCode(201);
 
             return BadRequest("Could not find Customer");

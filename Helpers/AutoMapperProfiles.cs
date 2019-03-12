@@ -11,19 +11,25 @@ namespace CheckIT.API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<Customer, CustomerData>()
-                .ForMember(dest => dest.AddressID,
-                           opt => opt.MapFrom(src => src.CustAddress.Id))
                 .ForMember(dest => dest.CustomerInvoiceList,
                            opt => opt.Ignore());
             CreateMap<CustomerData, Customer>()
-                .ForMember(dest => dest.CustAddress, 
+                .ForMember(dest => dest.CustAddress,
                            opt => opt.Ignore())
                 .ForMember(dest => dest.CustomerInvoiceList,
                            opt => opt.Ignore());
             
+            CreateMap<Address, AddressData>()
+                .ForMember(dest => dest.AddressCustID,
+                           opt => opt.MapFrom(src => src.AddressCust.Id));
+            CreateMap<AddressData, Address>()
+                .ForMember(dest => dest.AddressCustID,
+                           opt => opt.Ignore())
+                .ForMember(dest => dest.Id,
+                           opt => opt.Ignore());
+
             CreateMap<Invoice, InvoiceData>();
             CreateMap<Alert, AlertData>();
-            CreateMap<Address, AddressData>();
             CreateMap<Inventory, InventoryData>();
             CreateMap<Invoice, InvoiceData>();
             CreateMap<LineItem, LineItemData>();

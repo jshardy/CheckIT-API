@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190213082041_Test_Migration")]
-    partial class Test_Migration
+    [Migration("20190312065444_Fresh_Start")]
+    partial class Fresh_Start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,8 +34,6 @@ namespace CheckIT.API.Migrations
                     b.Property<string>("City");
 
                     b.Property<string>("Country");
-
-                    b.Property<bool>("DefaultAddress");
 
                     b.Property<string>("State");
 
@@ -114,7 +112,7 @@ namespace CheckIT.API.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.Property<long>("UPC");
+                    b.Property<string>("UPC");
 
                     b.HasKey("Id");
 
