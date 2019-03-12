@@ -23,8 +23,8 @@ namespace CheckIT.API.Dtos
         [StringLength(50, MinimumLength = 0, ErrorMessage = "Email cannot exceed 50 characters.")]
         [RegularExpression(@".*\@.*\..*", ErrorMessage = "Must follow standard email format")]
 		public string Email { get; set; }
-        [Required]
-        public int AddressID { get; set; }
-        public List<int> CustomerInvoiceList { get; set; }
+        public int CustAddressId { get; set; }
+        public AddressData CustAddress { get; set; }
+        public ICollection<int> CustomerInvoiceList { get; set; }
     }
 }

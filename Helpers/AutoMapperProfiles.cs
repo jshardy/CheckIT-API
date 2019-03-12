@@ -8,33 +8,28 @@ namespace CheckIT.API.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
-        private readonly AddressRepository _AddRepo;
-        private readonly InvoiceRepository _InvRepo;
-
         public AutoMapperProfiles()
-        { 
-            
-        }
-
-        public AutoMapperProfiles(AddressRepository AddRepo,
-                                  InvoiceRepository InvRepo)
         {
-            _AddRepo = AddRepo;
-            _InvRepo = InvRepo;
-
             CreateMap<Customer, CustomerData>()
-                .ForMember(dest => dest.AddressID,
-                            opt => opt.MapFrom(src => src.CustAddress))
                 .ForMember(dest => dest.CustomerInvoiceList,
-                            opt => opt.MapFrom(src => src.CustomerInvoiceList.toIntList()));
+                           opt => opt.Ignore());
             CreateMap<CustomerData, Customer>()
-                .ForMember(dest => dest.CustAddress, 
-                           opt => opt.MapFrom(src => _AddRepo.GetAddress(src.AddressID)))
+                .ForMember(dest => dest.CustAddress,
+                           opt => opt.Ignore())
                 .ForMember(dest => dest.CustomerInvoiceList,
-                           opt => opt.MapFrom(src => src.CustomerInvoiceList.toInvoiceList(_InvRepo)));
+                           opt => opt.Ignore());
+            
+            CreateMap<Address, AddressData>()
+                .ForMember(dest => dest.AddressCustID,
+                           opt => opt.MapFrom(src => src.AddressCust.Id));
+            CreateMap<AddressData, Address>()
+                .ForMember(dest => dest.AddressCustID,
+                           opt => opt.Ignore())
+                .ForMember(dest => dest.Id,
+                           opt => opt.Ignore());
+
             CreateMap<Invoice, InvoiceData>();
             CreateMap<Alert, AlertData>();
-            CreateMap<Address, AddressData>();
             CreateMap<Inventory, InventoryData>();
             CreateMap<Invoice, InvoiceData>();
             CreateMap<LineItem, LineItemData>();

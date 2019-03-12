@@ -33,8 +33,6 @@ namespace CheckIT.API.Migrations
 
                     b.Property<string>("Country");
 
-                    b.Property<bool>("DefaultAddress");
-
                     b.Property<string>("State");
 
                     b.Property<string>("Street");
@@ -112,7 +110,7 @@ namespace CheckIT.API.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.Property<long>("UPC");
+                    b.Property<string>("UPC");
 
                     b.HasKey("Id");
 

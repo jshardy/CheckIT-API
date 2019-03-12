@@ -11,8 +11,6 @@ namespace CheckIT.API.Models
 		public string City {get; set; }
 		public string Street { get; set; }
 		public string AptNum { get; set; }
-		public bool DefaultAddress { get; set; }
-
 		public int AddressCustID { get; set; }
 		public Customer AddressCust { get; set;}
 	}

@@ -11,7 +11,7 @@ namespace CheckIT.API.Data
     public class CustRepository
     {
         private readonly DataContext _context;
-        private AddressRepository _AddRepo;
+        private readonly AddressRepository _AddRepo;
         public CustRepository(DataContext context)
         {
             _context = context;
@@ -19,7 +19,6 @@ namespace CheckIT.API.Data
         }
         public async Task<Customer> CreateCustomer(Customer customer)
         {
-
             //save to database.
             await _context.Customers.AddAsync(customer);
             await _context.SaveChangesAsync();
@@ -83,7 +82,7 @@ namespace CheckIT.API.Data
             return true;
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomers(string FirstName, 
+        public async Task<List<Customer>> GetCustomers(string FirstName, 
                                                             string LastName, 
                                                             string CompanyName, 
                                                             bool IsCompany,
@@ -92,7 +91,9 @@ namespace CheckIT.API.Data
         {
 
 
-            IQueryable<Customer> query = _context.Customers;
+            IQueryable<Customer> query = _context.Customers.Include(x => x.CustAddress)
+                                                           .Include(x => x.CustomerInvoiceList)
+                                                                .ThenInclude(x => x.InvoicesLineList);
 
             if(FirstName != null)
             {

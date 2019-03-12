@@ -5,7 +5,6 @@ namespace CheckIT.API.Dtos
     //Data transfer Object
     public class AddressData
     {
-			public int Id { get; set; }
 			[Required]
 			public string Country { get; set; }
 			[Required]
@@ -16,9 +15,8 @@ namespace CheckIT.API.Dtos
 			public string City {get; set; }
 			[Required]
 			public string Street { get; set; }
-			[Required]
 			public string AptNum { get; set; }
-			[Required]
-			public bool DefaultAddress { get; set; }
+			public int AddressCustID { get; set; }
+			public CustomerData AddressCust { get; set;}
     }
 }
