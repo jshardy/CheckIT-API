@@ -13,6 +13,6 @@ namespace CheckIT.API.Models
 		public string Email { get; set; }
 
 		public Address CustAddress { get; set;}
-		public ICollection<Invoice> CustomerInvoiceList { get; set; }
+		public List<Invoice> CustomerInvoiceList { get; set; }
 	}
 }

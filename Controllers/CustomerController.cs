@@ -25,11 +25,15 @@ namespace CheckIT.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly CustRepository _repo;
+        private readonly AddressRepository _Arepo;
         private readonly IMapper _mapper;
 
-        public CustomerController(CustRepository repo, IMapper mapper)
+        public CustomerController(CustRepository repo, 
+                                AddressRepository Arepo, 
+                                IMapper mapper)
         {
             _mapper = mapper;
+            _Arepo = Arepo;
             _repo = repo;
         }
 
@@ -38,34 +42,13 @@ namespace CheckIT.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var customerToCreate = new Customer
-                {
-                    FirstName = cData.FirstName,
-                    LastName = cData.LastName,
-                    CompanyName = cData.CompanyName,
-                    PhoneNumber = cData.PhoneNumber,
-                    Email = cData.Email
-                };
+                var customerToCreate = _mapper.Map<Customer>(cData);
 
-                // var addressToCreate = new Address
-                // {
-                //     Country = cData.CustAddress.Country,
-                //     State = cData.CustAddress.State,
-                //     ZipCode = cData.CustAddress.ZipCode,
-                //     City = cData.CustAddress.City,
-                //     Street = cData.CustAddress.Street,
-                //     AptNum = cData.CustAddress.AptNum,
-                //     DefaultAddress = cData.CustAddress.DefaultAddress,
-                //     AddressCustID = customerToCreate.Id,
-                //     AddressCust = customerToCreate
-                // };
-
-                customerToCreate.CustAddress = null;
-
-                var createdCustomer = await _repo.CreateCustomer(customerToCreate);
+                var createdCustomer = await _repo.CreateCustomer(customerToCreate, cData.AddressID);
 
                 //created at root status code
-                return StatusCode(201);
+                //return StatusCode(201);
+                return Ok(createdCustomer);
             }
             else
             {
@@ -81,20 +64,6 @@ namespace CheckIT.API.Controllers
                 return StatusCode(201);
             return BadRequest("Could not find Customer");
         }
-
-        // I don't think we need this functionality
-        // Yeah, screw that! If a mothersucker posts something, it should follow him for the rest of his life!
-        // [HttpPost("DeleteCustomers")]
-        // public async Task<IActionResult> DeleteCustomers(ICollection<int> idCollection)
-        // {
-        //     bool success = true;
-        //     foreach(int id in idCollection)
-        //         if (await _repo.DeleteCustomer(id) == false)
-        //             success = false;
-        //     if(success)
-        //         return StatusCode(201);
-        //     return BadRequest("One or more Customers could not be found");
-        // }
 
         [HttpPatch("ModifyCustomer")]
         public async Task<IActionResult> ModifyCustomer(int id, CustomerData CustData)
@@ -115,14 +84,16 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Customer> GetCustomer(int id)
+        public async Task<CustomerData> GetCustomer(int id)
         {
             Customer customer;
             customer = await _repo.GetCustomer(id);
 
             var customerToReturn = _mapper.Map<CustomerData>(customer);
+            customerToReturn.CustomerInvoiceList = customer.CustomerInvoiceList.toIntList();
+            
 
-            return customer;
+            return customerToReturn;
         }
 
         [HttpGet()]
@@ -140,7 +111,19 @@ namespace CheckIT.API.Controllers
                                                         PhoneNumber,
                                                         Email);
 
-            return Ok(customerList);
+            List<CustomerData> customerListToReturn = new List<CustomerData>();
+
+            foreach (var item in customerList)
+            {
+                customerListToReturn.Add(_mapper.Map<CustomerData>(item));
+            }
+
+            for (int i = 0; i < customerListToReturn.Count; i++)
+            {
+                customerListToReturn[i].CustomerInvoiceList = customerList[i].CustomerInvoiceList.toIntList();
+            }
+
+            return Ok(customerListToReturn);
         }
     }
 }

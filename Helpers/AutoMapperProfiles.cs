@@ -8,30 +8,19 @@ namespace CheckIT.API.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
-        private readonly AddressRepository _AddRepo;
-        private readonly InvoiceRepository _InvRepo;
-
         public AutoMapperProfiles()
-        { 
-            
-        }
-
-        public AutoMapperProfiles(AddressRepository AddRepo,
-                                  InvoiceRepository InvRepo)
         {
-            _AddRepo = AddRepo;
-            _InvRepo = InvRepo;
-
             CreateMap<Customer, CustomerData>()
                 .ForMember(dest => dest.AddressID,
-                            opt => opt.MapFrom(src => src.CustAddress))
+                           opt => opt.MapFrom(src => src.CustAddress.Id))
                 .ForMember(dest => dest.CustomerInvoiceList,
-                            opt => opt.MapFrom(src => src.CustomerInvoiceList.toIntList()));
+                           opt => opt.Ignore());
             CreateMap<CustomerData, Customer>()
                 .ForMember(dest => dest.CustAddress, 
-                           opt => opt.MapFrom(src => _AddRepo.GetAddress(src.AddressID)))
+                           opt => opt.Ignore())
                 .ForMember(dest => dest.CustomerInvoiceList,
-                           opt => opt.MapFrom(src => src.CustomerInvoiceList.toInvoiceList(_InvRepo)));
+                           opt => opt.Ignore());
+            
             CreateMap<Invoice, InvoiceData>();
             CreateMap<Alert, AlertData>();
             CreateMap<Address, AddressData>();

@@ -29,7 +29,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("AddAddress")]
-        public async Task<IActionResult> AddAddress([FromBody] AddressData aData)
+        public async Task<IActionResult> AddAddress(AddressData aData)
         {
             if (ModelState.IsValid)
             {
@@ -40,8 +40,8 @@ namespace CheckIT.API.Controllers
                     ZipCode = aData.ZipCode,
                     City = aData.City,
                     Street = aData.Street,
-                    AptNum = aData.AptNum,
-                    DefaultAddress = aData.DefaultAddress
+                    AptNum = aData.AptNum //,
+                    //DefaultAddress = aData.DefaultAddress
                 };
 
                 var CreatedAddress = await _repo.CreateAddress(addressToCreate);
@@ -86,8 +86,8 @@ namespace CheckIT.API.Controllers
                 ZipCode = AddData.ZipCode,
                 City = AddData.City,
                 Street = AddData.Street,
-                AptNum = AddData.AptNum,
-                DefaultAddress = AddData.DefaultAddress
+                AptNum = AddData.AptNum //,
+                //DefaultAddress = AddData.DefaultAddress
             };
 
             if (await _repo.ModifyAddress(id, addressToPass))
@@ -109,7 +109,7 @@ namespace CheckIT.API.Controllers
             returnAddress.AptNum = address.AptNum;
             returnAddress.City = address.City;
             returnAddress.Country = address.Country;
-            returnAddress.DefaultAddress = address.DefaultAddress;
+            //returnAddress.DefaultAddress = address.DefaultAddress;
             returnAddress.State = address.State;
             returnAddress.Street = address.Street;
             returnAddress.ZipCode = address.ZipCode;

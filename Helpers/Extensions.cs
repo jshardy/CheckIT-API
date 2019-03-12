@@ -16,20 +16,27 @@ namespace CheckIT.API.Helpers
             response.Headers.Add("Access-Control-Allow-Origin", "*");
         }
 
-        public static ICollection<int> toIntList(this ICollection<Invoice> InvoiceList)
+        public static List<int> toIntList(this List<Invoice> InvoiceList)
         {
             List<int> IntListReturn = new List<int>() {};
 
-            foreach (var item in InvoiceList)
+            if (InvoiceList == null)
             {
-                var Id = item.Id;
-                IntListReturn.Add(Id);
+                return null;
             }
-
-            return IntListReturn;
+            else
+            {
+                foreach (var item in InvoiceList)
+                {
+                    var Id = item.Id;
+                    IntListReturn.Add(Id);
+                }
+            
+                return IntListReturn;
+            }
         }
 
-        public static ICollection<Invoice> toInvoiceList(this ICollection<int> intList, 
+        public static ICollection<Invoice> toInvoiceList(this List<int> intList, 
                                                          InvoiceRepository _InvRepo)
         {
             List<Invoice> InvoiceListReturn = new List<Invoice>() {};

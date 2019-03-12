@@ -16,9 +16,8 @@ namespace CheckIT.API.Dtos
 			public string City {get; set; }
 			[Required]
 			public string Street { get; set; }
-			[Required]
 			public string AptNum { get; set; }
-			[Required]
-			public bool DefaultAddress { get; set; }
+			// [Required]
+			// public bool DefaultAddress { get; set; }
     }
 }

@@ -25,6 +25,6 @@ namespace CheckIT.API.Dtos
 		public string Email { get; set; }
         [Required]
         public int AddressID { get; set; }
-        public List<int> CustomerInvoiceList { get; set; }
+        public ICollection<int> CustomerInvoiceList { get; set; }
     }
 }
