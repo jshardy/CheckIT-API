@@ -17,6 +17,6 @@ namespace CheckIT.API.Dtos
 			public string Street { get; set; }
 			public string AptNum { get; set; }
 			public int AddressCustID { get; set; }
-			public CustomerData AddressCust { get; set;}
+			//public CustomerData AddressCust { get; set;}
     }
 }

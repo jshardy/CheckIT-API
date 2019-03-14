@@ -109,8 +109,8 @@ namespace CheckIT.API.Controllers
             Address address;
             address = await _repo.GetAddress(Id);
 
-            var addressToReturn = _mapper.Map<CustomerData>(address);
-            
+            var addressToReturn = _mapper.Map<AddressData>(address);
+
             return Ok(addressToReturn);
         }
 
@@ -128,9 +128,9 @@ namespace CheckIT.API.Controllers
                                                     city,
                                                     street,
                                                     CustomerAddID);
-            
+
             List<AddressData> addressListToReturn = new List<AddressData>();
-            
+
             foreach (var item in AddressList)
             {
                 addressListToReturn.Add(_mapper.Map<AddressData>(item));

@@ -18,12 +18,14 @@ namespace CheckIT.API.Helpers
                            opt => opt.Ignore())
                 .ForMember(dest => dest.CustomerInvoiceList,
                            opt => opt.Ignore());
-            
+
             CreateMap<Address, AddressData>()
                 .ForMember(dest => dest.AddressCustID,
                            opt => opt.MapFrom(src => src.AddressCust.Id));
             CreateMap<AddressData, Address>()
                 .ForMember(dest => dest.AddressCustID,
+                           opt => opt.Ignore())
+                .ForMember(dest => dest.AddressCust,
                            opt => opt.Ignore())
                 .ForMember(dest => dest.Id,
                            opt => opt.Ignore());
