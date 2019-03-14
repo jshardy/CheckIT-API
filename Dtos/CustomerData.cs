@@ -6,7 +6,7 @@ namespace CheckIT.API.Dtos
     //Data transfer Object
     public class CustomerData
     {
-        // public int Id { get; set; }
+        public int Id { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 0, ErrorMessage = "Name cannot exceed 50 characters.")]
 		public string FirstName { get; set; }
