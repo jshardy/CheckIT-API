@@ -61,7 +61,7 @@ namespace CheckIT.API.Data
             if (exist == null)
                 return false;
 
-            _context.Customers.Remove(exist);
+            //_context.Customers.Remove(exist);
 
             if (change.FirstName != null)
                 exist.FirstName = change.FirstName;
@@ -76,7 +76,10 @@ namespace CheckIT.API.Data
             if (change.Email != null)
                 exist.Email = change.Email;
 
-            await _context.Customers.AddAsync(exist);
+            //await _context.Customers.AddAsync(exist);
+            //await _context.SaveChangesAsync();*/
+
+            _context.Customers.Update(exist);
             await _context.SaveChangesAsync();
 
             return true;
