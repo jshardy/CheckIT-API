@@ -17,8 +17,10 @@ namespace CheckIT.API.Dtos
         public string CompanyName { get; set; }
         [Required]
 		public bool IsCompany { get; set; }
-        [StringLength(12, MinimumLength = 0, ErrorMessage = "Phone number cannot exceed 12 characters including hyphens.")]
-        [RegularExpression(@"([0-9][0-9][0-9]-)?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]", ErrorMessage = "Phone number must follow xxx-xxx-xxxx or xxx-xxxx format")]
+        [StringLength(12, MinimumLength = 0, 
+        ErrorMessage = "Phone number cannot exceed 12 characters including hyphens.")]
+        [RegularExpression(@"([0-9][0-9][0-9]-)?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]", 
+        ErrorMessage = "Phone number must follow xxx-xxx-xxxx or xxx-xxxx format")]
 		public string PhoneNumber { get; set; }
         [StringLength(50, MinimumLength = 0, ErrorMessage = "Email cannot exceed 50 characters.")]
         [RegularExpression(@".*\@.*\..*", ErrorMessage = "Must follow standard email format")]

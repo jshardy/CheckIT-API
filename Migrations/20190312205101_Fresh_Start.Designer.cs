@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190312065444_Fresh_Start")]
+    [Migration("20190312205101_Fresh_Start")]
     partial class Fresh_Start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
