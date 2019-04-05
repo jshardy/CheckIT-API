@@ -37,18 +37,15 @@ namespace CheckIT.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                // var addressToCreate = new Address
-                // {
-                //     Country = aData.Country,
-                //     State = aData.State,
-                //     ZipCode = aData.ZipCode,
-                //     City = aData.City,
-                //     Street = aData.Street,
-                //     AptNum = aData.AptNum //,
-                //     //DefaultAddress = aData.DefaultAddress
-                // };
-
-                var addressToCreate = _mapper.Map<Address>(aData);
+                var addressToCreate = new Address
+                {
+                    Country = aData.Country,
+                    State = aData.State,
+                    ZipCode = aData.ZipCode,
+                    City = aData.City,
+                    Street = aData.Street,
+                    AptNum = aData.AptNum
+                };
 
                 var CreatedAddress = await _repo.CreateAddress(addressToCreate);
 
@@ -92,8 +89,7 @@ namespace CheckIT.API.Controllers
                 ZipCode = AddData.ZipCode,
                 City = AddData.City,
                 Street = AddData.Street,
-                AptNum = AddData.AptNum //,
-                //DefaultAddress = AddData.DefaultAddress
+                AptNum = AddData.AptNum
             };
 
             if (await _repo.ModifyAddress(id, addressToPass))
@@ -109,7 +105,18 @@ namespace CheckIT.API.Controllers
             Address address;
             address = await _repo.GetAddress(Id);
 
-            var addressToReturn = _mapper.Map<AddressData>(address);
+            var addressToReturn = new AddressData
+            {
+                Country = address.Country,
+                State = address.State,
+                ZipCode = address.ZipCode,
+                City = address.City,
+                Street = address.Street,
+                AptNum = address.AptNum,
+                AddressCustID = address.AddressCustID
+            };
+
+            //var addressToReturn = _mapper.Map<AddressData>(address);
 
             return Ok(addressToReturn);
         }
@@ -133,7 +140,18 @@ namespace CheckIT.API.Controllers
 
             foreach (var item in AddressList)
             {
-                addressListToReturn.Add(_mapper.Map<AddressData>(item));
+                var newAddress = new AddressData
+                {
+                    Country = item.Country,
+                    State = item.State,
+                    ZipCode = item.ZipCode,
+                    City = item.City,
+                    Street = item.Street,
+                    AptNum = item.AptNum,
+                    AddressCustID = item.AddressCustID
+                };
+
+                //addressListToReturn.Add(_mapper.Map<AddressData>(item));
             }
 
             return Ok(addressListToReturn);

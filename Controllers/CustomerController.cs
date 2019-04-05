@@ -42,8 +42,28 @@ namespace CheckIT.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var customerToCreate = _mapper.Map<Customer>(cData);
-                customerToCreate.CustAddress = _mapper.Map<Address>(cData.CustAddress);
+                //var customerToCreate = _mapper.Map<Customer>(cData);
+                //customerToCreate.CustAddress = _mapper.Map<Address>(cData.CustAddress);
+
+                var customerToCreate = new Customer
+                {
+                    FirstName = cData.FirstName,
+                    LastName = cData.LastName,
+                    CompanyName = cData.CompanyName,
+                    IsCompany = cData.IsCompany,
+                    PhoneNumber = cData.PhoneNumber,
+                    Email = cData.Email,
+                    CustAddress = new Address
+                    {
+                        Country = cData.CustAddress.Country,
+                        State = cData.CustAddress.State,
+                        ZipCode = cData.CustAddress.ZipCode,
+                        City = cData.CustAddress.City,
+                        Street = cData.CustAddress.Street,
+                        AptNum = cData.CustAddress.AptNum,
+                        AddressCustID = cData.CustAddress.AddressCustID
+                    }
+                };
 
                 var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
