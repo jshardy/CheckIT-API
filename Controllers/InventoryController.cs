@@ -131,10 +131,13 @@ namespace CheckIT.API.Controllers
 
         public class UpcDatabaseResponse
         {
-            public long UpcNumber { get; set; }
+            public string UpcNumber { get; set; } //public long UpcNumber { get; set; }
             public string Title { get; set; }
             public string Description { get; set; }
+            public string Category { get; set; }
+            public string Size { get; set; }
             public string Brand { get; set; }
+            public decimal Msrp { get; set; }
         }
 
         //https://jonhilton.net/2017/01/24/retrieve-data-from-a-third-party-openweather-api-using-asp-net-core-web-api/
