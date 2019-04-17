@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CheckIT.API.Models;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using CheckIT.API.JSObjects;
 
 namespace CheckIT.API.Data
 {
@@ -23,7 +24,7 @@ namespace CheckIT.API.Data
 
         public async Task<Inventory> AddInventory(Inventory inventory)
         {
-            
+
             if(inventory.InventoryLocationID != 0)
             {
                 inventory.InventoryLocation = _LocRepo.GetLocation(inventory.InventoryLocationID).Result;
@@ -106,7 +107,13 @@ namespace CheckIT.API.Data
             return inventory;
         }
 
-        public async Task<IEnumerable<Inventory>> GetInventories(string UPC, 
+        public async Task<Inventory> GetItemByUPC(string UPC)
+        {
+            var inventory = await _context.Inventories.FirstOrDefaultAsync(x => x.UPC == UPC);
+            return inventory;
+        }
+
+        public async Task<IEnumerable<Inventory>> GetInventories(string UPC,
                                                             string Name,
                                                             decimal Price,
                                                             int Quantity,
