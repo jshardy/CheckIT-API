@@ -10,6 +10,7 @@ namespace CheckIT.API.Models
 
         //Inventory Permissions
         public bool AddIventory { get; set; }
+        public bool ViewInventory { get; set; }
         public bool ArchiveIventory { get; set; }
         public bool UpdateInventory { get; set; }
 
@@ -17,6 +18,7 @@ namespace CheckIT.API.Models
         public bool AddInvoice { get; set; }
         public bool ArchiveInvoice { get; set; }
         public bool ViewInvoices { get; set; }
+        public bool UpdateInvoice { get; set; }
 
         //Location Permissions
         public bool AddLocation { get; set; }
@@ -24,10 +26,14 @@ namespace CheckIT.API.Models
 
         //Alert Permissions
         public bool AddAlert { get; set; }
+        public bool ViewAlert { get; set; }
         public bool DeleteAlert { get; set; }
         public bool UpdateAlert { get; set; }
 
         //Customer Permissions
-       
+        public bool AddCustomer { get; set; }
+        public bool ViewCustomer { get; set; }
+        public bool DeleteCustomer { get; set; }
+        public bool UpdateCustomer { get; set; }
     }
 }
