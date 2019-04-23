@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CheckIT.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +73,28 @@ namespace CheckIT.API.Data
                 return true;
 
             return false;
+        }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            List<User> users = await _context.Users.ToListAsync();
+            return users;
+        }
+
+        public async Task<bool> ModifyUserPermissions(int ID, Permissions permissions)
+        {
+            User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);
+
+            if (exist == null)
+                return false;
+
+            if (permissions != null)
+                exist.UserPermissions = permissions;
+
+            _context.Users.Update(exist);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
