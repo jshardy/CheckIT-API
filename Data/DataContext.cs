@@ -27,5 +27,6 @@ namespace CheckIT.API.Data
         public DbSet<Alert> Alerts { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
+        public DbSet<Permissions> Permissions { get; set; }
     }
 }

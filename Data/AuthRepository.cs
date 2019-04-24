@@ -90,16 +90,43 @@ namespace CheckIT.API.Data
 
         public async Task<bool> ModifyUserPermissions(int ID, Permissions permissions)
         {
-            User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);
+            //User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);
+            Permissions permissionsExist = await _context.Permissions.FirstOrDefaultAsync(x => x.PermissionsUserId == ID);
 
-            if (exist == null)
+            if (permissionsExist == null)//if (exist == null || permissionsExist == null)
                 return false;
 
             if (permissions != null)
-                exist.UserPermissions = permissions;
+            {
+                permissionsExist.AddAlert = permissions.AddAlert;
+                permissionsExist.AddCustomer = permissions.AddCustomer;
+                permissionsExist.AddInvoice = permissions.AddInvoice;
+                permissionsExist.AddIventory = permissions.AddIventory;
+                permissionsExist.AddLocation = permissions.AddLocation;
+                permissionsExist.ArchiveInvoice = permissions.ArchiveInvoice;
+                permissionsExist.ArchiveIventory = permissions.ArchiveIventory;
+                permissionsExist.DeleteAlert = permissions.DeleteAlert;
+                permissionsExist.DeleteCustomer = permissions.DeleteCustomer;
+                permissionsExist.DeleteLocation = permissions.DeleteLocation;
+                permissionsExist.Level = permissions.Level;
+                permissionsExist.SetUserPermissions = permissions.SetUserPermissions;
+                permissionsExist.UpdateAlert = permissions.UpdateAlert;
+                permissionsExist.UpdateCustomer = permissions.UpdateCustomer;
+                permissionsExist.UpdateInventory = permissions.UpdateInventory;
+                permissionsExist.UpdateInvoice = permissions.UpdateInvoice;
+                permissionsExist.ViewAlert = permissions.ViewAlert;
+                permissionsExist.ViewCustomer = permissions.ViewCustomer;
+                permissionsExist.ViewInventory = permissions.ViewInventory;
+                permissionsExist.ViewInvoice = permissions.ViewInvoice;
+                permissionsExist.ViewLocation = permissions.ViewLocation;
+                permissionsExist.ViewUserPermissions = permissions.ViewUserPermissions;
+                //exist.UserPermissions = permissions;
+                _context.Permissions.Update(permissionsExist);
+                await _context.SaveChangesAsync();
+            }
 
-            _context.Users.Update(exist);
-            await _context.SaveChangesAsync();
+            //_context.Users.Update(exist);
+            //await _context.SaveChangesAsync();
 
             return true;
         }
