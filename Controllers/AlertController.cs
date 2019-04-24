@@ -44,6 +44,7 @@ namespace CheckIT.API.Controllers
                     DateUnder = alData.DateUnder,
                     DateOrdered = alData.DateOrdered,
                     AlertOn = alData.AlertOn
+                    AlertTriggered 
                 };
 
                 var createdAlert = await _repo.AddAlert(alertToCreate);
