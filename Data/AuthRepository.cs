@@ -84,7 +84,7 @@ namespace CheckIT.API.Data
 
         public async Task<List<User>> GetAllUsers()
         {
-            List<User> users = await _context.Users.ToListAsync();
+            List<User> users = await _context.Users.Include(x => x.UserPermissions).ToListAsync();
             return users;
         }
 
