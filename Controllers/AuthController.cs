@@ -53,6 +53,15 @@ namespace CheckIT.API.Controllers
             };
 
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
+            
+            UserDto createdUserDto = new UserDto
+            {
+                Id = createdUser.Id,
+                Username = createdUser.Username,
+                PermissionLevel = 0
+            };
+
+            await SetPermissionsPreset(createdUserDto);
 
             //created at root status code
             return StatusCode(201);
@@ -62,7 +71,7 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> Login(UserForRegisterDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
-
+    
             //User not found return unauthorized.
             if (userFromRepo == null)
                 return Unauthorized();
@@ -91,6 +100,14 @@ namespace CheckIT.API.Controllers
             return Ok(new {
                 token = tokenHandler.WriteToken(token)
             });
+        }
+
+        public async Task<User> GetUser(int Id)
+        {
+            User user;
+            user = await _repo.GetUser(Id);
+
+            return user;
         }
 
         /*
@@ -268,13 +285,16 @@ namespace CheckIT.API.Controllers
 
             foreach (var user in userList)
             {
-                userListToReturn.Add(
-                    new UserDto{
-                        Id = user.Id,
-                        Username = user.Username,
-                        PermissionLevel = user.UserPermissions.Level
-                    }
-                );
+                if (user.UserPermissions != null)
+                {
+                    userListToReturn.Add(
+                        new UserDto{
+                            Id = user.Id,
+                            Username = user.Username,
+                            PermissionLevel = user.UserPermissions.Level
+                        }
+                    );
+                }
             }
 
             return Ok(userListToReturn);
