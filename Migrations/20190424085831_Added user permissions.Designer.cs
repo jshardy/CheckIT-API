@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190424064447_Added user rights.")]
-    partial class Addeduserrights
+    [Migration("20190424085831_Added user permissions")]
+    partial class Addeduserpermissions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -185,7 +185,28 @@ namespace CheckIT.API.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("CheckIT.API.Models.Permissions", b =>
+            modelBuilder.Entity("CheckIT.API.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
+
+                    b.Property<int?>("UserPermissionsId");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserPermissionsId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CheckIT.API.Models.User+UserPermissionsClass", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,28 +258,7 @@ namespace CheckIT.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
-                });
-
-            modelBuilder.Entity("CheckIT.API.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<byte[]>("PasswordHash");
-
-                    b.Property<byte[]>("PasswordSalt");
-
-                    b.Property<int?>("UserPermissionsId");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserPermissionsId");
-
-                    b.ToTable("Users");
+                    b.ToTable("UserPermissionsClass");
                 });
 
             modelBuilder.Entity("CheckIT.API.Models.Address", b =>
@@ -305,7 +305,7 @@ namespace CheckIT.API.Migrations
 
             modelBuilder.Entity("CheckIT.API.Models.User", b =>
                 {
-                    b.HasOne("CheckIT.API.Models.Permissions", "UserPermissions")
+                    b.HasOne("CheckIT.API.Models.User+UserPermissionsClass", "UserPermissions")
                         .WithMany()
                         .HasForeignKey("UserPermissionsId");
                 });
