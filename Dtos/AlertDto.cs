@@ -14,5 +14,6 @@ namespace CheckIT.API.Dtos
         public DateTime DateUnder { get; set; }
         public DateTime DateOrdered { get; set; }
         public bool AlertOn { get; set; }
+        public bool AlertTriggered { get; set; }
     }
 }

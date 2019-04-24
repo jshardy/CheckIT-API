@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Linq;
+using CheckIT.API.JSObjects;
 
 namespace CheckIT.API.Controllers
 {
@@ -129,18 +130,41 @@ namespace CheckIT.API.Controllers
             return Ok(inventoryList);
         }
 
+        [HttpGet("GetItemByUPC")]
+
+        public async Task<IActionResult> GetItemByUPC(string UPC)
+        {
+            Inventory inventory = await _repo.GetItemByUPC(UPC);
+            JSItem item = new JSItem();
+
+            if (inventory != null)
+            {
+                item.Id = inventory.Id;
+                item.Name = inventory.Name;
+                item.Description = inventory.Description;
+                item.Price = inventory.Price;
+                item.Quantity = inventory.Quantity;
+                item.UPC = inventory.UPC;
+                item.LocationId = inventory.InventoryLocationID;
+                item.AlertId = inventory.InventoryAlertID;
+            }
+            return Ok(item);
+        }
         public class UpcDatabaseResponse
         {
-            public long UpcNumber { get; set; }
+            public string UpcNumber { get; set; } //public long UpcNumber { get; set; }
             public string Title { get; set; }
             public string Description { get; set; }
+            public string Category { get; set; }
+            public string Size { get; set; }
             public string Brand { get; set; }
+            public decimal Msrp { get; set; }
         }
 
         //https://jonhilton.net/2017/01/24/retrieve-data-from-a-third-party-openweather-api-using-asp-net-core-web-api/
         //example call: http://localhost:5000/api/Inventory/UpcInfo/028400003001
         //example response: {"upcnumber":"028400003001","st0s":"","newupc":"","type":"","title":"Lay's\u00ae Barbecue Flavored Potato Chips 1.5 oz. Bag",
-        //"alias":"","description":"&lt;ul&gt;&lt;li&gt;1.5 oz. bag of LAY'S Barbecue Flavored Potato Chips&lt;\/li&gt;&lt;li&gt;Loved LAY'S flavor 
+        //"alias":"","description":"&lt;ul&gt;&lt;li&gt;1.5 oz. bag of LAY'S Barbecue Flavored Potato Chips&lt;\/li&gt;&lt;li&gt;Loved LAY'S flavor
         //to enjoy as an any time snack&lt;\/li&gt;&lt;li&gt;Delicious snack for pairing with a small meal&lt;\/li&gt;&lt;li&gt;
         //Delicious LAY'S crunchy snack&lt;\/li&gt;&lt;\/ul&gt;","brand":"Lay's","category":"Food\/Snacks, Cookies & Chips\/Chips","size":"1.5 oz",
         //"color":"Other","gender":"","age":"","unit":"","msrp":"70.48","rate\/up":"0","rate\/down":"0","status":200,"error":false}
@@ -178,9 +202,9 @@ namespace CheckIT.API.Controllers
                 }
             }
         }
-        
+
         //The following are all methods for modifying the alertbit
-        /* 
+        /*
         [HttpPatch("CheckAlertBit/{Id}")]
         public async Task<IActionResult> CheckAlertBit(int Id)
         {

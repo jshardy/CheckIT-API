@@ -37,13 +37,13 @@ namespace CheckIT.API.Controllers
         {
            if(ModelState.IsValid)
            {
-
                 var alertToCreate = new Alert
                 {
                     Threshold = alData.Threshold,
                     DateUnder = alData.DateUnder,
                     DateOrdered = alData.DateOrdered,
-                    AlertOn = alData.AlertOn
+                    AlertOn = alData.AlertOn,
+                    AlertTriggered = alData.AlertTriggered
                 };
 
                 var createdAlert = await _repo.AddAlert(alertToCreate);
@@ -69,8 +69,26 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetAllAlerts")]
         public async Task<IActionResult> GetAllAlerts()
         {
-            var itemList = await _repo.GetAllAlerts();
-            return Ok(itemList);
+            var alertList = await _repo.GetAllAlerts();
+            return Ok(alertList);
+        }
+
+        [HttpGet("GetTriggeredAlerts")]
+        public async Task<IActionResult> GetTriggeredAlerts()
+        {
+            List<Alert> triggeredAlerts = new List<Alert>(); //List<AlertData> triggeredAlerts = new 
+
+            var alertList = await _repo.GetAllAlerts();
+
+            foreach (var alert in alertList)
+            {
+                if (alert.AlertTriggered == true)
+                {
+                    triggeredAlerts.Add(alert);
+                }
+            }
+
+            return Ok(triggeredAlerts);
         }
 
         [HttpDelete("DeleteAlert")] //[HttpDelete("DeleteAlert/{Id}")]
