@@ -133,7 +133,7 @@ namespace CheckIT.API.Controllers
                 return Unauthorized();
             }
             */
-            Permissions permissions = new Permissions();
+            User.UserPermissionsClass permissions = new User.UserPermissionsClass();
 
             permissions.Level = user.PermissionLevel;
 
