@@ -43,6 +43,7 @@ namespace CheckIT.API.Controllers
         [HttpPost("AddCustomer")]
         public async Task<IActionResult> AddCustomer(CustomerData cData)
         {
+            /*
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
             
@@ -50,6 +51,7 @@ namespace CheckIT.API.Controllers
             {
                 return Unauthorized();
             }
+            */
 
             if (ModelState.IsValid)
             {
@@ -92,6 +94,7 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteCustomer")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
+            /*
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
             
@@ -99,6 +102,7 @@ namespace CheckIT.API.Controllers
             {
                 return Unauthorized();
             }
+            */
 
             if (await _repo.DeleteCustomer(id))
                 return StatusCode(201);
@@ -108,6 +112,7 @@ namespace CheckIT.API.Controllers
         [HttpPatch("ModifyCustomer")]
         public async Task<IActionResult> ModifyCustomer(int id, CustomerData CustData)
         {
+            /*
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
             
@@ -115,6 +120,7 @@ namespace CheckIT.API.Controllers
             {
                 return Unauthorized();
             }
+            */
 
             var custToPass = new Customer
             {
@@ -134,6 +140,7 @@ namespace CheckIT.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int id) //public async Task<CustomerData> GetCustomer(int id)
         {
+            /*/
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
 
@@ -141,6 +148,7 @@ namespace CheckIT.API.Controllers
             {
                 return Unauthorized();
             }
+            */
 
             Customer customer;
             customer = await _repo.GetCustomer(id);
@@ -160,6 +168,7 @@ namespace CheckIT.API.Controllers
                                                         string PhoneNumber = "",
                                                         string Email = "")
         {
+            /*
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
             
@@ -167,6 +176,7 @@ namespace CheckIT.API.Controllers
             {
                 return Unauthorized();
             }
+            */
 
             var customerList = await _repo.GetCustomers(FirstName,
                                                         LastName,
