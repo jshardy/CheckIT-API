@@ -75,6 +75,13 @@ namespace CheckIT.API.Data
             return false;
         }
 
+        public async Task<User> GetUser(int ID)
+        {
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);
+
+            return user;
+        }
+
         public async Task<List<User>> GetAllUsers()
         {
             List<User> users = await _context.Users.ToListAsync();
@@ -96,5 +103,7 @@ namespace CheckIT.API.Data
 
             return true;
         }
+
+
     }
 }

@@ -62,7 +62,7 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> Login(UserForRegisterDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
-
+    
             //User not found return unauthorized.
             if (userFromRepo == null)
                 return Unauthorized();
@@ -91,6 +91,14 @@ namespace CheckIT.API.Controllers
             return Ok(new {
                 token = tokenHandler.WriteToken(token)
             });
+        }
+
+        public async Task<User> GetUser(int Id)
+        {
+            User user;
+            user = await _repo.GetUser(Id);
+
+            return user;
         }
 
         /*
