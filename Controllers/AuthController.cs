@@ -285,16 +285,13 @@ namespace CheckIT.API.Controllers
 
             foreach (var user in userList)
             {
-                if (user.UserPermissions != null)
-                {
                     userListToReturn.Add(
                         new UserDto{
                             Id = user.Id,
                             Username = user.Username,
-                            PermissionLevel = user.UserPermissions.Level
+                            PermissionLevel = user.UserPermissions != null ? user.UserPermissions.Level : 4
                         }
                     );
-                }
             }
 
             return Ok(userListToReturn);
