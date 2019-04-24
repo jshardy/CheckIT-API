@@ -44,8 +44,9 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> AddCustomer(CustomerData cData)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.AddCustomer == false)
+            if (permissions.AddCustomer == false)
             {
                 return Unauthorized();
             }
@@ -92,8 +93,9 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.DeleteCustomer == false)
+            if (permissions.DeleteCustomer == false)
             {
                 return Unauthorized();
             }
@@ -107,8 +109,9 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> ModifyCustomer(int id, CustomerData CustData)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.UpdateCustomer == false)
+            if (permissions.UpdateCustomer == false)
             {
                 return Unauthorized();
             }
@@ -132,8 +135,9 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> GetCustomer(int id) //public async Task<CustomerData> GetCustomer(int id)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
-            
-            if (user.UserPermissions.ViewCustomer == false)
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+
+            if (permissions.ViewCustomer == false)
             {
                 return Unauthorized();
             }
@@ -157,8 +161,9 @@ namespace CheckIT.API.Controllers
                                                         string Email = "")
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewCustomer == false)
+            if (permissions.ViewCustomer == false)
             {
                 return Unauthorized();
             }
