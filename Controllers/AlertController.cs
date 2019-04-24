@@ -73,16 +73,23 @@ namespace CheckIT.API.Controllers
             return Ok(alertList);
         }
 
-        /*[HttpGet("GetAllAlerts")]
+        [HttpGet("GetTriggeredAlerts")]
         public async Task<IActionResult> GetTriggeredAlerts()
         {
-            List<AlertData> = new 
+            List<Alert> triggeredAlerts = new List<Alert>(); //List<AlertData> triggeredAlerts = new 
 
-            var alertList = await _repo.GetTriggeredAlerts();
-            return Ok(alertList);
+            var alertList = await _repo.GetAllAlerts();
 
-            //convert to dto
-        }*/
+            foreach (var alert in alertList)
+            {
+                if (alert.AlertTriggered == true)
+                {
+                    triggeredAlerts.Add(alert);
+                }
+            }
+
+            return Ok(triggeredAlerts);
+        }
 
         [HttpDelete("DeleteAlert")] //[HttpDelete("DeleteAlert/{Id}")]
         public async Task<IActionResult> DeleteAlert(int Id)
