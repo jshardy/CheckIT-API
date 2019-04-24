@@ -133,7 +133,7 @@ namespace CheckIT.API.Controllers
                 return Unauthorized();
             }
             */
-            User.UserPermissionsClass permissions = new User.UserPermissionsClass();
+            Permissions permissions = new Permissions();
 
             permissions.Level = user.PermissionLevel;
 
@@ -285,13 +285,16 @@ namespace CheckIT.API.Controllers
 
             foreach (var user in userList)
             {
+                if (user.UserPermissions != null)
+                {
                     userListToReturn.Add(
                         new UserDto{
                             Id = user.Id,
                             Username = user.Username,
-                            PermissionLevel = user.UserPermissions != null ? user.UserPermissions.Level : 4
+                            PermissionLevel = user.UserPermissions.Level
                         }
                     );
+                }
             }
 
             return Ok(userListToReturn);

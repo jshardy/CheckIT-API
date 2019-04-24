@@ -88,7 +88,7 @@ namespace CheckIT.API.Data
             return users;
         }
 
-        public async Task<bool> ModifyUserPermissions(int ID, User.UserPermissionsClass permissions)
+        public async Task<bool> ModifyUserPermissions(int ID, Permissions permissions)
         {
             User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);
 
