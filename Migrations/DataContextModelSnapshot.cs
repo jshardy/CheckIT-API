@@ -55,6 +55,8 @@ namespace CheckIT.API.Migrations
 
                     b.Property<bool>("AlertOn");
 
+                    b.Property<bool>("AlertTriggered");
+
                     b.Property<DateTime>("DateOrdered");
 
                     b.Property<DateTime>("DateUnder");
@@ -181,43 +183,6 @@ namespace CheckIT.API.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("CheckIT.API.Models.Permissions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("AddAlert");
-
-                    b.Property<bool>("AddInvoice");
-
-                    b.Property<bool>("AddIventory");
-
-                    b.Property<bool>("AddLocation");
-
-                    b.Property<bool>("ArchiveInvoice");
-
-                    b.Property<bool>("ArchiveIventory");
-
-                    b.Property<bool>("DeleteAlert");
-
-                    b.Property<bool>("DeleteLocation");
-
-                    b.Property<bool>("SetUserPermissions");
-
-                    b.Property<bool>("UpdateAlert");
-
-                    b.Property<bool>("UpdateInventory");
-
-                    b.Property<bool>("ViewInvoices");
-
-                    b.Property<bool>("ViewUserPermissions");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Permissions");
-                });
-
             modelBuilder.Entity("CheckIT.API.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -237,6 +202,61 @@ namespace CheckIT.API.Migrations
                     b.HasIndex("UserPermissionsId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CheckIT.API.Models.User+UserPermissionsClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("AddAlert");
+
+                    b.Property<bool>("AddCustomer");
+
+                    b.Property<bool>("AddInvoice");
+
+                    b.Property<bool>("AddIventory");
+
+                    b.Property<bool>("AddLocation");
+
+                    b.Property<bool>("ArchiveInvoice");
+
+                    b.Property<bool>("ArchiveIventory");
+
+                    b.Property<bool>("DeleteAlert");
+
+                    b.Property<bool>("DeleteCustomer");
+
+                    b.Property<bool>("DeleteLocation");
+
+                    b.Property<int>("Level");
+
+                    b.Property<bool>("SetUserPermissions");
+
+                    b.Property<bool>("UpdateAlert");
+
+                    b.Property<bool>("UpdateCustomer");
+
+                    b.Property<bool>("UpdateInventory");
+
+                    b.Property<bool>("UpdateInvoice");
+
+                    b.Property<bool>("ViewAlert");
+
+                    b.Property<bool>("ViewCustomer");
+
+                    b.Property<bool>("ViewInventory");
+
+                    b.Property<bool>("ViewInvoice");
+
+                    b.Property<bool>("ViewLocation");
+
+                    b.Property<bool>("ViewUserPermissions");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserPermissionsClass");
                 });
 
             modelBuilder.Entity("CheckIT.API.Models.Address", b =>
@@ -283,7 +303,7 @@ namespace CheckIT.API.Migrations
 
             modelBuilder.Entity("CheckIT.API.Models.User", b =>
                 {
-                    b.HasOne("CheckIT.API.Models.Permissions", "UserPermissions")
+                    b.HasOne("CheckIT.API.Models.User+UserPermissionsClass", "UserPermissions")
                         .WithMany()
                         .HasForeignKey("UserPermissionsId");
                 });
