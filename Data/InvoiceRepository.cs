@@ -57,6 +57,9 @@ namespace CheckIT.API.Data
 
         public async Task<LineItem> AddLineItem(LineItem lineItemToAdd)
         {
+            // _InvRepo.GetInventory(lineItemToAdd.LineInventoryID).Result.InventoryLineList.Add(lineItemToAdd);
+            // GetOneInvoice(lineItemToAdd.LineInvoiceID).Result.InvoicesLineList.Add(lineItemToAdd);
+
             await _context.LineItems.AddAsync(lineItemToAdd);
             await _context.SaveChangesAsync();
 
