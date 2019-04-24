@@ -82,6 +82,13 @@ namespace CheckIT.API.Data
             return user;
         }
 
+        public async Task<User> GetUser(string username)
+        {
+            User user = await _context.Users.Include(x => x.UserPermissions).FirstOrDefaultAsync(x => x.Username == username);
+
+            return user;
+        }
+
         public async Task<Permissions> GetPermissions(int ID)
         {
             Permissions permissions = await _context.Permissions.FirstOrDefaultAsync(x => x.PermissionsUserId == ID);
