@@ -43,9 +43,9 @@ namespace CheckIT.API.Controllers
         [HttpPost("AddCustomer")]
         public async Task<IActionResult> AddCustomer(CustomerData cData)
         {
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            Permissions permissions = await _auth.GetPermissions(int.Parse(this.User.Identity.Name));
             
-            if (user.UserPermissions.AddCustomer == false)
+            if (permissions.AddCustomer == false)
             {
                 return Unauthorized();
             }
@@ -91,9 +91,9 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteCustomer")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            Permissions permissions = await _auth.GetPermissions(int.Parse(this.User.Identity.Name));
             
-            if (user.UserPermissions.DeleteCustomer == false)
+            if (permissions.DeleteCustomer == false)
             {
                 return Unauthorized();
             }
@@ -106,9 +106,9 @@ namespace CheckIT.API.Controllers
         [HttpPatch("ModifyCustomer")]
         public async Task<IActionResult> ModifyCustomer(int id, CustomerData CustData)
         {
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            Permissions permissions = await _auth.GetPermissions(int.Parse(this.User.Identity.Name));
             
-            if (user.UserPermissions.UpdateCustomer == false)
+            if (permissions.UpdateCustomer == false)
             {
                 return Unauthorized();
             }
@@ -131,9 +131,9 @@ namespace CheckIT.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int id) //public async Task<CustomerData> GetCustomer(int id)
         {
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            Permissions permissions = await _auth.GetPermissions(int.Parse(this.User.Identity.Name));
             
-            if (user.UserPermissions.ViewCustomer == false)
+            if (permissions.ViewCustomer == false)
             {
                 return Unauthorized();
             }
@@ -156,9 +156,9 @@ namespace CheckIT.API.Controllers
                                                         string PhoneNumber = "",
                                                         string Email = "")
         {
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            Permissions permissions = await _auth.GetPermissions(int.Parse(this.User.Identity.Name));
             
-            if (user.UserPermissions.ViewCustomer == false)
+            if (permissions.ViewCustomer == false)
             {
                 return Unauthorized();
             }
