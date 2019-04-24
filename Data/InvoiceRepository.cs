@@ -102,6 +102,7 @@ namespace CheckIT.API.Data
         public async Task<Invoice> GetOneInvoice(int invoiceID)
         {
             var invoice = await _context.Invoices.Include(p => p.InvoicesLineList)
+                                                    //.ThenInclude(p => p.LineInventory)
                                                  .Include(p => p.InvoiceCust)
                                                  .FirstOrDefaultAsync(x => x.Id == invoiceID);
 

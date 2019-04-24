@@ -49,8 +49,6 @@ namespace CheckIT.API.Controllers
 
                 var createdInvoice = await _Irepo.AddInvoice(invoiceToCreate);
 
-
-
                 return StatusCode(201);
             }
             else
@@ -66,7 +64,6 @@ namespace CheckIT.API.Controllers
             {
                 var lineItemToCreate = new LineItem
                 {
-                    Id = iData.Id,
                     QuantitySold = iData.Quantity,
                     Price = iData.Price,
                     LineInvoiceID = iData.InvoiceId,
@@ -98,7 +95,31 @@ namespace CheckIT.API.Controllers
         {
             var invoiceToFind = await _Irepo.GetOneInvoice(Id);
 
-            var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
+            var invoiceToReturn = new InvoiceData
+            {
+                Id = invoiceToFind.Id,
+                InvoiceDate = invoiceToFind.InvoiceDate,
+                OutgoingInv = invoiceToFind.OutgoingInv,
+                AmountPaid = invoiceToFind.AmountPaid,
+                InvoiceCustID = invoiceToFind.InvoiceCustID,
+                LineItemList = new List<LineItemData>()
+            };
+
+            //var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
+
+            foreach (var item in invoiceToFind.InvoicesLineList)
+            {
+                var newLineitem = new LineItemData
+                {
+                    Id = item.Id,
+                    Quantity = item.QuantitySold,
+                    Price = item.Price,
+                    ItemId = item.LineInventoryID,
+                    InvoiceId = item.LineInvoiceID,
+                };
+
+                invoiceToReturn.LineItemList.Add(newLineitem);
+            }
 
             return Ok(invoiceToReturn);
         }
