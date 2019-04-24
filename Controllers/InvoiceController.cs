@@ -21,13 +21,15 @@ namespace CheckIT.API.Controllers
     [ApiController]
     public class InvoiceController : ControllerBase
     {
-        private readonly InvoiceRepository _repo;
+        private readonly InvoiceRepository _Irepo;
+        private readonly InventoryRepository _Invrepo;
         private readonly IMapper _mapper;
 
-        public InvoiceController(InvoiceRepository repo, IMapper mapper)
+        public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo)
         {
             _mapper = mapper;
-            _repo = repo;
+            _Irepo = Irepo;
+            _Invrepo = Invrepo;
         }
 
         [HttpPost("AddInvoice")]
@@ -45,7 +47,7 @@ namespace CheckIT.API.Controllers
 
                 //var invoiceToCreate = _mapper.Map<Invoice>(iData);
 
-                var createdInvoice = await _repo.AddInvoice(invoiceToCreate);
+                var createdInvoice = await _Irepo.AddInvoice(invoiceToCreate);
 
 
 
@@ -57,17 +59,44 @@ namespace CheckIT.API.Controllers
             }
         }
 
+        [HttpPost("AddLineItem")]
+        public async Task<IActionResult> AddLineItem(LineItemData iData)
+        {
+            if(ModelState.IsValid)
+            {
+                var lineItemToCreate = new LineItem
+                {
+                    Id = iData.Id,
+                    QuantitySold = iData.Quantity,
+                    Price = iData.Price,
+                    LineInvoiceID = iData.InvoiceId,
+                    LineInvoice = _Irepo.GetOneInvoice(iData.InvoiceId).Result,
+                    LineInventoryID = iData.ItemId,
+                    LineInventory = _Invrepo.GetInventory(iData.ItemId).Result
+                };
+
+                await _Irepo.AddLineItem(lineItemToCreate);
+
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+            
+        }
+
         [HttpDelete("DeleteInvoice")]
         public async Task<IActionResult> ArchiveInvoice(int Id)
         {
-            var removedInvoice = await _repo.ArchiveInvoice(Id);
+            var removedInvoice = await _Irepo.ArchiveInvoice(Id);
             return StatusCode(201);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
-            var invoiceToFind = await _repo.GetOneInvoice(Id);
+            var invoiceToFind = await _Irepo.GetOneInvoice(Id);
 
             var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
 
@@ -80,7 +109,7 @@ namespace CheckIT.API.Controllers
                                                         decimal AmmountPaid = -1,
                                                         int CustID = -1)
         {
-            var invoiceList = await _repo.GetInvoices(InvoiceDate,
+            var invoiceList = await _Irepo.GetInvoices(InvoiceDate,
                                                     OutgoingInv,
                                                     AmmountPaid,
                                                     CustID);
@@ -95,17 +124,17 @@ namespace CheckIT.API.Controllers
                                                         int? CustID)
         {
             Invoice invoice;
-            invoice = await _repo.GetOneInvoice(Id);
+            invoice = await _Irepo.GetOneInvoice(Id);
 
             if (InvoiceDate != null) invoice.InvoiceDate = InvoiceDate.GetValueOrDefault();
             if (OutgoingInv != null) invoice.OutgoingInv = OutgoingInv.GetValueOrDefault();
             if (AmmountPaid != null) invoice.AmountPaid = AmmountPaid.GetValueOrDefault();
             //cust stuff?
 
-            var updatedInventory = await _repo.ModifyInvoice(invoice);
+            var updatedInventory = await _Irepo.ModifyInvoice(invoice);
 
 
-            var modifiedInvoice = await _repo.ModifyInvoice(invoice);
+            var modifiedInvoice = await _Irepo.ModifyInvoice(invoice);
 
             return Ok(modifiedInvoice);
         }
