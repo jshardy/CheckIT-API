@@ -15,7 +15,7 @@ namespace CheckIT.API.Models
         public UserPermissionsClass UserPermissions { get; set; }
         public class UserPermissionsClass
         {
-            //public int Id { get; set; }
+            public int Id { get; set; }
             public int Level { get; set; }
 
             //User Permission Permissions
