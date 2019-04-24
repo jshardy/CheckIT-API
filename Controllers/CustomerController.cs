@@ -27,19 +27,29 @@ namespace CheckIT.API.Controllers
         private readonly CustRepository _repo;
         private readonly AddressRepository _Arepo;
         private readonly IMapper _mapper;
+        private readonly AuthRepository _auth;
 
         public CustomerController(CustRepository repo, 
                                 AddressRepository Arepo, 
-                                IMapper mapper)
+                                IMapper mapper,
+                                AuthRepository auth)
         {
             _mapper = mapper;
             _Arepo = Arepo;
             _repo = repo;
+            _auth = auth;
         }
 
         [HttpPost("AddCustomer")]
         public async Task<IActionResult> AddCustomer(CustomerData cData)
         {
+            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            
+            if (user.UserPermissions.AddCustomer == false)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 //var customerToCreate = _mapper.Map<Customer>(cData);
@@ -81,6 +91,13 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteCustomer")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
+            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            
+            if (user.UserPermissions.DeleteCustomer == false)
+            {
+                return Unauthorized();
+            }
+
             if (await _repo.DeleteCustomer(id))
                 return StatusCode(201);
             return BadRequest("Could not find Customer");
@@ -89,6 +106,13 @@ namespace CheckIT.API.Controllers
         [HttpPatch("ModifyCustomer")]
         public async Task<IActionResult> ModifyCustomer(int id, CustomerData CustData)
         {
+            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            
+            if (user.UserPermissions.UpdateCustomer == false)
+            {
+                return Unauthorized();
+            }
+
             var custToPass = new Customer
             {
                 FirstName = CustData.FirstName,
@@ -105,8 +129,15 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<CustomerData> GetCustomer(int id)
+        public async Task<IActionResult> GetCustomer(int id) //public async Task<CustomerData> GetCustomer(int id)
         {
+            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            
+            if (user.UserPermissions.ViewCustomer == false)
+            {
+                return Unauthorized();
+            }
+
             Customer customer;
             customer = await _repo.GetCustomer(id);
 
@@ -114,7 +145,7 @@ namespace CheckIT.API.Controllers
             customerToReturn.CustomerInvoiceList = customer.CustomerInvoiceList.toIntList();
             
 
-            return customerToReturn;
+            return Ok(customerToReturn);
         }
 
         [HttpGet()]
@@ -125,6 +156,13 @@ namespace CheckIT.API.Controllers
                                                         string PhoneNumber = "",
                                                         string Email = "")
         {
+            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            
+            if (user.UserPermissions.ViewCustomer == false)
+            {
+                return Unauthorized();
+            }
+
             var customerList = await _repo.GetCustomers(FirstName,
                                                         LastName,
                                                         CompanyName,
