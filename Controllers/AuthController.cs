@@ -53,6 +53,15 @@ namespace CheckIT.API.Controllers
             };
 
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
+            
+            UserDto createdUserDto = new UserDto
+            {
+                Id = createdUser.Id,
+                Username = createdUser.Username,
+                PermissionLevel = 0
+            };
+
+            await SetPermissionsPreset(createdUserDto);
 
             //created at root status code
             return StatusCode(201);
