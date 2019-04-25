@@ -48,7 +48,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("ReturnAuth")]
-        public async Task<IActionResult> ReturnFromAuth(string state, string code)
+        public async Task<string> ReturnFromAuth(string state, string code)
         {
             var tokenResponse = await auth2Client.GetBearerTokenAsync(code);
             //retrieve access_token and refresh_token
@@ -58,7 +58,7 @@ namespace CheckIT.API.Controllers
 
             var isTokenValid = await auth2Client.ValidateIDTokenAsync(idToken);
 
-            return Ok(isTokenValid);
+            return redirectUrl;
         }
     }
 }
