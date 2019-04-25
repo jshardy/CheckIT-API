@@ -28,7 +28,7 @@ namespace CheckIT.API.Controllers
 
         static string clientid = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
         static string clientsecret = "2fIgJ5b2SG4YJLgklJYfjZe2kKVvY7lhLtRyMEKI";
-        static string redirectUrl = "https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl";
+        static string redirectUrl = "https://localhost:60585/signin-oidc";
         static string appEnvironment = "sandbox";
 
         public static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
