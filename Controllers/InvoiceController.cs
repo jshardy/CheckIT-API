@@ -73,7 +73,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpGet("GetLastInvoiceID")]
-        public IActionResult GetLastInvoiceID()
+        public async Task<IActionResult> GetLastInvoiceID()
         {
             return Ok(lastInvoice);
         }
