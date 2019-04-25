@@ -119,6 +119,14 @@ namespace CheckIT.API.Controllers
             return user;
         }
 
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(int Id)
+        {
+            if (await _repo.DeleteUser(Id))
+                return StatusCode(201);
+            return BadRequest("Could not find User");
+        }
+
         /*
         Permission Levels:
             -1) Custom

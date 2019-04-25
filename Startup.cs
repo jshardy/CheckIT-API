@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace CheckIT.API
 {
@@ -70,6 +71,7 @@ namespace CheckIT.API
                 services.AddScoped<LocRepository>();
                 services.AddScoped<AlertRepository>();
                 services.AddScoped<MockRepository>();
+                services.AddScoped<QuickRepository>();
                 //setup the use of token
                 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -82,7 +84,28 @@ namespace CheckIT.API
                             ValidateAudience = false
                         };
                     });
-                }
+
+            services.AddAuthentication(sharedOptions => { })
+                .AddCookie()
+                .AddOpenIdConnect("QuickBooks", "QuickBooks", openIdConnectOptions =>
+                {
+                    openIdConnectOptions.Authority = "QuickBooks";
+                    openIdConnectOptions.UseTokenLifetime = true;
+                    openIdConnectOptions.ClientId = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
+                    openIdConnectOptions.ClientSecret = "2fIgJ5b2SG4YJLgklJYfjZe2kKVvY7lhLtRyMEKI";
+                    openIdConnectOptions.ResponseType = OpenIdConnectResponseType.Code;
+                    openIdConnectOptions.MetadataAddress = "https://developer.api.intuit.com/.well-known/openid_sandbox_configuration/";    //development path
+                    openIdConnectOptions.ProtocolValidator.RequireNonce = false;
+                    openIdConnectOptions.SaveTokens = true;
+                    openIdConnectOptions.GetClaimsFromUserInfoEndpoint = true;
+                    openIdConnectOptions.Scope.Add("openid");
+                    openIdConnectOptions.Scope.Add("phone");
+                    openIdConnectOptions.Scope.Add("email");
+                    openIdConnectOptions.Scope.Add("address");
+                    openIdConnectOptions.Scope.Add("com.intuit.quickbooks.accounting");
+                    openIdConnectOptions.Scope.Add("com.intuit.quickbooks.payment");
+                });
+        }
 
             // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
