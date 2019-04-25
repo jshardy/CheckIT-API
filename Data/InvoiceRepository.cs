@@ -25,34 +25,45 @@ namespace CheckIT.API.Data
         {
             invoiceToAdd.InvoiceCust = _CustRepo.GetCustomer(invoiceToAdd.InvoiceCustID).Result;
 
-            foreach (var item in invoiceToAdd.InvoicesLineList)
-            {
-                // var newLineItem = new LineItem
-                // {
-                //     QuantitySold = item.Quantity,
-                //     Price = item.Price,
-                //     LineInvoiceID = invoiceToAdd.Id,
-                //     LineInvoice = invoiceToAdd,
-                //     LineInventoryID = item.ItemId,
-                //     LineInventory = _InvRepo.GetInventory(item.ItemId).Result
-                // };
+            // foreach (var item in invoiceToAdd.InvoicesLineList)
+            // {
+            //     // var newLineItem = new LineItem
+            //     // {
+            //     //     QuantitySold = item.Quantity,
+            //     //     Price = item.Price,
+            //     //     LineInvoiceID = invoiceToAdd.Id,
+            //     //     LineInvoice = invoiceToAdd,
+            //     //     LineInventoryID = item.ItemId,
+            //     //     LineInventory = _InvRepo.GetInventory(item.ItemId).Result
+            //     // };
 
-                _InvRepo.GetInventory(item.LineInventoryID).Result.InventoryLineList.Add(item);
+            //     _InvRepo.GetInventory(item.LineInventoryID).Result.InventoryLineList.Add(item);
 
-                if(invoiceToAdd.OutgoingInv == true)
-                {
-                    _InvRepo.GetInventory(item.LineInventoryID).Result.Quantity -= item.QuantitySold;
-                }
-                else
-                {
-                    _InvRepo.GetInventory(item.LineInventoryID).Result.Quantity += item.QuantitySold;
-                }
-            }
+            //     if(invoiceToAdd.OutgoingInv == true)
+            //     {
+            //         _InvRepo.GetInventory(item.LineInventoryID).Result.Quantity -= item.QuantitySold;
+            //     }
+            //     else
+            //     {
+            //         _InvRepo.GetInventory(item.LineInventoryID).Result.Quantity += item.QuantitySold;
+            //     }
+            // }
 
             await _context.Invoices.AddAsync(invoiceToAdd);
             await _context.SaveChangesAsync();
 
             return invoiceToAdd;
+        }
+
+        public async Task<LineItem> AddLineItem(LineItem lineItemToAdd)
+        {
+            // _InvRepo.GetInventory(lineItemToAdd.LineInventoryID).Result.InventoryLineList.Add(lineItemToAdd);
+            // GetOneInvoice(lineItemToAdd.LineInvoiceID).Result.InvoicesLineList.Add(lineItemToAdd);
+
+            await _context.LineItems.AddAsync(lineItemToAdd);
+            await _context.SaveChangesAsync();
+
+            return lineItemToAdd;
         }
 
         public async Task<Invoice> ArchiveInvoice(int invoiceID)
@@ -91,6 +102,7 @@ namespace CheckIT.API.Data
         public async Task<Invoice> GetOneInvoice(int invoiceID)
         {
             var invoice = await _context.Invoices.Include(p => p.InvoicesLineList)
+                                                    //.ThenInclude(p => p.LineInventory)
                                                  .Include(p => p.InvoiceCust)
                                                  .FirstOrDefaultAsync(x => x.Id == invoiceID);
 

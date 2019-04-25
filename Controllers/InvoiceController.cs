@@ -21,14 +21,16 @@ namespace CheckIT.API.Controllers
     [ApiController]
     public class InvoiceController : ControllerBase
     {
-        private readonly InvoiceRepository _repo;
+        private readonly InvoiceRepository _Irepo;
+        private readonly InventoryRepository _Invrepo;
         private readonly IMapper _mapper;
         private readonly AuthRepository _auth;
 
-        public InvoiceController(InvoiceRepository repo, IMapper mapper, AuthRepository auth)
+        public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo)
         {
             _mapper = mapper;
-            _repo = repo;
+            _Irepo = Irepo;
+            _Invrepo = Invrepo;
         }
 
         [HttpPost("AddInvoice")]
@@ -55,7 +57,7 @@ namespace CheckIT.API.Controllers
 
                 //var invoiceToCreate = _mapper.Map<Invoice>(iData);
 
-                var createdInvoice = await _repo.AddInvoice(invoiceToCreate);
+                var createdInvoice = await _Irepo.AddInvoice(invoiceToCreate);
 
                 return StatusCode(201);
             }
@@ -65,37 +67,69 @@ namespace CheckIT.API.Controllers
             }
         }
 
+        [HttpPost("AddLineItem")]
+        public async Task<IActionResult> AddLineItem(LineItemData iData)
+        {
+            if(ModelState.IsValid)
+            {
+                var lineItemToCreate = new LineItem
+                {
+                    QuantitySold = iData.Quantity,
+                    Price = iData.Price,
+                    LineInvoiceID = iData.InvoiceId,
+                    LineInvoice = _Irepo.GetOneInvoice(iData.InvoiceId).Result,
+                    LineInventoryID = iData.ItemId,
+                    LineInventory = _Invrepo.GetInventory(iData.ItemId).Result
+                };
+
+                await _Irepo.AddLineItem(lineItemToCreate);
+
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+            
+        }
+
         [HttpDelete("DeleteInvoice")]
         public async Task<IActionResult> ArchiveInvoice(int Id)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-            
-            if (user.UserPermissions.ArchiveInvoice == false)
-            {
-                return Unauthorized();
-            }
-            */
-
-            var removedInvoice = await _repo.ArchiveInvoice(Id);
+            var removedInvoice = await _Irepo.ArchiveInvoice(Id);
             return StatusCode(201);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-            
-            if (user.UserPermissions.ViewInventory == false)
+            var invoiceToFind = await _Irepo.GetOneInvoice(Id);
+
+            var invoiceToReturn = new InvoiceData
             {
-                return Unauthorized();
+                Id = invoiceToFind.Id,
+                InvoiceDate = invoiceToFind.InvoiceDate,
+                OutgoingInv = invoiceToFind.OutgoingInv,
+                AmountPaid = invoiceToFind.AmountPaid,
+                InvoiceCustID = invoiceToFind.InvoiceCustID,
+                LineItemList = new List<LineItemData>()
+            };
+
+            //var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
+
+            foreach (var item in invoiceToFind.InvoicesLineList)
+            {
+                var newLineitem = new LineItemData
+                {
+                    Id = item.Id,
+                    Quantity = item.QuantitySold,
+                    Price = item.Price,
+                    ItemId = item.LineInventoryID,
+                    InvoiceId = item.LineInvoiceID,
+                };
+
+                invoiceToReturn.LineItemList.Add(newLineitem);
             }
-            */
-
-            var invoiceToFind = await _repo.GetOneInvoice(Id);
-
-            var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
 
             return Ok(invoiceToReturn);
         }
@@ -106,16 +140,7 @@ namespace CheckIT.API.Controllers
                                                         decimal AmmountPaid = -1,
                                                         int CustID = -1)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-            
-            if (user.UserPermissions.ViewInvoice == false)
-            {
-                return Unauthorized();
-            }
-            */
-
-            var invoiceList = await _repo.GetInvoices(InvoiceDate,
+            var invoiceList = await _Irepo.GetInvoices(InvoiceDate,
                                                     OutgoingInv,
                                                     AmmountPaid,
                                                     CustID);
@@ -139,14 +164,17 @@ namespace CheckIT.API.Controllers
             */
 
             Invoice invoice;
-            invoice = await _repo.GetOneInvoice(Id);
+            invoice = await _Irepo.GetOneInvoice(Id);
 
             if (InvoiceDate != null) invoice.InvoiceDate = InvoiceDate.GetValueOrDefault();
             if (OutgoingInv != null) invoice.OutgoingInv = OutgoingInv.GetValueOrDefault();
             if (AmmountPaid != null) invoice.AmountPaid = AmmountPaid.GetValueOrDefault();
             //cust stuff?
 
-            var modifiedInvoice = await _repo.ModifyInvoice(invoice);
+            var updatedInventory = await _Irepo.ModifyInvoice(invoice);
+
+
+            var modifiedInvoice = await _Irepo.ModifyInvoice(invoice);
 
             return Ok(modifiedInvoice);
         }
