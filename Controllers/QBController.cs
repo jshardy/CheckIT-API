@@ -44,7 +44,7 @@ namespace CheckIT.API.Controllers
             //Get the authorization URL
             string authorizeUrl = auth2Client.GetAuthorizationURL(scopes);
 
-            return Redirect(authorizeUrl);
+            return Ok(authorizeUrl);
         }
     }
 }
