@@ -43,14 +43,13 @@ namespace CheckIT.API.Controllers
         [HttpPost("AddInventory")]
         public async Task<IActionResult> AddInventory(InventoryData iData)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.AddIventory == false)
+            if (permissions.AddIventory == false)
             {
                 return Unauthorized();
             }
-            */
 
             if(ModelState.IsValid)
             {
@@ -79,14 +78,13 @@ namespace CheckIT.API.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetInventory(int Id)//GetInventory(GetByIDDto getInventoryDto)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewInventory == false)
+            if (permissions.ViewInventory == false)
             {
                 return Unauthorized();
             }
-            */
 
             Inventory inventory;
             inventory = await _repo.GetInventory(Id); //GetInventory(getInventoryDto.Id);
@@ -97,14 +95,13 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetAllInventories")]
         public async Task<IActionResult> GetAllInventories()
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewInventory == false)
+            if (permissions.ViewInventory == false)
             {
                 return Unauthorized();
             }
-            */
 
             var itemList = await _repo.GetAllInventories();
             return Ok(itemList);
@@ -113,14 +110,13 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteInventory")] //[HttpDelete("DeleteInventory/{Id}")]
         public async Task<IActionResult> DeleteInventory(int Id)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ArchiveIventory == false)
+            if (permissions.ArchiveIventory == false)
             {
                 return Unauthorized();
             }
-            */
 
             var archivedInventory = await _repo.ArchiveInventory(Id);
             return StatusCode(201);
@@ -129,14 +125,13 @@ namespace CheckIT.API.Controllers
         [HttpPost("UpdateInventory")]
         public async Task<IActionResult> UpdateInventory(InventoryData InvenData)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.UpdateInventory == false)
+            if (permissions.UpdateInventory == false)
             {
                 return Unauthorized();
             }
-            */
 
             Inventory inventory;
             inventory = await _repo.GetInventory(InvenData.Id);
@@ -167,14 +162,13 @@ namespace CheckIT.API.Controllers
                                                     int LocationId = -1,
                                                     int AlertId = -1)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewInventory == false)
+            if (permissions.ViewInventory == false)
             {
                 return Unauthorized();
             }
-            */
 
             var inventoryList = await _repo.GetInventories(UPC,
                                                       Name,
@@ -190,14 +184,13 @@ namespace CheckIT.API.Controllers
 
         public async Task<IActionResult> GetItemByUPC(string UPC)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewInventory == false)
+            if (permissions.ViewInventory == false)
             {
                 return Unauthorized();
             }
-            */
 
             Inventory inventory = await _repo.GetItemByUPC(UPC);
             JSItem item = new JSItem();

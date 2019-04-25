@@ -59,7 +59,6 @@ namespace CheckIT.API.Controllers
             var isTokenValid = await auth2Client.ValidateIDTokenAsync(idToken);
 
             return Ok(isTokenValid);
-
         }
     }
 }

@@ -36,14 +36,13 @@ namespace CheckIT.API.Controllers
         [HttpPost("AddLocation/{locName}")]
         public async Task<IActionResult> AddLocation(string locName)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.AddLocation == false)
+            if (permissions.AddLocation == false)
             {
                 return Unauthorized();
             }
-            */
             
             if (ModelState.IsValid)
             {
@@ -67,14 +66,13 @@ namespace CheckIT.API.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetLocation(int Id)//GetLocation(GetByIDDto getLocationDto)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewLocation == false)
+            if (permissions.ViewLocation == false)
             {
                 return Unauthorized();
             }
-            */
 
             Location loc;
             loc = await _repo.GetLocation(Id); //GetLocation(getLocationDto.Id);
@@ -85,14 +83,13 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetAllLocations")]
         public async Task<IActionResult> GetAllLocations()
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewLocation == false)
+            if (permissions.ViewLocation == false)
             {
                 return Unauthorized();
             }
-            */
 
             var locList = await _repo.GetAllLocations();
             return Ok(locList);
@@ -101,14 +98,13 @@ namespace CheckIT.API.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetLocations(string Name, int LocInvID)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.ViewLocation == false)
+            if (permissions.ViewLocation == false)
             {
                 return Unauthorized();
             }
-            */
 
             var LocList = await _repo.GetLocations(Name, LocInvID);
             return Ok(LocList);
@@ -117,14 +113,13 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteLocation")] //[HttpPost("DeleteLocation/{Id}")]
         public async Task<IActionResult> DeleteLocation(int Id)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
             
-            if (user.UserPermissions.DeleteLocation == false)
+            if (permissions.DeleteLocation == false)
             {
                 return Unauthorized();
             }
-            */
 
             var deletedLocation = await _repo.DeleteLocation(Id);
             return StatusCode(201);
