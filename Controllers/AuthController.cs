@@ -139,17 +139,20 @@ namespace CheckIT.API.Controllers
         [HttpPatch("SetPermissions")]
         public async Task<IActionResult> SetPermissionsPreset(UserDto user)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             /*
-            User user;
-            
-            if (user.UserPermissions.SetUserPermissions == false)
+            User user_temp = await _repo.GetUser(this.User.Identity.Name);
+            Permissions permissions_temp = await _repo.GetPermissions(user_temp.Id);
+
+            if (permissions_temp.SetUserPermissions == false)
             {
                 return Unauthorized();
             }
             */
+
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
             Permissions permissions = new Permissions();
 
             permissions.Level = user.PermissionLevel;
@@ -287,14 +290,13 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            /*
-            User user;
-            
-            if (user.UserPermissions.ViewUserPermissions == false)
+            User user_temp = await _repo.GetUser(this.User.Identity.Name);
+            Permissions permissions_temp = await _repo.GetPermissions(user_temp.Id);
+
+            if (permissions_temp.ViewUserPermissions == false)
             {
                 return Unauthorized();
             }
-            */
 
             var userList = await _repo.GetAllUsers();
 

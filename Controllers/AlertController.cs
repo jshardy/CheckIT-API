@@ -25,18 +25,29 @@ namespace CheckIT.API.Controllers
     public class AlertController : ControllerBase
     {
         private readonly AlertRepository _repo;
+        private readonly AuthRepository _auth;
 
-        public AlertController(AlertRepository repo)
+        public AlertController(AlertRepository repo, AuthRepository auth)
         {
             _repo = repo;
+            _auth = auth;
         }
+
         //http://localhost:5000/api/Register
         //dto object to convert json to class
         [HttpPost("AddAlert")]
         public async Task<IActionResult> AddAlert([FromBody] AlertData alData)
         {
-           if(ModelState.IsValid)
-           {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.AddAlert == false)
+            {
+                return Unauthorized();
+            }
+
+            if(ModelState.IsValid)
+            {
                 var alertToCreate = new Alert
                 {
                     Threshold = alData.Threshold,
@@ -50,16 +61,24 @@ namespace CheckIT.API.Controllers
 
                 //created at root status code
                 return StatusCode(201);
-           }
-           else
-           {
-               return BadRequest(ModelState);
-           }
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetAlert(int Id)//GetAlert(GetByIDDto getAlertDto)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.ViewAlert == false)
+            {
+                return Unauthorized();
+            }
+
             Alert alert;
             alert = await _repo.GetAlert(Id); //GetAlert(getAlertDto.Id);
 
@@ -69,6 +88,14 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetAllAlerts")]
         public async Task<IActionResult> GetAllAlerts()
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.ViewAlert == false)
+            {
+                return Unauthorized();
+            }
+
             var alertList = await _repo.GetAllAlerts();
             return Ok(alertList);
         }
@@ -76,6 +103,14 @@ namespace CheckIT.API.Controllers
         [HttpGet("GetTriggeredAlerts")]
         public async Task<IActionResult> GetTriggeredAlerts()
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.ViewAlert == false)
+            {
+                return Unauthorized();
+            }
+
             List<Alert> triggeredAlerts = new List<Alert>(); //List<AlertData> triggeredAlerts = new 
 
             var alertList = await _repo.GetAllAlerts();
@@ -94,6 +129,14 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteAlert")] //[HttpDelete("DeleteAlert/{Id}")]
         public async Task<IActionResult> DeleteAlert(int Id)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.DeleteAlert == false)
+            {
+                return Unauthorized();
+            }
+
             var deletedAlert = await _repo.DeleteAlert(Id);
             return StatusCode(201);
         }
@@ -101,6 +144,14 @@ namespace CheckIT.API.Controllers
         [HttpPost("UpdateAlert")]
         public async Task<IActionResult> UpdateAlert(AlertData alertData)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateAlert == false)
+            {
+                return Unauthorized();
+            }
+
             Alert alert;
             alert = await _repo.GetAlert(alertData.Id);
 
@@ -122,6 +173,14 @@ namespace CheckIT.API.Controllers
         [HttpPatch("CheckAlertBit/{Id}")]
         public async Task<IActionResult> CheckAlertBit(int Id)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateAlert == false)
+            {
+                return Unauthorized();
+            }
+
             Alert alert;
             alert = await _repo.GetAlert(Id);
 
@@ -138,6 +197,14 @@ namespace CheckIT.API.Controllers
         [HttpPatch("UncheckAlertBit/{Id}")]
         public async Task<IActionResult> UncheckAlertBit(int Id)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateAlert == false)
+            {
+                return Unauthorized();
+            }
+
             Alert alert;
             alert = await _repo.GetAlert(Id);
 
@@ -154,6 +221,14 @@ namespace CheckIT.API.Controllers
         [HttpPatch("SetAlertBit")]
         public async Task<IActionResult> SetAlertBit(int Id, bool Set)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateAlert == false)
+            {
+                return Unauthorized();
+            }
+
             Alert alert;
             alert = await _repo.GetAlert(Id);
 
