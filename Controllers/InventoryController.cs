@@ -33,15 +33,15 @@ namespace CheckIT.API.Controllers
         private readonly InventoryRepository _repo;
         private readonly AuthRepository _auth;
 
-        public InventoryController(InventoryRepository repo)
+        public InventoryController(InventoryRepository repo, AuthRepository auth)
         {
             _repo = repo;
+            _auth = auth;
         }
         //http://localhost:5000/api/Register
         //dto object to convert json to class
         [HttpPost("AddInventory")]
-        public async Task<IActionResult> AddInventory(InventoryData iData,
-                                AuthRepository auth)
+        public async Task<IActionResult> AddInventory(InventoryData iData)
         {
             /*
             User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
