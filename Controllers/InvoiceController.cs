@@ -26,7 +26,7 @@ namespace CheckIT.API.Controllers
         private readonly IMapper _mapper;
         private readonly AuthRepository _auth;
         private static LastInvoiceData lastInvoice;
-        public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo)
+        //public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo)
 
         public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo, AuthRepository auth)
         {
