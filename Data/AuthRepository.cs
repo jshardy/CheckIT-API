@@ -111,6 +111,25 @@ namespace CheckIT.API.Data
             return permissions;
         }
 
+        public async Task<bool> DeleteUser(int ID)
+        {
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);
+            Permissions permissions = await _context.Permissions.FirstOrDefaultAsync(x => x.PermissionsUserId == ID);
+
+            if (user == null)
+                return false;
+            else
+            {
+                _context.Users.Remove(user);
+                if (permissions != null)
+                {
+                    _context.Permissions.Remove(permissions);
+                }
+                await _context.SaveChangesAsync();
+                return true;
+            }
+        }
+
         public async Task<bool> SetUserPermissions(int UserId, Permissions permissions)
         {
             User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == UserId);
