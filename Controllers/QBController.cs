@@ -34,7 +34,7 @@ namespace CheckIT.API.Controllers
         public static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
 
         [HttpGet("InitAuth")]
-        public IActionResult InitiateAuth(string submitButton)
+        public IActionResult InitiateAuth()
         {
             //Prepare scopes
             List<OidcScopes> scopes = new List<OidcScopes>();
