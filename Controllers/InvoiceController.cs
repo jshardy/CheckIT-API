@@ -26,7 +26,6 @@ namespace CheckIT.API.Controllers
         private readonly IMapper _mapper;
         private readonly AuthRepository _auth;
         private static LastInvoiceData lastInvoice = new LastInvoiceData();
-        //public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo)
 
         public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo, AuthRepository auth)
         {
@@ -39,14 +38,13 @@ namespace CheckIT.API.Controllers
         [HttpPost("AddInvoice")]
         public async Task<IActionResult> AddInvoice(InvoiceData iData)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-
-            if (user.UserPermissions.AddInvoice == false)
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.AddInvoice == false)
             {
                 return Unauthorized();
             }
-            */
 
             if (ModelState.IsValid)
             {
@@ -81,6 +79,14 @@ namespace CheckIT.API.Controllers
         [HttpPost("AddLineItem")]
         public async Task<IActionResult> AddLineItem(LineItemData iData)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.AddInvoice == false)
+            {
+                return Unauthorized();
+            }
+
             if(ModelState.IsValid)
             {
                 var lineItemToCreate = new LineItem
@@ -108,6 +114,14 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteInvoice")]
         public async Task<IActionResult> ArchiveInvoice(int Id)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.ArchiveInvoice == false)
+            {
+                return Unauthorized();
+            }
+
             var removedInvoice = await _Irepo.ArchiveInvoice(Id);
             return StatusCode(201);
         }
@@ -115,6 +129,14 @@ namespace CheckIT.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ReturnOneInvoice(int Id)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.ViewInvoice == false)
+            {
+                return Unauthorized();
+            }
+
             var invoiceToFind = await _Irepo.GetOneInvoice(Id);
 
             var invoiceToReturn = new InvoiceData
@@ -152,6 +174,14 @@ namespace CheckIT.API.Controllers
                                                         decimal AmmountPaid = -1,
                                                         int CustID = -1)
         {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.ViewInvoice == false)
+            {
+                return Unauthorized();
+            }
+
             var invoiceList = await _Irepo.GetInvoices(InvoiceDate,
                                                     OutgoingInv,
                                                     AmmountPaid,
@@ -166,14 +196,13 @@ namespace CheckIT.API.Controllers
                                                         decimal? AmmountPaid,
                                                         int? CustID)
         {
-            /*
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-
-            if (user.UserPermissions.UpdateInvoice == false)
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateInvoice == false)
             {
                 return Unauthorized();
             }
-            */
 
             Invoice invoice;
             invoice = await _Irepo.GetOneInvoice(Id);
@@ -188,39 +217,5 @@ namespace CheckIT.API.Controllers
 
             return Ok(modifiedInvoice);
         }
-
-        /*
-        [HttpPatch("AddLineItem")]
-        public async Task<IActionResult> AddLineItem(LineItemData lineItem)
-        {
-            User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-
-            if (user.UserPermissions.UpdateInvoice == false)
-            {
-                return Unauthorized();
-            }
-
-            if (ModelState.IsValid)
-            {
-                var lineItemToCreate = new LineItem
-                {
-                    InvoiceDate = iData.InvoiceDate,
-                    OutgoingInv = iData.OutgoingInv,
-                    AmountPaid = iData.AmountPaid,
-                    InvoiceCustID = iData.InvoiceCustID
-                };
-
-                //var invoiceToCreate = _mapper.Map<Invoice>(iData);
-
-                var createdInvoice = await _repo.AddInvoice(invoiceToCreate);
-
-                return StatusCode(201);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-        */
     }
 }
