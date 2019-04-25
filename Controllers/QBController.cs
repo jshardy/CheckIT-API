@@ -28,13 +28,13 @@ namespace CheckIT.API.Controllers
 
         static string clientid = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
         static string clientsecret = "2fIgJ5b2SG4YJLgklJYfjZe2kKVvY7lhLtRyMEKI";
-        static string redirectUrl = "https://localhost:60585/signin-oidc";
+        static string redirectUrl = "http://localhost:4200/";
         static string appEnvironment = "sandbox";
 
         public static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
 
         [HttpGet("InitAuth")]
-        public IActionResult InitiateAuth()
+        public string InitiateAuth()
         {
             //Prepare scopes
             List<OidcScopes> scopes = new List<OidcScopes>();
@@ -44,7 +44,22 @@ namespace CheckIT.API.Controllers
             //Get the authorization URL
             string authorizeUrl = auth2Client.GetAuthorizationURL(scopes);
 
-            return Redirect(authorizeUrl);
+            return authorizeUrl;
+        }
+
+        [HttpPost("ReturnAuth")]
+        public async Task<IActionResult> ReturnFromAuth(string state, string code)
+        {
+            var tokenResponse = await auth2Client.GetBearerTokenAsync(code);
+            //retrieve access_token and refresh_token
+            var temp1 = tokenResponse.AccessToken;
+            var temp2 = tokenResponse.RefreshToken;
+            var idToken = tokenResponse.IdentityToken;
+
+            var isTokenValid = await auth2Client.ValidateIDTokenAsync(idToken);
+
+            return Ok(isTokenValid);
+
         }
     }
 }
