@@ -102,6 +102,33 @@ namespace CheckIT.API.Data
             return users;
         }
 
+        public async Task<Permissions> CreatePermissions(Permissions permissions)
+        {
+            //save to database.
+            await _context.Permissions.AddAsync(permissions);
+            await _context.SaveChangesAsync();
+
+            return permissions;
+        }
+
+        public async Task<bool> SetUserPermissions(int UserId, Permissions permissions)
+        {
+            User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+            if (exist == null)
+                return false;
+
+            exist.UserPermissions = permissions;
+
+            //await _context.Customers.AddAsync(exist);
+            //await _context.SaveChangesAsync();*/
+
+            _context.Users.Update(exist);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<bool> ModifyUserPermissions(int ID, Permissions permissions)
         {
             //User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);

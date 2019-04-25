@@ -49,11 +49,20 @@ namespace CheckIT.API.Controllers
 
             var userToCreate = new User
             {
-                Username = userForRegisterDto.Username
+                Username = userForRegisterDto.Username,
             };
 
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
-            
+
+            var UserPermissionsToCreate = new Permissions
+            {
+                PermissionsUser = createdUser, //need?
+                PermissionsUserId = createdUser.Id
+            };
+
+            var createdPermissions = await _repo.CreatePermissions(UserPermissionsToCreate);
+            await _repo.SetUserPermissions(createdUser.Id, createdPermissions);
+
             UserDto createdUserDto = new UserDto
             {
                 Id = createdUser.Id,
@@ -289,7 +298,7 @@ namespace CheckIT.API.Controllers
                     new UserDto{
                         Id = user.Id,
                         Username = user.Username,
-                        PermissionLevel = user.UserPermissions.Level
+                        PermissionLevel = user.UserPermissions != null ? user.UserPermissions.Level : 4
                     }
                 );
             }
