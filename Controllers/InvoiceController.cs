@@ -72,6 +72,12 @@ namespace CheckIT.API.Controllers
             }
         }
 
+        [HttpGet("GetLastInvoiceID")]
+        public IActionResult GetLastInvoiceID()
+        {
+            return Ok(lastInvoice);
+        }
+
         [HttpPost("AddLineItem")]
         public async Task<IActionResult> AddLineItem(LineItemData iData)
         {
