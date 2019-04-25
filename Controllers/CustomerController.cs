@@ -108,7 +108,6 @@ namespace CheckIT.API.Controllers
         [HttpPatch("ModifyCustomer")]
         public async Task<IActionResult> ModifyCustomer(int id, CustomerData CustData)
         {
-            /*
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
             
@@ -116,7 +115,6 @@ namespace CheckIT.API.Controllers
             {
                 return Unauthorized();
             }
-            */
 
             var custToPass = new Customer
             {
