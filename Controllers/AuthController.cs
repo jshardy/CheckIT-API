@@ -119,8 +119,8 @@ namespace CheckIT.API.Controllers
             return user;
         }
 
-        [HttpDelete("DeleteCustomer")]
-        public async Task<IActionResult> DeleteCustomer(int Id)
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(int Id)
         {
             if (await _repo.DeleteUser(Id))
                 return StatusCode(201);
