@@ -25,6 +25,8 @@ namespace CheckIT.API.Controllers
         private readonly InventoryRepository _Invrepo;
         private readonly IMapper _mapper;
         private readonly AuthRepository _auth;
+        private static LastInvoiceData lastInvoice;
+        public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo)
 
         public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo, AuthRepository auth)
         {
@@ -39,7 +41,7 @@ namespace CheckIT.API.Controllers
         {
             /*
             User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-            
+
             if (user.UserPermissions.AddInvoice == false)
             {
                 return Unauthorized();
@@ -59,6 +61,8 @@ namespace CheckIT.API.Controllers
                 //var invoiceToCreate = _mapper.Map<Invoice>(iData);
 
                 var createdInvoice = await _Irepo.AddInvoice(invoiceToCreate);
+                lastInvoice.username = this.User.Identity.Name;
+                lastInvoice.lastInvoiceId = createdInvoice.Id;
 
                 return StatusCode(201);
             }
@@ -89,9 +93,10 @@ namespace CheckIT.API.Controllers
             }
             else
             {
+                lastInvoice.username = null;
                 return BadRequest(ModelState);
             }
-            
+
         }
 
         [HttpDelete("DeleteInvoice")]
@@ -157,7 +162,7 @@ namespace CheckIT.API.Controllers
         {
             /*
             User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-            
+
             if (user.UserPermissions.UpdateInvoice == false)
             {
                 return Unauthorized();
@@ -173,8 +178,6 @@ namespace CheckIT.API.Controllers
             //cust stuff?
 
             var updatedInventory = await _Irepo.ModifyInvoice(invoice);
-
-
             var modifiedInvoice = await _Irepo.ModifyInvoice(invoice);
 
             return Ok(modifiedInvoice);
@@ -185,7 +188,7 @@ namespace CheckIT.API.Controllers
         public async Task<IActionResult> AddLineItem(LineItemData lineItem)
         {
             User user = await _auth.GetUser(int.Parse(this.User.Identity.Name));
-            
+
             if (user.UserPermissions.UpdateInvoice == false)
             {
                 return Unauthorized();
