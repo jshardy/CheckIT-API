@@ -28,7 +28,7 @@ namespace CheckIT.API.Controllers
 
         static string clientid = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
         static string clientsecret = "2fIgJ5b2SG4YJLgklJYfjZe2kKVvY7lhLtRyMEKI";
-        static string redirectUrl = "http://localhost:4200/";
+        static string redirectUrl = "http://localhost:4200/quickbooks/";
         static string appEnvironment = "sandbox";
 
         public static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
