@@ -40,7 +40,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.AddInvoice == false)
             {
                 return Unauthorized();
@@ -81,7 +81,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.AddInvoice == false)
             {
                 return Unauthorized();
@@ -116,7 +116,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ArchiveInvoice == false)
             {
                 return Unauthorized();
@@ -131,7 +131,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewInvoice == false)
             {
                 return Unauthorized();
@@ -176,7 +176,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewInvoice == false)
             {
                 return Unauthorized();
@@ -198,7 +198,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.UpdateInvoice == false)
             {
                 return Unauthorized();
