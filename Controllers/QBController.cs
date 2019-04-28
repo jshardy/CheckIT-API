@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Intuit.Ipp.OAuth2PlatformClient;
 using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http;
 
 namespace CheckIT.API.Controllers
 {
@@ -28,10 +30,14 @@ namespace CheckIT.API.Controllers
 
         static string clientid = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
         static string clientsecret = "2fIgJ5b2SG4YJLgklJYfjZe2kKVvY7lhLtRyMEKI";
-        static string redirectUrl = "http://localhost:4200/";
+        static string redirectUrl = "http://localhost:4200/quickbooks/";
         static string appEnvironment = "sandbox";
+        static string access_token = "";
+        static string realmId = "193514879130364";
+        static string baseUrl = "https://quickbooks.api.intuit.com/v3/company/193514879130364/invoice?minorversion=4";
 
-        public static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
+        private static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
+        private static readonly HttpClient client = new HttpClient();
 
         [HttpGet("InitAuth")]
         public string InitiateAuth()
@@ -48,15 +54,18 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("ReturnAuth")]
-        public async Task<string> ReturnFromAuth(string state, string code)
+        public async Task<string> ReturnFromAuth(StatePair pair)
         {
-            var tokenResponse = await auth2Client.GetBearerTokenAsync(code);
+            var tokenResponse = await auth2Client.GetBearerTokenAsync(pair.Code);
             //retrieve access_token and refresh_token
-            var temp1 = tokenResponse.AccessToken;
-            var temp2 = tokenResponse.RefreshToken;
+            access_token = tokenResponse.AccessToken;
             var idToken = tokenResponse.IdentityToken;
 
+            System.Console.WriteLine(idToken);
+
             var isTokenValid = await auth2Client.ValidateIDTokenAsync(idToken);
+
+            System.Console.WriteLine(isTokenValid);
 
             return redirectUrl;
         }
