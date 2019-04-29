@@ -53,6 +53,8 @@ namespace CheckIT.API.Controllers
                     InvoiceDate = iData.InvoiceDate,
                     OutgoingInv = iData.OutgoingInv,
                     AmountPaid = iData.AmountPaid,
+                    Tax = iData.Tax,
+                    Discount = iData.Discount,
                     InvoiceCustID = iData.InvoiceCustID
                 };
 
