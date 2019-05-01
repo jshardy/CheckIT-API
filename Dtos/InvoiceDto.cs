@@ -11,6 +11,8 @@ namespace CheckIT.API.Dtos
         public DateTime InvoiceDate { get; set; }
         public bool OutgoingInv { get; set; }
         public decimal AmountPaid { get; set; }
+        public decimal Tax {get; set;}
+        public decimal Discount {get; set;}
         public int InvoiceCustID { get; set; }
         public List<LineItemData> LineItemList { get; set; }
     }

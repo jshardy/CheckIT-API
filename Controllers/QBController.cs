@@ -16,6 +16,13 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Intuit.Ipp.OAuth2PlatformClient;
 using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http;
+using Intuit.Ipp.Security;
+using Intuit.Ipp.Core;
+using Intuit.Ipp.QueryFilter;
+using Intuit.Ipp.Data;
+using System.Linq;
 
 namespace CheckIT.API.Controllers
 {
@@ -24,14 +31,26 @@ namespace CheckIT.API.Controllers
     [ApiController]
     public class QuickBookController : ControllerBase
     {
-        private readonly QuickRepository _repo;
+        private readonly QuickRepository _qrepo;
+        private readonly InvoiceRepository _irepo;
+
+        public QuickBookController(QuickRepository qrepo, InvoiceRepository irepo)
+        {
+            _qrepo = qrepo;
+            _irepo = irepo;
+        }
 
         static string clientid = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
         static string clientsecret = "2fIgJ5b2SG4YJLgklJYfjZe2kKVvY7lhLtRyMEKI";
-        static string redirectUrl = "http://localhost:4200/";
+        static string redirectUrl = "http://localhost:4200/quickbooks/";
         static string appEnvironment = "sandbox";
+        static string baseUrl = "https://quickbooks.api.intuit.com/v3/company/193514879130364/invoice?minorversion=4";
+        static string access_token = "";
+        string idToken = "";
+        static string realmID = "123146326719279";
 
-        public static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
+        private static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
+        private static readonly HttpClient client = new HttpClient();
 
         [HttpGet("InitAuth")]
         public string InitiateAuth()
@@ -48,17 +67,31 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("ReturnAuth")]
-        public async Task<string> ReturnFromAuth(string state, string code)
+        public async Task<string> ReturnFromAuth(StatePair pair)
         {
-            var tokenResponse = await auth2Client.GetBearerTokenAsync(code);
+            System.Console.WriteLine("Code: " + pair.Code + "\n");
+            System.Console.WriteLine("State: " + pair.State + "\n");
+
+            var tokenResponse = await auth2Client.GetBearerTokenAsync(pair.Code);
+
             //retrieve access_token and refresh_token
-            var temp1 = tokenResponse.AccessToken;
-            var temp2 = tokenResponse.RefreshToken;
-            var idToken = tokenResponse.IdentityToken;
+            access_token = tokenResponse.AccessToken;
+            idToken = tokenResponse.IdentityToken;
 
             var isTokenValid = await auth2Client.ValidateIDTokenAsync(idToken);
 
+            System.Console.WriteLine(isTokenValid);
+
             return redirectUrl;
+        }
+
+        [HttpPost("QuickAPICall")]
+        public async Task<string> QuickCall(int ID)
+        {
+            var invoiceToConvert = await _irepo.GetOneInvoice(ID);
+            await _qrepo.SendInvoice(invoiceToConvert, realmID, idToken);
+
+            return "lol";
         }
     }
 }

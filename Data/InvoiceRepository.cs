@@ -104,6 +104,7 @@ namespace CheckIT.API.Data
             var invoice = await _context.Invoices.Include(p => p.InvoicesLineList)
                                                     //.ThenInclude(p => p.LineInventory)
                                                  .Include(p => p.InvoiceCust)
+                                                    .ThenInclude(p => p.CustAddress)
                                                  .FirstOrDefaultAsync(x => x.Id == invoiceID);
 
             return invoice;
