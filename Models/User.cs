@@ -12,5 +12,6 @@ namespace CheckIT.API.Models
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public Permissions UserPermissions { get; set; }
+        public string ApiAuthToken { get; set; }
     }
 }

@@ -111,7 +111,7 @@ namespace CheckIT.API.Controllers
                 return Unauthorized();
             }
 
-            List<Alert> triggeredAlerts = new List<Alert>(); //List<AlertData> triggeredAlerts = new 
+            List<Alert> triggeredAlerts = new List<Alert>();
 
             var alertList = await _repo.GetAllAlerts();
 

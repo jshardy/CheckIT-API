@@ -148,6 +148,21 @@ namespace CheckIT.API.Data
             return true;
         }
 
+        public async Task<bool> SetApiAuthToken(int UserId, string token)
+        {
+            User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+            if (exist == null)
+                return false;
+
+            exist.ApiAuthToken = token;
+
+            _context.Users.Update(exist);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<bool> ModifyUserPermissions(int ID, Permissions permissions)
         {
             //User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == ID);
