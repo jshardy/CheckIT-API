@@ -6,6 +6,7 @@ using CheckIT.API.Models;
 using checkit.api.Models.Quickbook_Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
 namespace CheckIT.API.Data
 {
@@ -14,6 +15,10 @@ namespace CheckIT.API.Data
         private readonly DataContext _context;
         private CustRepository _CustRepo;
         private InventoryRepository _InvRepo;
+        static HttpClient client = new HttpClient();
+        static string baseURL = "https://sandbox-quickbooks.api.intuit.com/v3/company/";
+        static string minorVersion = "57";
+
 
         public QuickRepository(DataContext context)
         {
@@ -22,14 +27,44 @@ namespace CheckIT.API.Data
             _InvRepo = new InventoryRepository(context);
         }
 
-        public async Task<QB_Invoice> SendInvoice(Invoice inv_convert)
+        static async Task<HttpContent> CreateCustomerAsync(string realmID, QB_Customer customer)
+        {
+            string CustomerURL = baseURL + realmID + "customer?minorversion=" + minorVersion;
+
+            HttpResponseMessage response = await client.PostAsJsonAsync(CustomerURL, customer);
+            response.EnsureSuccessStatusCode();
+
+            return response.Content;//.Headers.Location;
+        }
+
+        static async Task<HttpContent> CreateItemAsync(string realmID, QB_Item item)
+        {
+            string ItemURL = baseURL + realmID + "item?minorversion=" + minorVersion;
+
+            HttpResponseMessage response = await client.PostAsJsonAsync(ItemURL, item);
+            response.EnsureSuccessStatusCode();
+
+            return response.Content;//.Headers.Location;
+        }
+
+        static async Task<HttpContent> CreateInvoiceAsync(string realmID, QB_Invoice inv)
+        {
+            string ItemURL = baseURL + realmID + "invoice?minorversion=" + minorVersion;
+
+            HttpResponseMessage response = await client.PostAsJsonAsync(ItemURL, inv);
+            response.EnsureSuccessStatusCode();
+
+            return response.Content;//.Headers.Location;
+        }
+
+        public async Task<QB_Invoice> SendInvoice(Invoice inv_convert, string realmID)
         {
             var curr_customer  = inv_convert.InvoiceCust;
             var curr_address = inv_convert.InvoiceCust.CustAddress;
 
-            var new_Customer = new QB_Customer()
+            var new_Customer = new QB_Customer
             {
-                BillAddr = new CustBilling()
+                BillAddr = new CustBilling
                 {
                     Line1 = curr_address.Street,
                     City = curr_address.City,
@@ -41,16 +76,18 @@ namespace CheckIT.API.Data
                 Notes = "",
                 DisplayName = curr_customer.LastName + ", " + curr_customer.FirstName,
                 
-                PrimaryPhone = new CustPhone()
+                PrimaryPhone = new CustPhone
                 {
                     FreeFormNumber = curr_customer.PhoneNumber
                 },
 
-                PrimaryEmailAddr = new CustEmailAddr()
+                PrimaryEmailAddr = new CustEmailAddr
                 {
                     Address = curr_customer.Email
                 }
             };
+
+            var CustResult = await CreateCustomerAsync(realmID, new_Customer);
 
             var ItemList = inv_convert.InvoicesLineList;
             int ItemSize = ItemList.Count;
@@ -66,23 +103,23 @@ namespace CheckIT.API.Data
 
             foreach (var item in ItemList)
             {
-                var new_Item = new QB_Item()
+                var new_Item = new QB_Item
                 {
                     Name = item.LineInventory.Name,
                     
-                    IncomeAccountRef = new ItemIncomeAccountRef()
+                    IncomeAccountRef = new ItemIncomeAccountRef
                     {
                         value = IncomeAcct.ToString(),
                         name = IncomeName
                     },
 
-                    ExpenseAccountRef = new ItemExpenseAccountRef()
+                    ExpenseAccountRef = new ItemExpenseAccountRef
                     {
                         value = ExpenseAcct.ToString(),
                         name = ExpenseName
                     },
 
-                    AssetAccountRef = new ItemAssetAccountRef()
+                    AssetAccountRef = new ItemAssetAccountRef
                     {
                         value = AssetAcct.ToString(),
                         name = AssetName
@@ -93,11 +130,17 @@ namespace CheckIT.API.Data
                     QtyOnHand = item.QuantitySold,
                     InvStartDate = inv_convert.InvoiceDate.ToString()
                 };
+
+                var ItemReturn = await CreateItemAsync(realmID, new_Item);
             }
 
-            var new_Invoice = new QB_Invoice()
+            var new_Invoice = new QB_Invoice
             {
-
+                Line = new List<LineObj>(),
+                CustomerRef = new CustomerRefObj
+                {
+                    value = "2"
+                }
             };
 
             return new_Invoice;
