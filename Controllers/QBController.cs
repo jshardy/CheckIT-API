@@ -33,11 +33,13 @@ namespace CheckIT.API.Controllers
     {
         private readonly QuickRepository _qrepo;
         private readonly InvoiceRepository _irepo;
+        private readonly AuthController _auth_controller;
 
-        public QuickBookController(QuickRepository qrepo, InvoiceRepository irepo)
+        public QuickBookController(QuickRepository qrepo, InvoiceRepository irepo, AuthController auth_controller)
         {
             _qrepo = qrepo;
             _irepo = irepo;
+            _auth_controller = auth_controller;
         }
 
         static string clientid = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
