@@ -110,8 +110,8 @@ namespace CheckIT.API.Data
             return invoice;
         }
 
-        public async Task<IEnumerable<Invoice>> GetInvoices(DateTime InvDate, 
-                                                            bool Out, 
+        public async Task<IEnumerable<Invoice>> GetInvoices(DateTime InvDate,
+                                                            bool Out,
                                                             decimal Ammount,
                                                             int CustID)
         {
@@ -141,5 +141,18 @@ namespace CheckIT.API.Data
 
             return await query.ToListAsync();
         }
+
+        public async Task<IEnumerable<Invoice>> GetInvoicesByCustId(int CustID)
+        {
+            IQueryable<Invoice> query = _context.Invoices;
+
+            if (CustID != -1)
+            {
+                query = query.Where(p => p.InvoiceCust.Id == CustID);
+            }
+            
+            return await query.ToListAsync();
+        }
+
     }
 }
