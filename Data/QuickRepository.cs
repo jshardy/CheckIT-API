@@ -27,17 +27,20 @@ namespace CheckIT.API.Data
             _InvRepo = new InventoryRepository(context);
         }
 
-        static async Task<HttpContent> CreateCustomerAsync(string realmID, QB_Customer customer)
+        static async Task<HttpContent> CreateCustomerAsync(string idToken, string realmID, QB_Customer customer)
         {
-            string CustomerURL = baseURL + realmID + "customer?minorversion=" + minorVersion;
+            string CustomerURL = baseURL + realmID + "/customer?minorversion=" + minorVersion;
 
+            client.SetBearerToken(idToken);
             HttpResponseMessage response = await client.PostAsJsonAsync(CustomerURL, customer);
+
+            System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
             response.EnsureSuccessStatusCode();
 
             return response.Content;//.Headers.Location;
         }
 
-        static async Task<HttpContent> CreateItemAsync(string realmID, QB_Item item)
+        static async Task<HttpContent> CreateItemAsync(string idToken, string realmID, QB_Item item)
         {
             string ItemURL = baseURL + realmID + "item?minorversion=" + minorVersion;
 
@@ -47,7 +50,7 @@ namespace CheckIT.API.Data
             return response.Content;//.Headers.Location;
         }
 
-        static async Task<HttpContent> CreateInvoiceAsync(string realmID, QB_Invoice inv)
+        static async Task<HttpContent> CreateInvoiceAsync(string idToken, string realmID, QB_Invoice inv)
         {
             string ItemURL = baseURL + realmID + "invoice?minorversion=" + minorVersion;
 
@@ -57,7 +60,7 @@ namespace CheckIT.API.Data
             return response.Content;//.Headers.Location;
         }
 
-        public async Task<QB_Invoice> SendInvoice(Invoice inv_convert, string realmID)
+        public async Task<QB_Invoice> SendInvoice(Invoice inv_convert, string realmID, string idToken)
         {
             var curr_customer  = inv_convert.InvoiceCust;
             var curr_address = inv_convert.InvoiceCust.CustAddress;
@@ -87,7 +90,7 @@ namespace CheckIT.API.Data
                 }
             };
 
-            var CustResult = await CreateCustomerAsync(realmID, new_Customer);
+            var CustResult = await CreateCustomerAsync(idToken, realmID, new_Customer);
 
             var ItemList = inv_convert.InvoicesLineList;
             int ItemSize = ItemList.Count;
@@ -131,7 +134,7 @@ namespace CheckIT.API.Data
                     InvStartDate = inv_convert.InvoiceDate.ToString()
                 };
 
-                var ItemReturn = await CreateItemAsync(realmID, new_Item);
+                var ItemReturn = await CreateItemAsync(idToken, realmID, new_Item);
             }
 
             var new_Invoice = new QB_Invoice

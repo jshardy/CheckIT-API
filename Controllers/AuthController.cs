@@ -127,6 +127,14 @@ namespace CheckIT.API.Controllers
             return BadRequest("Could not find User");
         }
 
+        [HttpPatch("SetApiAuthToken")]
+        public async Task<IActionResult> SetApiAuthToken(int Id, string token)
+        {
+            if (await _repo.SetApiAuthToken(Id, token))
+                return StatusCode(201);
+            return BadRequest("Could not find User");
+        }
+
         /*
         Permission Levels:
             -1) Custom

@@ -46,7 +46,7 @@ namespace CheckIT.API.Controllers
         static string appEnvironment = "sandbox";
         static string baseUrl = "https://quickbooks.api.intuit.com/v3/company/193514879130364/invoice?minorversion=4";
         static string access_token = "";
-        static string idToken = "";
+        string idToken = "";
         static string realmID = "123146326719279";
 
         private static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
@@ -73,6 +73,7 @@ namespace CheckIT.API.Controllers
             System.Console.WriteLine("State: " + pair.State + "\n");
 
             var tokenResponse = await auth2Client.GetBearerTokenAsync(pair.Code);
+
             //retrieve access_token and refresh_token
             access_token = tokenResponse.AccessToken;
             idToken = tokenResponse.IdentityToken;
@@ -88,7 +89,7 @@ namespace CheckIT.API.Controllers
         public async Task<string> QuickCall(int ID)
         {
             var invoiceToConvert = await _irepo.GetOneInvoice(ID);
-            await _qrepo.SendInvoice(invoiceToConvert, realmID);
+            await _qrepo.SendInvoice(invoiceToConvert, realmID, idToken);
 
             return "lol";
         }
