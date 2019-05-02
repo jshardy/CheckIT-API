@@ -111,6 +111,13 @@ namespace CheckIT.API.Controllers
             });
         }
 
+        public async Task<User> GetCurrentUser()
+        {
+            User user = await _repo.GetUser(this.User.Identity.Name);
+
+            return user;
+        }
+
         public async Task<User> GetUser(int Id)
         {
             User user;
