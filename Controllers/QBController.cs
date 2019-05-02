@@ -33,13 +33,13 @@ namespace CheckIT.API.Controllers
     {
         private readonly QuickRepository _qrepo;
         private readonly InvoiceRepository _irepo;
-        private readonly AuthController _auth_controller;
+        private readonly AuthRepository _auth;
 
-        public QuickBookController(QuickRepository qrepo, InvoiceRepository irepo, AuthController auth_controller)
+        public QuickBookController(QuickRepository qrepo, InvoiceRepository irepo, AuthRepository auth)
         {
             _qrepo = qrepo;
             _irepo = irepo;
-            _auth_controller = auth_controller;
+            _auth = auth;
         }
 
         static string clientid = "L0DmejFFXUqcTekLnCsfYPhMOelKJ4NajoabbbEVsQZZXLtZ1C";
@@ -95,5 +95,33 @@ namespace CheckIT.API.Controllers
 
             return "lol";
         }
+
+        [HttpGet("GetCurrentUser")]
+        public async Task<CheckIT.API.Models.User> GetCurrentUser()
+        {
+            CheckIT.API.Models.User user = await _auth.GetUser(this.User.Identity.Name);
+
+            return user;
+        }
+
+        [HttpGet("GetApiAuthToken")]
+        public async Task<string> GetApiAuthToken()
+        {
+            CheckIT.API.Models.User user = await _auth.GetUser(this.User.Identity.Name);
+            string token = user.ApiAuthToken;
+
+            return token;
+        }
+
+        [HttpGet("SetApiAuthToken")]
+        public async Task<IActionResult> SetApiAuthToken(string token)
+        {
+            CheckIT.API.Models.User user = await _auth.GetUser(this.User.Identity.Name);
+            
+            if (await _auth.SetApiAuthToken(user.Id, token))
+                return StatusCode(201);
+            return BadRequest("Could not find User");
+        }
+
     }
 }
