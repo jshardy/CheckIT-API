@@ -46,10 +46,9 @@ namespace CheckIT.API.Controllers
         static string clientsecret = "2fIgJ5b2SG4YJLgklJYfjZe2kKVvY7lhLtRyMEKI";
         static string redirectUrl = "http://localhost:4200/quickbooks/";
         static string appEnvironment = "sandbox";
-        static string baseUrl = "https://quickbooks.api.intuit.com/v3/company/193514879130364/invoice?minorversion=4";
         static string access_token = "";
         string idToken = "";
-        static string realmID = "123146326719279";
+        string realmId = "";
 
         private static OAuth2Client auth2Client = new OAuth2Client(clientid, clientsecret, redirectUrl, appEnvironment);
         private static readonly HttpClient client = new HttpClient();
@@ -59,8 +58,9 @@ namespace CheckIT.API.Controllers
         {
             //Prepare scopes
             List<OidcScopes> scopes = new List<OidcScopes>();
-            scopes.Add(OidcScopes.OpenId);
-            scopes.Add(OidcScopes.Email);
+            //scopes.Add(OidcScopes.Email);
+            scopes.Add(OidcScopes.Accounting);
+            //scopes.Add(OidcScopes.OpenId);
 
             //Get the authorization URL
             string authorizeUrl = auth2Client.GetAuthorizationURL(scopes);
@@ -73,6 +73,7 @@ namespace CheckIT.API.Controllers
         {
             System.Console.WriteLine("Code: " + pair.Code + "\n");
             System.Console.WriteLine("State: " + pair.State + "\n");
+            System.Console.WriteLine("RealmId: " + pair.RealmId + "\n");
 
             var tokenResponse = await auth2Client.GetBearerTokenAsync(pair.Code);
 
@@ -82,6 +83,8 @@ namespace CheckIT.API.Controllers
 
             var isTokenValid = await auth2Client.ValidateIDTokenAsync(idToken);
 
+            await SetApiAuthToken(access_token);
+
             System.Console.WriteLine(isTokenValid);
 
             return redirectUrl;
@@ -90,8 +93,10 @@ namespace CheckIT.API.Controllers
         [HttpPost("QuickAPICall")]
         public async Task<string> QuickCall(int ID)
         {
+            string authToken = GetApiAuthToken().Result;
+
             var invoiceToConvert = await _irepo.GetOneInvoice(ID);
-            await _qrepo.SendInvoice(invoiceToConvert, realmID, idToken);
+            await _qrepo.SendInvoice(invoiceToConvert, authToken);
 
             return "lol";
         }
@@ -119,7 +124,10 @@ namespace CheckIT.API.Controllers
             CheckIT.API.Models.User user = await _auth.GetUser(this.User.Identity.Name);
             
             if (await _auth.SetApiAuthToken(user.Id, token))
+            {
                 return StatusCode(201);
+            }
+
             return BadRequest("Could not find User");
         }
 

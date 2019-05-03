@@ -5,5 +5,6 @@ namespace CheckIT.API.Dtos
         public int Id { get; set; }
         public string Username { get; set; }
         public int PermissionLevel { get; set; }
+        public int realmID { get; set; }
     }
 }
