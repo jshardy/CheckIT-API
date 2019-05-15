@@ -84,7 +84,7 @@ namespace CheckIT.API.Controllers
             if(user == null)
                 return BadRequest("Cannot find user");
 
-            return Ok(user.Username);
+            return Ok();
         }
 
         [HttpPost("login")]
