@@ -51,6 +51,8 @@ namespace CheckIT.API.Data
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
+            user.MainAdmin = false;
+
             //save to database.
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -87,6 +89,20 @@ namespace CheckIT.API.Data
             User user = await _context.Users.Include(x => x.UserPermissions).FirstOrDefaultAsync(x => x.Username == username);
 
             return user;
+        }
+
+        public async Task<bool> MainAdminExists()
+        {
+            User user = await _context.Users.Include(x => x.UserPermissions).FirstOrDefaultAsync(x => x.MainAdmin == true);
+            
+            if (user != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<Permissions> GetPermissions(int ID)
@@ -156,6 +172,21 @@ namespace CheckIT.API.Data
                 return false;
 
             exist.ApiAuthToken = token;
+
+            _context.Users.Update(exist);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> SetMainAdmin(int UserId, bool mainAdmin)
+        {
+            User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+            if (exist == null)
+                return false;
+
+            exist.MainAdmin = mainAdmin;
 
             _context.Users.Update(exist);
             await _context.SaveChangesAsync();
