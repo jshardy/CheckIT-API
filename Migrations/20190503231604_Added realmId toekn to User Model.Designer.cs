@@ -4,14 +4,16 @@ using CheckIT.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190503231604_Added realmId toekn to User Model")]
+    partial class AddedrealmIdtoekntoUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,7 +263,7 @@ namespace CheckIT.API.Migrations
 
                     b.Property<string>("Username");
 
-                    b.Property<string>("realmID");
+                    b.Property<int>("realmID");
 
                     b.HasKey("Id");
 

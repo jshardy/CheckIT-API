@@ -51,7 +51,7 @@ namespace CheckIT.API.Data
             if (exist == null)
                 return false;
 
-            _context.Addresses.Remove(exist);
+            //_context.Addresses.Remove(exist);
 
             if (change.Country != null)
                 exist.Country = change.Country;
@@ -64,7 +64,8 @@ namespace CheckIT.API.Data
             if (change.AptNum != null)
                 exist.AptNum = change.AptNum;
 
-            await _context.Addresses.AddAsync(exist);
+            //await _context.Addresses.AddAsync(exist);
+            _context.Addresses.Update(exist);
             await _context.SaveChangesAsync();
 
             return true;

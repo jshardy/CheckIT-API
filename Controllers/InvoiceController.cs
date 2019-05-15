@@ -170,6 +170,18 @@ namespace CheckIT.API.Controllers
             return Ok(invoiceToReturn);
         }
 
+
+        [HttpGet("GetInvoicesForCustomerId")]
+        public async Task<IActionResult> GetInvoicesForCustomerId(int CustomerId)
+        {
+            if(CustomerId > 0)
+            {
+                var invoices = await _Irepo.GetInvoicesByCustId(CustomerId);
+                return Ok(invoices);
+            }
+            return Ok(null);
+        }
+
         [HttpGet()]
         public async Task<IActionResult> ReturnInvoices(DateTime InvoiceDate = default(DateTime),
                                                         bool OutgoingInv = false,

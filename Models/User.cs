@@ -13,5 +13,6 @@ namespace CheckIT.API.Models
         public byte[] PasswordSalt { get; set; }
         public Permissions UserPermissions { get; set; }
         public string ApiAuthToken { get; set; }
+        public string realmID { get; set; }
     }
 }

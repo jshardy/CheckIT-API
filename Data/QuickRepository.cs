@@ -7,6 +7,7 @@ using checkit.api.Models.Quickbook_Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace CheckIT.API.Data
 {
@@ -17,7 +18,7 @@ namespace CheckIT.API.Data
         private InventoryRepository _InvRepo;
         static HttpClient client = new HttpClient();
         static string baseURL = "https://sandbox-quickbooks.api.intuit.com/v3/company/";
-        static string minorVersion = "57";
+        static string minorVersion = "37";
 
 
         public QuickRepository(DataContext context)
@@ -27,22 +28,24 @@ namespace CheckIT.API.Data
             _InvRepo = new InventoryRepository(context);
         }
 
-        static async Task<HttpContent> CreateCustomerAsync(string idToken, string realmID, QB_Customer customer)
+        static async Task<HttpContent> CreateCustomerAsync(string access_token, QB_Customer customer)
         {
-            string CustomerURL = baseURL + realmID + "/customer?minorversion=" + minorVersion;
+            string CustomerURL = baseURL + "customer/"; //?minorversion=" + minorVersion;
 
-            client.SetBearerToken(idToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
             HttpResponseMessage response = await client.PostAsJsonAsync(CustomerURL, customer);
 
             System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
+            System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
             response.EnsureSuccessStatusCode();
 
             return response.Content;//.Headers.Location;
         }
 
-        static async Task<HttpContent> CreateItemAsync(string idToken, string realmID, QB_Item item)
+        static async Task<HttpContent> CreateItemAsync(string idToken, QB_Item item)
         {
-            string ItemURL = baseURL + realmID + "item?minorversion=" + minorVersion;
+            string ItemURL = baseURL + "item/"; //?minorversion=" + minorVersion;
 
             HttpResponseMessage response = await client.PostAsJsonAsync(ItemURL, item);
             response.EnsureSuccessStatusCode();
@@ -50,9 +53,9 @@ namespace CheckIT.API.Data
             return response.Content;//.Headers.Location;
         }
 
-        static async Task<HttpContent> CreateInvoiceAsync(string idToken, string realmID, QB_Invoice inv)
+        static async Task<HttpContent> CreateInvoiceAsync(string idToken, QB_Invoice inv)
         {
-            string ItemURL = baseURL + realmID + "invoice?minorversion=" + minorVersion;
+            string ItemURL = baseURL + "invoice/"; //?minorversion=" + minorVersion;
 
             HttpResponseMessage response = await client.PostAsJsonAsync(ItemURL, inv);
             response.EnsureSuccessStatusCode();
@@ -60,7 +63,7 @@ namespace CheckIT.API.Data
             return response.Content;//.Headers.Location;
         }
 
-        public async Task<QB_Invoice> SendInvoice(Invoice inv_convert, string realmID, string idToken)
+        public async Task<QB_Invoice> SendInvoice(Invoice inv_convert, string access_token)
         {
             var curr_customer  = inv_convert.InvoiceCust;
             var curr_address = inv_convert.InvoiceCust.CustAddress;
@@ -90,7 +93,7 @@ namespace CheckIT.API.Data
                 }
             };
 
-            var CustResult = await CreateCustomerAsync(idToken, realmID, new_Customer);
+            var CustResult = await CreateCustomerAsync(access_token, new_Customer);
 
             var ItemList = inv_convert.InvoicesLineList;
             int ItemSize = ItemList.Count;
@@ -134,7 +137,7 @@ namespace CheckIT.API.Data
                     InvStartDate = inv_convert.InvoiceDate.ToString()
                 };
 
-                var ItemReturn = await CreateItemAsync(idToken, realmID, new_Item);
+                var ItemReturn = await CreateItemAsync(access_token, new_Item);
             }
 
             var new_Invoice = new QB_Invoice
