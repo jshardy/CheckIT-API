@@ -63,8 +63,13 @@ namespace CheckIT.API.Controllers
                     CompanyName = cData.CompanyName,
                     IsCompany = cData.IsCompany,
                     PhoneNumber = cData.PhoneNumber,
-                    Email = cData.Email,
-                    CustAddress = new Address
+                    Email = cData.Email
+                };
+
+                if (cData.CustAddress == null)
+                    customerToCreate.CustAddress = new Address { };
+                else
+                    customerToCreate.CustAddress = new Address
                     {
                         Country = cData.CustAddress.Country,
                         State = cData.CustAddress.State,
@@ -73,8 +78,7 @@ namespace CheckIT.API.Controllers
                         Street = cData.CustAddress.Street,
                         AptNum = cData.CustAddress.AptNum,
                         AddressCustID = cData.CustAddress.AddressCustID
-                    }
-                };
+                    };
 
                 var createdCustomer = await _repo.CreateCustomer(customerToCreate);
 
