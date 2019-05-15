@@ -83,11 +83,22 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
+        [HttpPost("reset")]
+        public async Task<IActionResult> Reset(UserForRegisterDto userForRegisterDto)
+        {
+            var user = await _repo.ResetPassword(userForRegisterDto.Username, userForRegisterDto.Password);
+
+            if(user == null)
+                return BadRequest("Cannot find user");
+
+            return Ok();
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForRegisterDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
-    
+
             //User not found return unauthorized.
             if (userFromRepo == null)
                 return Unauthorized();

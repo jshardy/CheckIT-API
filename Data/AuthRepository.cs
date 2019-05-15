@@ -27,6 +27,24 @@ namespace CheckIT.API.Data
             return user;
         }
 
+        public async Task<User> ResetPassword(string username, string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+
+            if (user == null)
+                return null;
+
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             //this uses the passwordSalt to create a key from the original password.
@@ -108,7 +126,7 @@ namespace CheckIT.API.Data
         public async Task<Permissions> GetPermissions(int ID)
         {
             Permissions permissions = await _context.Permissions.FirstOrDefaultAsync(x => x.PermissionsUserId == ID);
-            
+
             return permissions;
         }
 
