@@ -72,15 +72,33 @@ namespace CheckIT.API.Controllers
 
             await SetPermissionsPreset(createdUserDto);
 
+            var mainAdminExists = await _repo.MainAdminExists();
+            if (createdUser.Username == "admin" && mainAdminExists == false)
+            {
+                //createdUser.MainAdmin = true;
+                await _repo.SetMainAdmin(createdUser.Id, true);
+            }
+
             //created at root status code
             return StatusCode(201);
+        }
+
+        [HttpPost("reset")]
+        public async Task<IActionResult> Reset(UserForRegisterDto userForRegisterDto)
+        {
+            var user = await _repo.ResetPassword(userForRegisterDto.Username, userForRegisterDto.Password);
+
+            if(user == null)
+                return BadRequest("Cannot find user");
+
+            return Ok();
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForRegisterDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
-    
+
             //User not found return unauthorized.
             if (userFromRepo == null)
                 return Unauthorized();
@@ -142,10 +160,49 @@ namespace CheckIT.API.Controllers
             return BadRequest("Could not find User");
         }
 
+        [HttpPatch("SetMainAdmin")]
+        public async Task<IActionResult> SetMainAdmin(int Id)
+        {
+            User user_temp = await _repo.GetUser(this.User.Identity.Name);
+            Permissions permissions_temp = await _repo.GetPermissions(user_temp.Id);
+
+            if (permissions_temp.SetUserPermissions == false)
+            {
+                return Unauthorized();
+            }
+
+            if (user_temp.MainAdmin == true)
+            {
+                User user = await _repo.GetUser(Id);
+
+                if (user == null)
+                {
+                    return BadRequest("Could not find User");
+                }
+
+                if (user.UserPermissions.Level == 0)
+                {
+                    await _repo.SetMainAdmin(Id, true);
+                    await _repo.SetMainAdmin(user_temp.Id, false);
+
+                    return StatusCode(201);
+                }
+                else
+                {
+                    return BadRequest("User being promoted is not an Admin");
+                }
+
+            }
+            else
+            {
+                return BadRequest("Calling user is not Main Admin");
+            }
+        }
+
         /*
         Permission Levels:
             -1) Custom
-            0) Admin (Can do everything include managing permissions)
+            0) Admin (Can do everything including managing permissions)
             1) Manager (Can do everything except managing permissions)
             2) Employee (Can view, add, and edit most things)
             3) Veiw Only (Can view most things)
@@ -181,7 +238,8 @@ namespace CheckIT.API.Controllers
                 }
                 else //Manager
                 {
-                    permissions.ViewUserPermissions = false;
+                    permissions.ViewUserPermissions = true;
+                    //permissions.ViewUserPermissions = false;
                     permissions.SetUserPermissions = false;
                 }
                 permissions.AddAlert = true;

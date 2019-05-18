@@ -27,6 +27,24 @@ namespace CheckIT.API.Data
             return user;
         }
 
+        public async Task<User> ResetPassword(string username, string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+
+            if (user == null)
+                return null;
+
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             //this uses the passwordSalt to create a key from the original password.
@@ -50,6 +68,8 @@ namespace CheckIT.API.Data
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+
+            user.MainAdmin = false;
 
             //save to database.
             await _context.Users.AddAsync(user);
@@ -89,10 +109,24 @@ namespace CheckIT.API.Data
             return user;
         }
 
+        public async Task<bool> MainAdminExists()
+        {
+            User user = await _context.Users.Include(x => x.UserPermissions).FirstOrDefaultAsync(x => x.MainAdmin == true);
+            
+            if (user != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<Permissions> GetPermissions(int ID)
         {
             Permissions permissions = await _context.Permissions.FirstOrDefaultAsync(x => x.PermissionsUserId == ID);
-            
+
             return permissions;
         }
 
@@ -157,6 +191,21 @@ namespace CheckIT.API.Data
 
             exist.ApiAuthToken = token;
             exist.realmID = realmID;
+
+            _context.Users.Update(exist);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> SetMainAdmin(int UserId, bool mainAdmin)
+        {
+            User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+            if (exist == null)
+                return false;
+
+            exist.MainAdmin = mainAdmin;
 
             _context.Users.Update(exist);
             await _context.SaveChangesAsync();
