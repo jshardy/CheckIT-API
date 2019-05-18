@@ -83,7 +83,7 @@ namespace CheckIT.API.Controllers
 
             var isTokenValid = await auth2Client.ValidateIDTokenAsync(idToken);
 
-            await SetApiAuthToken(access_token);
+            await SetApiAuthToken(access_token, pair.RealmId);
 
             System.Console.WriteLine(isTokenValid);
 
@@ -94,9 +94,10 @@ namespace CheckIT.API.Controllers
         public async Task<string> QuickCall(int ID)
         {
             string authToken = GetApiAuthToken().Result;
+            string realmID = GetRealmID().Result;
 
             var invoiceToConvert = await _irepo.GetOneInvoice(ID);
-            await _qrepo.SendInvoice(invoiceToConvert, authToken);
+            await _qrepo.SendInvoice(invoiceToConvert, authToken, realmID);
 
             return "lol";
         }
@@ -118,12 +119,21 @@ namespace CheckIT.API.Controllers
             return token;
         }
 
+        [HttpGet("GetRealmID")]
+        public async Task<string> GetRealmID()
+        {
+            CheckIT.API.Models.User user = await _auth.GetUser(this.User.Identity.Name);
+            string token = user.realmID;
+
+            return token;
+        }
+
         [HttpGet("SetApiAuthToken")]
-        public async Task<IActionResult> SetApiAuthToken(string token)
+        public async Task<IActionResult> SetApiAuthToken(string token, string realmID)
         {
             CheckIT.API.Models.User user = await _auth.GetUser(this.User.Identity.Name);
             
-            if (await _auth.SetApiAuthToken(user.Id, token))
+            if (await _auth.SetApiAuthToken(user.Id, token, realmID))
             {
                 return StatusCode(201);
             }
