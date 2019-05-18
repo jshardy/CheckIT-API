@@ -61,7 +61,8 @@ namespace CheckIT.API.Controllers
                     Description = iData.Description,
                     Quantity = iData.Quantity,
                     InventoryLocationID = iData.InventoryLocationID,
-                    InventoryAlertID = iData.InventoryAlertID
+                    InventoryAlertID = iData.InventoryAlertID,
+                    QB_Id = -1
                 };
 
                 var createdInventory = await _repo.AddInventory(itemToCreate);
