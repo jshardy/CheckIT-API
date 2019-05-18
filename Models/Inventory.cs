@@ -8,6 +8,7 @@ namespace CheckIT.API.Models
     public class Inventory
     {
         public int Id { get; set; }
+        public int QB_Id { get; set; }
 		public string UPC { get; set; }
 
         [Column(TypeName="Money")]
