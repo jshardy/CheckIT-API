@@ -91,12 +91,12 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("QuickAPICall")]
-        public async Task<string> QuickCall(int ID)
+        public async Task<string> QuickCall(int InvoiceId)
         {
             string authToken = GetApiAuthToken().Result;
             string realmID = GetRealmID().Result;
 
-            var invoiceToConvert = await _irepo.GetOneInvoice(ID);
+            var invoiceToConvert = await _irepo.GetOneInvoice(InvoiceId);
             await _qrepo.SendInvoice(invoiceToConvert, authToken, realmID);
 
             return "lol";
