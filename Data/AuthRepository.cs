@@ -111,8 +111,8 @@ namespace CheckIT.API.Data
 
         public async Task<bool> MainAdminExists()
         {
-            User user = await _context.Users.Include(x => x.UserPermissions).FirstOrDefaultAsync(x => x.MainAdmin == true);
-            
+            //User user = await _context.Users.Include(x => x.UserPermissions).FirstOrDefaultAsync(x => x.MainAdmin == true)
+            /*
             if (user != null)
             {
                 return true;
@@ -121,6 +121,11 @@ namespace CheckIT.API.Data
             {
                 return false;
             }
+            */
+            if(await _context.Users.AnyAsync(x => x.MainAdmin == true))
+                return true;
+
+            return false;
         }
 
         public async Task<Permissions> GetPermissions(int ID)
