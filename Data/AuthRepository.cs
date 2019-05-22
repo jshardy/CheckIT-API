@@ -122,10 +122,22 @@ namespace CheckIT.API.Data
                 return false;
             }
             */
-            if(await _context.Users.AnyAsync(x => x.MainAdmin == true))
+            /*if(await _context.Users.AnyAsync(x => x.MainAdmin == true))
                 return true;
 
+            return false;*/
+
+            List<User> UserList = await GetAllUsers();
+            foreach (User user in UserList)
+            {
+                if (user.MainAdmin == true)
+                {
+                    return true;
+                }
+            }
+            
             return false;
+
         }
 
         public async Task<Permissions> GetPermissions(int ID)
