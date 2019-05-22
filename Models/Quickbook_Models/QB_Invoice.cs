@@ -2,6 +2,12 @@ using System.Collections.Generic;
 
 namespace checkit.api.Models.Quickbook_Models
 {
+    public class Item_return
+    {
+        public int ID {get; set;}
+        public string name {get; set;}
+    }
+
     public class ItemRefObj
     {
         public string value {get; set;}

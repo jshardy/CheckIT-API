@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace CheckIT.API.Data
 {
@@ -16,7 +19,6 @@ namespace CheckIT.API.Data
         private readonly DataContext _context;
         private CustRepository _CustRepo;
         private InventoryRepository _InvRepo;
-        static HttpClient client = new HttpClient();
         static string baseURL = "https://sandbox-quickbooks.api.intuit.com/v3/company/";
         static string minorVersion = "37";
 
@@ -28,42 +30,154 @@ namespace CheckIT.API.Data
             _InvRepo = new InventoryRepository(context);
         }
 
-        static async Task<HttpContent> CreateCustomerAsync(string access_token, QB_Customer customer)
+        static async Task<JObject> CreateCustomerAsync(string access_token, QB_Customer Cust, string realmID)
         {
-            string CustomerURL = baseURL + "customer/"; //?minorversion=" + minorVersion;
+            string CustomerURL = realmID + "/customer?minorversion=4";
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            HttpResponseMessage response = await client.PostAsJsonAsync(CustomerURL, customer);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseURL);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.SetBearerToken(access_token);
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
 
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, CustomerURL);
+            request.Content = new StringContent(JsonConvert.SerializeObject(Cust), null, "application/json");
+            request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
+            
+            HttpResponseMessage response = await client.SendAsync(request);
+ 
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+
+            System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
             System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
             System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
+            
             response.EnsureSuccessStatusCode();
 
-            return response.Content;//.Headers.Location;
+            var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            var CustId = responceObject["Customer"]["Id"].Value<int>();
+
+            return responceObject;
         }
 
-        static async Task<HttpContent> CreateItemAsync(string idToken, QB_Item item)
+        static async Task<JObject> GetCustomerAsync(string access_token, int CustIdQB, string realmID)
         {
-            string ItemURL = baseURL + "item/"; //?minorversion=" + minorVersion;
+            string CustomerURL = realmID + "/customer/" + CustIdQB + "?minorversion=4";
 
-            HttpResponseMessage response = await client.PostAsJsonAsync(ItemURL, item);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseURL);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.SetBearerToken(access_token);
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, CustomerURL);
+            //request.Content = new StringContent(JsonConvert.SerializeObject(Cust), null, "application/json");
+            //request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
+
+            HttpResponseMessage response = await client.SendAsync(request);
+ 
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+
+            System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
+            System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
+            System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
+
             response.EnsureSuccessStatusCode();
 
-            return response.Content;//.Headers.Location;
+            var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            return responceObject;
         }
 
-        static async Task<HttpContent> CreateInvoiceAsync(string idToken, QB_Invoice inv)
+        static async Task<JObject> CreateItemAsync(string access_token, QB_Item item, string realmID)
         {
-            string ItemURL = baseURL + "invoice/"; //?minorversion=" + minorVersion;
+            string ItemURL = realmID + "/item?minorversion=4";
 
-            HttpResponseMessage response = await client.PostAsJsonAsync(ItemURL, inv);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseURL);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.SetBearerToken(access_token);
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ItemURL);
+            request.Content = new StringContent(JsonConvert.SerializeObject(item), null, "application/json");
+            request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
+            
+            HttpResponseMessage response = await client.SendAsync(request);
+ 
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+
+            System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
+            System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
+            System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
+            
             response.EnsureSuccessStatusCode();
 
-            return response.Content;//.Headers.Location;
+            var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            return responceObject;
         }
 
-        public async Task<QB_Invoice> SendInvoice(Invoice inv_convert, string access_token)
+        static async Task<JObject> GetItemAsync(string access_token, int ItemIdQB, string realmID)
+        {
+            string CustomerURL = realmID + "/item/" + ItemIdQB + "?minorversion=4";
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseURL);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.SetBearerToken(access_token);
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, CustomerURL);
+            //request.Content = new StringContent(JsonConvert.SerializeObject(Cust), null, "application/json");
+            request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
+
+            HttpResponseMessage response = await client.SendAsync(request);
+ 
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+
+            System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
+            System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
+            System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
+
+            response.EnsureSuccessStatusCode();
+
+            var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            return responceObject;
+        }
+
+        static async Task<JObject> CreateInvoiceAsync(string access_token, QB_Invoice inv, string realmID)
+        {
+            string ItemURL = realmID + "/invoice?minorversion=4";
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseURL);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.SetBearerToken(access_token);
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ItemURL);
+            request.Content = new StringContent(JsonConvert.SerializeObject(inv), null, "application/json");
+            request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
+            
+            HttpResponseMessage response = await client.SendAsync(request);
+ 
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+
+            System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
+            System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
+            System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
+            
+            response.EnsureSuccessStatusCode();
+
+            var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            return responceObject;
+        }
+
+        public async Task<JObject> SendInvoice(Invoice inv_convert, string access_token, string realmID)
         {
             var curr_customer  = inv_convert.InvoiceCust;
             var curr_address = inv_convert.InvoiceCust.CustAddress;
@@ -93,19 +207,36 @@ namespace CheckIT.API.Data
                 }
             };
 
-            var CustResult = await CreateCustomerAsync(access_token, new_Customer);
+            JObject CustResult;
+            if(inv_convert.InvoiceCust.QB_Id == -1)
+            {
+                CustResult = await CreateCustomerAsync(access_token, new_Customer, realmID);
+                Customer exist = await _context.Customers.FirstOrDefaultAsync(x => x.Id == inv_convert.InvoiceCust.Id);
+                exist.QB_Id = CustResult["Customer"]["Id"].Value<int>();
+                _context.Customers.Update(exist);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                CustResult = await GetCustomerAsync(access_token, inv_convert.InvoiceCust.QB_Id, realmID);
+            }
 
             var ItemList = inv_convert.InvoicesLineList;
             int ItemSize = ItemList.Count;
 
-            int IncomeAcct = 214;
-            string IncomeName = "Sales of Product Income";
+            int IncomeAcct = 487;
+            string IncomeName = "Sales";
 
-            int ExpenseAcct = 215;
+            int ExpenseAcct = 517;
             string ExpenseName = "Cost of Goods Sold";
 
-            int AssetAcct = 213;
-            string AssetName = "Inventory Asset";
+            int AssetAcct = 519;
+            string AssetName = "Inventory";
+
+            var new_Invoice = new QB_Invoice()
+            {
+                Line = new List<LineObj>()
+            };
 
             foreach (var item in ItemList)
             {
@@ -132,24 +263,50 @@ namespace CheckIT.API.Data
                     },
 
                     Type = "Inventory",
-                    TrackQtyOnHand = false,
+                    TrackQtyOnHand = true,
                     QtyOnHand = item.QuantitySold,
-                    InvStartDate = inv_convert.InvoiceDate.ToString()
+                    InvStartDate = DateTime.Now.ToString("yyyy-MM-dd")
                 };
 
-                var ItemReturn = await CreateItemAsync(access_token, new_Item);
+                JObject ItemReturn;
+                if(item.LineInventory.QB_Id == -1)
+                {
+                    ItemReturn = await CreateItemAsync(access_token, new_Item, realmID);
+                    Inventory exist = await _context.Inventories.FirstOrDefaultAsync(x => x.Id == item.LineInventory.Id);
+                    exist.QB_Id = ItemReturn["Item"]["Id"].Value<int>();
+                    _context.Inventories.Update(exist);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    ItemReturn = await GetItemAsync(access_token, item.LineInventory.QB_Id, realmID);
+                }
+
+                var new_line = new LineObj()
+                {
+                    Amount = (float)item.Price,
+                    SalesItemLineDetail = new SalesItemLineDetailObj()
+                    {
+                        ItemRef = new ItemRefObj()
+                        {
+                            value = ItemReturn["Item"]["Id"].Value<int>().ToString(),
+                            name = ItemReturn["Item"]["Name"].Value<string>().ToString()
+                        },
+                        Qty = item.QuantitySold
+                    }
+
+                };
+                new_Invoice.Line.Add(new_line);
             }
 
-            var new_Invoice = new QB_Invoice
+            new_Invoice.CustomerRef = new CustomerRefObj()
             {
-                Line = new List<LineObj>(),
-                CustomerRef = new CustomerRefObj
-                {
-                    value = "2"
-                }
+                value = CustResult["Customer"]["Id"].Value<int>().ToString()
             };
 
-            return new_Invoice;
+            var InvResult = CreateInvoiceAsync(access_token, new_Invoice, realmID).Result;
+
+            return InvResult;
         }
     }
 }

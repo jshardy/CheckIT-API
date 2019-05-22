@@ -153,9 +153,9 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPatch("SetApiAuthToken")]
-        public async Task<IActionResult> SetApiAuthToken(int Id, string token)
+        public async Task<IActionResult> SetApiAuthToken(int Id, string token, string RealmID)
         {
-            if (await _repo.SetApiAuthToken(Id, token))
+            if (await _repo.SetApiAuthToken(Id, token, RealmID))
                 return StatusCode(201);
             return BadRequest("Could not find User");
         }

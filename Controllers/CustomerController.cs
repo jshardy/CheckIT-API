@@ -63,7 +63,8 @@ namespace CheckIT.API.Controllers
                     CompanyName = cData.CompanyName,
                     IsCompany = cData.IsCompany,
                     PhoneNumber = cData.PhoneNumber,
-                    Email = cData.Email
+                    Email = cData.Email,
+                    QB_Id = -1
                 };
 
                 if (cData.CustAddress == null)

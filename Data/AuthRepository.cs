@@ -182,7 +182,7 @@ namespace CheckIT.API.Data
             return true;
         }
 
-        public async Task<bool> SetApiAuthToken(int UserId, string token)
+        public async Task<bool> SetApiAuthToken(int UserId, string token, string realmID)
         {
             User exist = await _context.Users.FirstOrDefaultAsync(x => x.Id == UserId);
 
@@ -190,6 +190,7 @@ namespace CheckIT.API.Data
                 return false;
 
             exist.ApiAuthToken = token;
+            exist.realmID = realmID;
 
             _context.Users.Update(exist);
             await _context.SaveChangesAsync();
