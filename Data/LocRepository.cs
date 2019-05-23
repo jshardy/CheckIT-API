@@ -11,9 +11,11 @@ namespace CheckIT.API.Data
     public class LocRepository
     {
         private readonly DataContext _context;
+        private InventoryRepository _InvRepo;
         public LocRepository(DataContext context)
         {
             _context = context;
+            _InvRepo = new InventoryRepository(context);
         }
 
         public async Task<Location> AddLocation(Location loc)

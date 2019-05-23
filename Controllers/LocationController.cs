@@ -65,7 +65,7 @@ namespace CheckIT.API.Controllers
 
         //FOLLOWING CODE IS BAD NEED TO ACTUALLY WRITE
         [HttpPatch("AddItemToLocation")]
-        public async Task<IActionResult> AddItemToLocation(int Id)//GetLocation(GetByIDDto getLocationDto)
+        public async Task<IActionResult> AddItemToLocation(int LocationId, int ItemId)//GetLocation(GetByIDDto getLocationDto)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
@@ -77,8 +77,11 @@ namespace CheckIT.API.Controllers
 
             //FOLLOWING CODE IS BAD NEED TO ACTUALLY WRITE
 
+
             Location loc;
-            loc = await _repo.GetLocation(Id); //GetLocation(getLocationDto.Id);
+            loc = await _repo.GetLocation(LocationId);
+
+            
 
             return Ok(loc);
         }
