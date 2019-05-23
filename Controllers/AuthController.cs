@@ -129,6 +129,7 @@ namespace CheckIT.API.Controllers
             });
         }
 
+        [HttpGet("GetCurrentUser")]
         public async Task<User> GetCurrentUser()
         {
             User user = await _repo.GetUser(this.User.Identity.Name);
@@ -381,7 +382,8 @@ namespace CheckIT.API.Controllers
                     new UserDto{
                         Id = user.Id,
                         Username = user.Username,
-                        PermissionLevel = user.UserPermissions != null ? user.UserPermissions.Level : 4
+                        PermissionLevel = user.UserPermissions != null ? user.UserPermissions.Level : 4,
+                        MainAdmin = user.MainAdmin
                     }
                 );
             }
