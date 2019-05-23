@@ -11,9 +11,11 @@ namespace CheckIT.API.Data
     public class AlertRepository
     {
         private readonly DataContext _context;
+        private readonly InventoryRepository _InvRepo;
         public AlertRepository(DataContext context)
         {
             _context = context;
+            _InvRepo = new InventoryRepository(context);
         }
 
         public async Task<Alert> AddAlert(Alert alert)
@@ -33,6 +35,12 @@ namespace CheckIT.API.Data
             return alert;
         }
 
+        public async Task<Alert> GetAlertByInvId(int invID)
+        {
+            Alert alert = await _context.Alerts.FirstOrDefaultAsync(x => x.AlertInvId == invID);
+            return alert;
+        }
+
         public async Task<List<Alert>> GetAllAlerts()
         {
             List<Alert> alerts = await _context.Alerts.ToListAsync();
@@ -49,6 +57,7 @@ namespace CheckIT.API.Data
             }
             else
             {
+                await _InvRepo.RemoveAlert(alert.AlertInvId);
                 _context.Alerts.Remove(alert);
             }
 
@@ -65,6 +74,54 @@ namespace CheckIT.API.Data
             await _context.SaveChangesAsync();
 
             return alert;
+        }
+
+        public async Task<bool> CheckAlert(int Id, int Amount)
+        {
+
+             Alert alert;
+            alert = await GetAlert(Id);
+
+            if (alert.AlertOn == true)
+            {    
+                if (Amount < alert.Threshold)
+                {
+                    if (alert.AlertTriggered == false)
+                    {
+                        alert.DateUnder = DateTime.Now;
+                    }
+                    alert.AlertTriggered = true;
+                }
+                else
+                {
+                    alert.AlertTriggered = false;
+                }
+                _context.Alerts.Update(alert);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<DateTime> OrderedMore(int Id)
+        {
+             Alert alert;
+            alert = await GetAlert(Id);
+
+            if (alert.AlertOn == true)
+            {
+                alert.DateOrdered = DateTime.Now;
+                _context.Alerts.Update(alert);
+                await _context.SaveChangesAsync();
+                return alert.DateOrdered;
+            }
+            else
+            {
+                return DateTime.MinValue;
+            }
         }
     }
 }

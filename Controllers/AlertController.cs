@@ -26,11 +26,13 @@ namespace CheckIT.API.Controllers
     {
         private readonly AlertRepository _repo;
         private readonly AuthRepository _auth;
+        private readonly InventoryRepository _inv;
 
-        public AlertController(AlertRepository repo, AuthRepository auth)
+        public AlertController(AlertRepository repo, AuthRepository auth, InventoryRepository inv)
         {
             _repo = repo;
             _auth = auth;
+            _inv = inv;
         }
 
         //http://localhost:5000/api/Register
@@ -48,16 +50,42 @@ namespace CheckIT.API.Controllers
 
             if(ModelState.IsValid)
             {
-                var alertToCreate = new Alert
-                {
-                    Threshold = alData.Threshold,
-                    DateUnder = alData.DateUnder,
-                    DateOrdered = alData.DateOrdered,
-                    AlertOn = alData.AlertOn,
-                    AlertTriggered = alData.AlertTriggered
-                };
+                //check if new or updating alert
 
-                var createdAlert = await _repo.AddAlert(alertToCreate);
+                Alert alert = _repo.GetAlertByInvId(alData.AlertInvId).Result;
+
+                if (alert == null)
+                {
+                    alert.Threshold = alData.Threshold;
+                    //alert.DateUnder = alData.DateUnder;
+
+                    var updatedAlert = await _repo.UpdateAlert(alert);
+                }
+                else //create a new alert
+                {
+                    var alertToCreate = new Alert
+                    {
+                        Threshold = alData.Threshold,
+                        //DateUnder = alData.DateUnder,
+                        DateUnder = DateTime.MinValue,
+                        //DateOrdered = alData.DateOrdered,
+                        DateOrdered = DateTime.MinValue,
+                        //AlertOn = alData.AlertOn,
+                        AlertOn = true,
+                        //AlertTriggered = alData.AlertTriggered,
+                        AlertTriggered = false,
+                        AlertInvId = alData.AlertInvId
+                    };
+
+                    //Create new alert
+                    var createdAlert = await _repo.AddAlert(alertToCreate);
+
+                    //Add Alert to Inv and Inv to Alert
+                    alertToCreate.AlertInv = await _inv.SetAlert(alertToCreate);
+
+                    //Update Alert
+                    var updatedAlert = await _repo.UpdateAlert(alertToCreate);
+                }
 
                 //created at root status code
                 return StatusCode(201);
@@ -167,6 +195,56 @@ namespace CheckIT.API.Controllers
 
             //created at root status code
             return StatusCode(201);
+        }
+
+        [HttpPost("CheckAlert")]
+        public async Task<IActionResult> CheckAlert(int Id, int Amount)
+        {
+            /*
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateAlert == false)
+            {
+                return Unauthorized();
+            }
+            */
+
+            Alert alert;
+            alert = await _repo.GetAlert(Id);
+
+            if (alert.AlertOn == true)
+            {
+                if (Amount < alert.Threshold)
+                {
+                    alert.AlertTriggered = true;
+                }
+                else
+                {
+                    alert.AlertTriggered = false;
+                }
+            }
+
+            var updatedAlert = await _repo.UpdateAlert(alert);
+
+            //created at root status code
+            return StatusCode(201);
+        }
+
+        [HttpPost("CheckAlert")]
+        public async Task<IActionResult> OrderedMore(int Id)
+        {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateAlert == false)
+            {
+                return Unauthorized();
+            }
+
+            DateTime timeOrdered = _repo.OrderedMore(Id).Result;
+
+            return Ok(timeOrdered);
         }
 
         //The following are all methods for modifying the alertbit
