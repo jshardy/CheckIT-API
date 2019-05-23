@@ -73,7 +73,7 @@ namespace CheckIT.API.Controllers
             await SetPermissionsPreset(createdUserDto);
 
             var mainAdminExists = await _repo.MainAdminExists();
-            if (createdUser.Username == "admin" && mainAdminExists == false)
+            if (createdUser.Username.ToLower() == "admin" && mainAdminExists == false)
             {
                 //createdUser.MainAdmin = true;
                 await _repo.SetMainAdmin(createdUser.Id, true);
@@ -147,6 +147,20 @@ namespace CheckIT.API.Controllers
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser(int Id)
         {
+            User user_temp = await _repo.GetUser(this.User.Identity.Name);
+            Permissions permissions_temp = await _repo.GetPermissions(user_temp.Id);
+
+            if (permissions_temp.SetUserPermissions == false) //add another permission?
+            {
+                return Unauthorized();
+            }
+
+            /*
+            if (_repo.GetUser(Id).Result.MainAdmin == true)
+            {
+                return BadRequest("Cannot Delete MainAdmin");
+            }*/
+
             if (await _repo.DeleteUser(Id))
                 return StatusCode(201);
             return BadRequest("Could not find User");
@@ -218,6 +232,13 @@ namespace CheckIT.API.Controllers
             if (permissions_temp.SetUserPermissions == false)
             {
                 return Unauthorized();
+            }
+            */
+
+            /*
+            if (user_temp.Id == user.Id)
+            {
+                return BadRequest("User cannot change their own permission level");
             }
             */
 
