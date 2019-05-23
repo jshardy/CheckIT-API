@@ -4,32 +4,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CheckIT.API.Migrations
 {
-    public partial class Fresh_Start : Migration
+    public partial class FreshStart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Alerts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Threshold = table.Column<int>(nullable: false),
-                    DateUnder = table.Column<DateTime>(nullable: false),
-                    DateOrdered = table.Column<DateTime>(nullable: false),
-                    AlertOn = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Alerts", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    QB_Id = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     CompanyName = table.Column<string>(nullable: true),
@@ -48,7 +33,8 @@ namespace CheckIT.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,28 +42,21 @@ namespace CheckIT.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permissions",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SetUserPermissions = table.Column<bool>(nullable: false),
-                    ViewUserPermissions = table.Column<bool>(nullable: false),
-                    AddIventory = table.Column<bool>(nullable: false),
-                    ArchiveIventory = table.Column<bool>(nullable: false),
-                    UpdateInventory = table.Column<bool>(nullable: false),
-                    AddInvoice = table.Column<bool>(nullable: false),
-                    ArchiveInvoice = table.Column<bool>(nullable: false),
-                    ViewInvoices = table.Column<bool>(nullable: false),
-                    AddLocation = table.Column<bool>(nullable: false),
-                    DeleteLocation = table.Column<bool>(nullable: false),
-                    AddAlert = table.Column<bool>(nullable: false),
-                    DeleteAlert = table.Column<bool>(nullable: false),
-                    UpdateAlert = table.Column<bool>(nullable: false)
+                    Username = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
+                    ApiAuthToken = table.Column<string>(nullable: true),
+                    realmID = table.Column<string>(nullable: true),
+                    MainAdmin = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,7 +93,9 @@ namespace CheckIT.API.Migrations
                     InvoiceDate = table.Column<DateTime>(nullable: false),
                     OutgoingInv = table.Column<bool>(nullable: false),
                     AmountPaid = table.Column<decimal>(type: "Money", nullable: false),
-                    InvoiceCustID = table.Column<int>(nullable: false)
+                    InvoiceCustID = table.Column<int>(nullable: false),
+                    Tax = table.Column<decimal>(type: "Money", nullable: false),
+                    Discount = table.Column<decimal>(type: "Money", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,52 +114,89 @@ namespace CheckIT.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    QB_Id = table.Column<int>(nullable: false),
                     UPC = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(type: "Money", nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     Archived = table.Column<bool>(nullable: false),
-                    InventoryLocationID = table.Column<int>(nullable: false),
-                    InventoryAlertID = table.Column<int>(nullable: false)
+                    InventoryLocationId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Inventories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Inventories_Alerts_InventoryAlertID",
-                        column: x => x.InventoryAlertID,
-                        principalTable: "Alerts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Inventories_Locations_InventoryLocationID",
-                        column: x => x.InventoryLocationID,
+                        name: "FK_Inventories_Locations_InventoryLocationId",
+                        column: x => x.InventoryLocationId,
                         principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Permissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PermissionsUserId = table.Column<int>(nullable: false),
+                    Level = table.Column<int>(nullable: false),
+                    SetUserPermissions = table.Column<bool>(nullable: false),
+                    ViewUserPermissions = table.Column<bool>(nullable: false),
+                    AddIventory = table.Column<bool>(nullable: false),
+                    ViewInventory = table.Column<bool>(nullable: false),
+                    ArchiveIventory = table.Column<bool>(nullable: false),
+                    UpdateInventory = table.Column<bool>(nullable: false),
+                    AddInvoice = table.Column<bool>(nullable: false),
+                    ArchiveInvoice = table.Column<bool>(nullable: false),
+                    ViewInvoice = table.Column<bool>(nullable: false),
+                    UpdateInvoice = table.Column<bool>(nullable: false),
+                    AddLocation = table.Column<bool>(nullable: false),
+                    DeleteLocation = table.Column<bool>(nullable: false),
+                    ViewLocation = table.Column<bool>(nullable: false),
+                    AddAlert = table.Column<bool>(nullable: false),
+                    ViewAlert = table.Column<bool>(nullable: false),
+                    DeleteAlert = table.Column<bool>(nullable: false),
+                    UpdateAlert = table.Column<bool>(nullable: false),
+                    AddCustomer = table.Column<bool>(nullable: false),
+                    ViewCustomer = table.Column<bool>(nullable: false),
+                    DeleteCustomer = table.Column<bool>(nullable: false),
+                    UpdateCustomer = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Permissions_Users_PermissionsUserId",
+                        column: x => x.PermissionsUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Alerts",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(nullable: true),
-                    PasswordHash = table.Column<byte[]>(nullable: true),
-                    PasswordSalt = table.Column<byte[]>(nullable: true),
-                    UserPermissionsId = table.Column<int>(nullable: true)
+                    AlertInvId = table.Column<int>(nullable: false),
+                    Threshold = table.Column<int>(nullable: false),
+                    DateUnder = table.Column<DateTime>(nullable: false),
+                    DateOrdered = table.Column<DateTime>(nullable: false),
+                    AlertOn = table.Column<bool>(nullable: false),
+                    AlertTriggered = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Alerts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Permissions_UserPermissionsId",
-                        column: x => x.UserPermissionsId,
-                        principalTable: "Permissions",
+                        name: "FK_Alerts_Inventories_AlertInvId",
+                        column: x => x.AlertInvId,
+                        principalTable: "Inventories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,15 +234,15 @@ namespace CheckIT.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inventories_InventoryAlertID",
-                table: "Inventories",
-                column: "InventoryAlertID",
+                name: "IX_Alerts_AlertInvId",
+                table: "Alerts",
+                column: "AlertInvId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inventories_InventoryLocationID",
+                name: "IX_Inventories_InventoryLocationId",
                 table: "Inventories",
-                column: "InventoryLocationID");
+                column: "InventoryLocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_InvoiceCustID",
@@ -242,9 +260,10 @@ namespace CheckIT.API.Migrations
                 column: "LineInvoiceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_UserPermissionsId",
-                table: "Users",
-                column: "UserPermissionsId");
+                name: "IX_Permissions_PermissionsUserId",
+                table: "Permissions",
+                column: "PermissionsUserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -253,10 +272,13 @@ namespace CheckIT.API.Migrations
                 name: "Addresses");
 
             migrationBuilder.DropTable(
+                name: "Alerts");
+
+            migrationBuilder.DropTable(
                 name: "LineItems");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Permissions");
 
             migrationBuilder.DropTable(
                 name: "Inventories");
@@ -265,10 +287,7 @@ namespace CheckIT.API.Migrations
                 name: "Invoices");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "Alerts");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Locations");

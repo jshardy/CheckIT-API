@@ -18,7 +18,7 @@ namespace CheckIT.API.Data
         {
             _context = context;
         }
-        
+
         public void FillMockTable()
         {
             DataMocker.InsertMockData(_context);
