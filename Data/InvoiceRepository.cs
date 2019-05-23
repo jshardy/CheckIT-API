@@ -63,6 +63,8 @@ namespace CheckIT.API.Data
             await _context.LineItems.AddAsync(lineItemToAdd);
             await _context.SaveChangesAsync();
 
+            //modify inventory amount based on this
+
             return lineItemToAdd;
         }
 

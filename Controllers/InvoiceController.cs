@@ -25,14 +25,16 @@ namespace CheckIT.API.Controllers
         private readonly InventoryRepository _Invrepo;
         private readonly IMapper _mapper;
         private readonly AuthRepository _auth;
+        private readonly AlertRepository _alert;
         private static LastInvoiceData lastInvoice = new LastInvoiceData();
 
-        public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo, AuthRepository auth)
+        public InvoiceController(InvoiceRepository Irepo, IMapper mapper, InventoryRepository Invrepo, AuthRepository auth, AlertRepository alert)
         {
             _mapper = mapper;
             _Irepo = Irepo;
             _Invrepo = Invrepo;
             _auth = auth;
+            _alert = alert;
         }
 
         [HttpPost("AddInvoice")]
