@@ -32,25 +32,27 @@ namespace CheckIT.API.Controllers
         {
             _repo = repo;
         }
-        
-        [HttpPost("AddLocation/{locName}")]
+
+        [HttpPost("AddLocation")] // Removed Addlocation/{locString} so I can pass as a param
         public async Task<IActionResult> AddLocation(string locName)
         {
-            User user = await _auth.GetUser(this.User.Identity.Name);
-            Permissions permissions = await _auth.GetPermissions(user.Id);
-            
-            if (permissions.AddLocation == false)
-            {
-                return Unauthorized();
-            }
-            
+            // User user = await _auth.GetUser(this.User.Identity.Name);
+            // Permissions permissions = await _auth.GetPermissions(user.Id);
+
+            // if (permissions.AddLocation == false)
+            // {
+            //     return Unauthorized();
+            // }
+
+            // Josh - I removed user permissions in attempt to get this to work.
+
             if (ModelState.IsValid)
             {
                 var locToCreate = new Location
                 {
                     Name = locName
                 };
-            
+
 
             var createdLocation = await _repo.AddLocation(locToCreate);
 
@@ -69,7 +71,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.AddLocation == false)
             {
                 return Unauthorized();
@@ -82,14 +84,14 @@ namespace CheckIT.API.Controllers
 
             return Ok(loc);
         }
-        
+
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetLocation(int Id)//GetLocation(GetByIDDto getLocationDto)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewLocation == false)
             {
                 return Unauthorized();
@@ -106,7 +108,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewLocation == false)
             {
                 return Unauthorized();
@@ -121,7 +123,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewLocation == false)
             {
                 return Unauthorized();
@@ -136,7 +138,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.DeleteLocation == false)
             {
                 return Unauthorized();

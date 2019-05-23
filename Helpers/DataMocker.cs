@@ -11,7 +11,7 @@ namespace CheckIT.API.Helpers
         public static void InsertMockData(DataContext context)
         {
                         //insert mock data into the customers table
-            context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, IsCompany, PhoneNumber, Email) values ('William', 'Jacmar', 'Jatri', 1, '748-518-9986', 'wjacmar0@unblog.fr')");
+
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, IsCompany, PhoneNumber, Email) values ('Barbabas', 'Oakley', 'Skiba', 1, '688-905-6313', 'boakley1@census.gov')");
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, IsCompany, PhoneNumber, Email) values ('Obidiah', 'Snodin', 'Vidoo', 0, '907-415-2286', 'osnodin2@weather.com')");
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, IsCompany, PhoneNumber, Email) values ('Christalle', 'Couser', 'Gabcube', 1, '235-208-7521', 'ccouser3@domainmarket.com')");
@@ -37,7 +37,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, IsCompany, PhoneNumber, Email) values ('Audrye', 'Mingauld', 'Talane', 1, '469-799-1320', 'amingauldn@opera.com')");
             context.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, IsCompany, PhoneNumber, Email) values ('Alene', 'Pack', 'Buzzdog', 1, '553-367-7653', 'apacko@deliciousdays.com')");
 
-            // //insert mock data into the addresses table
+            // //insert mock dcontext.Database.ExecuteSqlCommand("insert into Customers (FirstName, LastName, CompanyName, IsCompany, PhoneNumber, Email) values ('William', 'Jacmar', 'Jatri', 1, '748-518-9986', 'wjacmar0@unblog.fr')");ata into the addresses table
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('Portugal', 'Florida', '33731', 'Saint Petersburg', 'Main', 331, 1)");
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('Cameroon', 'Alabama', '35290', 'Birmingham', 'Raven', 332, 2)");
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('China', 'Ohio', '45254', 'Cincinnati', 'Hanson', 127, 3)");
@@ -118,7 +118,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Movies')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Jewelery')");
 
-            // //insert mock-data into the Alerts table       
+            // //insert mock-data into the Alerts table
             context.Database.ExecuteSqlCommand("insert into Alerts (Threshold, DateUnder, DateOrdered, AlertOn) values (1, '6/22/2018', '6/17/2018', 1)");
             context.Database.ExecuteSqlCommand("insert into Alerts (Threshold, DateUnder, DateOrdered, AlertOn) values (8, '6/21/2018', '2/14/2018', 1)");
             context.Database.ExecuteSqlCommand("insert into Alerts (Threshold, DateUnder, DateOrdered, AlertOn) values (3, '4/8/2018', '11/16/2018', 1)");
@@ -145,7 +145,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Alerts (Threshold, DateUnder, DateOrdered, AlertOn) values (5, '8/28/2018', '3/28/2018', 1)");
             context.Database.ExecuteSqlCommand("insert into Alerts (Threshold, DateUnder, DateOrdered, AlertOn) values (3, '11/5/2018', '8/29/2018', 0)");
 
-             //insert mock data into the inventories table        
+             //insert mock data into the inventories table
             context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (830229420358, '$7.70', 'ES', 'turpis nec euismod scelerisque quam turpis adipiscing lorem', 27, 1, 1, 1)");
             context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (773041838566, '$5.80', 'Vandura G2500', 'est et tempus semper est quam pharetra magna ac consequat', 77, 0, 2, 2)");
             context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (179540114473, '$5.18', 'Capri', 'elit proin interdum mauris non ligula pellentesque', 19, 1, 3, 3)");
@@ -201,7 +201,7 @@ namespace CheckIT.API.Helpers
         }
 
         public static void RemoveMockData(DataContext context)
-        {            
+        {
             //remove the mock data entered into the tables
             //before production should scrub/drop the tables, and recreate them, entirely to reset the Id fields
             context.Database.ExecuteSqlCommand("DELETE FROM LineItems;");
@@ -209,7 +209,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("DELETE FROM Alerts;");
             context.Database.ExecuteSqlCommand("DELETE FROM Locations;");
             context.Database.ExecuteSqlCommand("DELETE FROM Invoices;");
-            context.Database.ExecuteSqlCommand("DELETE FROM Addresses;");        
+            context.Database.ExecuteSqlCommand("DELETE FROM Addresses;");
             context.Database.ExecuteSqlCommand("DELETE FROM Customers;");
         }
     }
