@@ -62,7 +62,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('Portugal', 'Missouri', '63121', 'Saint Louis', 'Lukken', 221, 22)");
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('Indonesia', 'Florida', '33283', 'Miami', 'Lerdahl', 349, 23)");
             context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('China', 'Texas', '76310', 'Wichita Falls', 'Thierer', 256, 24)");
-            context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('Greece', 'Iowa', '52405', 'Cedar Rapids', 'Drewry', 332, 25)");
+            // context.Database.ExecuteSqlCommand("insert into Addresses (Country, State, ZipCode, City, Street, AptNum, AddressCustID) values ('Greece', 'Iowa', '52405', 'Cedar Rapids', 'Drewry', 332, 25)");
 
             //insert mock data into the Invoices table
             context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceCustID) values ('6/6/2017', 0, '$8.19', 1)");
@@ -89,7 +89,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceCustID) values ('2/7/2012', 0, '$5.39', 22)");
             context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceCustID) values ('4/20/2017', 0, '$8.96', 23)");
             context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceCustID) values ('2/9/2019', 0, '$3.00', 24)");
-            context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceCustID) values ('1/7/2011', 0, '$2.30', 25)");
+            //context.Database.ExecuteSqlCommand("insert into Invoices (InvoiceDate, OutgoingInv, AmountPaid, InvoiceCustID) values ('1/7/2011', 0, '$2.30', 25)");
 
             //insert mock data into the Locations table
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Electronics');");
@@ -99,7 +99,6 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Industrial')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Baby')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Kids')");
-            context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Toys')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Toys')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Automotive')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Clothing')");
@@ -111,10 +110,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Sports')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Toys')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Jewelery')");
-            context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Toys')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Beauty')");
-            context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Electronics')");
-            context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Baby')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Movies')");
             context.Database.ExecuteSqlCommand("insert into Locations (Name) values ('Jewelery')");
 
@@ -167,10 +163,10 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (492161487402, '$5.10', 'XC70', 'mauris vulputate elementum nullam varius', 87, 1, 19, 19)");
             context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (256631482515, '$7.97', 'Boxster', 'eros viverra eget congue eget', 82, 0, 20, 20)");
             context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (913042410011, '$1.19', 'Savana 2500', 'consequat in consequat ut nulla', 68, 1, 21, 21)");
-            context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (952568182524, '$4.76', 'E-Class', 'pretium iaculis diam erat fermentum justo nec', 56, 0, 22, 22)");
-            context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (812520734929, '$3.77', 'Rodeo', 'diam neque vestibulum eget vulputate ut ultrices vel augue vestibulum', 86, 1, 23, 23)");
-            context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (592430594519, '$5.79', 'Ram 3500', 'in hac habitasse platea dictumst morbi vestibulum velit', 67, 0, 24, 24)");
-            context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (489274255091, '$3.47', 'Challenger', 'mollis molestie lorem quisque ut erat curabitur gravida nisi', 29, 1, 25, 25)");
+            //context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (952568182524, '$4.76', 'E-Class', 'pretium iaculis diam erat fermentum justo nec', 56, 0, 22, 22)");
+            //context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (812520734929, '$3.77', 'Rodeo', 'diam neque vestibulum eget vulputate ut ultrices vel augue vestibulum', 86, 1, 23, 23)");
+            //context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (592430594519, '$5.79', 'Ram 3500', 'in hac habitasse platea dictumst morbi vestibulum velit', 67, 0, 24, 24)");
+            //context.Database.ExecuteSqlCommand("insert into Inventories (UPC, Price, Name, Description, Quantity, Archived, InventoryLocationID, InventoryAlertID) values (489274255091, '$3.47', 'Challenger', 'mollis molestie lorem quisque ut erat curabitur gravida nisi', 29, 1, 25, 25)");
 
             //insert mock data into the LineItems table
             context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price, LineInvoiceID, LineInventoryID) values (88, '$9.81', 25, 1)");
@@ -197,7 +193,7 @@ namespace CheckIT.API.Helpers
             context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price, LineInvoiceID, LineInventoryID) values (28, '$8.68', 4, 22)");
             context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price, LineInvoiceID, LineInventoryID) values (42, '$4.59', 3, 23)");
             context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price, LineInvoiceID, LineInventoryID) values (13, '$5.09', 2, 24)");
-            context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price, LineInvoiceID, LineInventoryID) values (13, '$5.34', 1, 25)");
+           // context.Database.ExecuteSqlCommand("insert into LineItems (QuantitySold, Price, LineInvoiceID, LineInventoryID) values (13, '$5.34', 1, 25)");
         }
 
         public static void RemoveMockData(DataContext context)
