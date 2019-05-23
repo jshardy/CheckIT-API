@@ -25,23 +25,62 @@ namespace CheckIT.API.Data
         public async Task<Inventory> AddInventory(Inventory inventory)
         {
 
-            if(inventory.InventoryLocationID != 0)
+            /*if(inventory.InventoryLocationID != 0)
             {
                 inventory.InventoryLocation = _LocRepo.GetLocation(inventory.InventoryLocationID).Result;
                 _LocRepo.GetLocation(inventory.InventoryLocationID).Result.InventoryLocList.Add(inventory);
-            }
+            }*/
 
-            if(inventory.InventoryAlertID != 0)
+            /*if(inventory.InventoryAlertID != 0)
             {
                 inventory.InventoryAlert = _AlertRepo.GetAlert(inventory.InventoryAlertID).Result;
                 _AlertRepo.GetAlert(inventory.InventoryAlertID).Result.AlertInv = inventory;
-            }
+            }*/
 
             await _context.Inventories.AddAsync(inventory);
             await _context.SaveChangesAsync();
 
             return inventory;
         }
+
+        public async Task<Inventory> SetAlert(Alert alert)
+        {
+            Inventory inventory = await GetInventory(alert.AlertInvId);
+
+            inventory.InventoryAlert = _AlertRepo.GetAlert(alert.Id).Result;
+            //_AlertRepo.GetAlert(inventory.InventoryAlertID).Result.AlertInv = inventory;
+
+            _context.Inventories.Update(inventory);
+            await _context.SaveChangesAsync();
+
+            return inventory;
+        }
+
+        public async Task<Inventory> RemoveAlert(int InventoryId)
+        {
+            Inventory inventory = await GetInventory(InventoryId);
+
+            inventory.InventoryAlert = null;
+            //_AlertRepo.GetAlert(inventory.InventoryAlertID).Result.AlertInv = inventory;
+
+            _context.Inventories.Update(inventory);
+            await _context.SaveChangesAsync();
+
+            return inventory;
+        }
+
+        /*public async Task<Inventory> RemoveAlert(int InventoryId, int AlertId)
+        {
+            Inventory inventory = await GetInventory(InventoryId);
+
+            inventory.InventoryAlert = _AlertRepo.GetAlert(alert.Id).Result;
+            //_AlertRepo.GetAlert(inventory.InventoryAlertID).Result.AlertInv = inventory;
+
+            _context.Inventories.Update(inventory);
+            await _context.SaveChangesAsync();
+
+            return inventory;
+        }*/
 
         public async Task<Inventory> GetInventory(int ID)
         {
@@ -89,6 +128,8 @@ namespace CheckIT.API.Data
             }
             else
             {
+                //remove Alert, inventory from all locations
+
                 _context.Inventories.Remove(inventory); //removes inventory from database completely
             }
 

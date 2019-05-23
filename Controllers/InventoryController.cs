@@ -32,11 +32,13 @@ namespace CheckIT.API.Controllers
     {
         private readonly InventoryRepository _repo;
         private readonly AuthRepository _auth;
+        private readonly AlertRepository _alert;
 
-        public InventoryController(InventoryRepository repo, AuthRepository auth)
+        public InventoryController(InventoryRepository repo, AuthRepository auth, AlertRepository alert)
         {
             _repo = repo;
             _auth = auth;
+            _alert = alert;
         }
         //http://localhost:5000/api/Register
         //dto object to convert json to class
@@ -60,8 +62,8 @@ namespace CheckIT.API.Controllers
                     Price = iData.Price,
                     Description = iData.Description,
                     Quantity = iData.Quantity,
-                    InventoryLocationID = iData.InventoryLocationID,
-                    InventoryAlertID = iData.InventoryAlertID,
+                    //InventoryLocationID = iData.InventoryLocationID,
+                    //InventoryAlertID = iData.InventoryAlertID,
                     QB_Id = -1
                 };
 
@@ -150,6 +152,9 @@ namespace CheckIT.API.Controllers
 
             var updatedInventory = await _repo.UpdateInventory(inventory);
 
+            //Check if this changes the alert status
+            await _alert.CheckAlert(updatedInventory.Id, updatedInventory.Quantity);
+
             //created at root status code
             return StatusCode(201);
         }
@@ -204,8 +209,8 @@ namespace CheckIT.API.Controllers
                 item.Price = inventory.Price;
                 item.Quantity = inventory.Quantity;
                 item.UPC = inventory.UPC;
-                item.LocationId = inventory.InventoryLocationID;
-                item.AlertId = inventory.InventoryAlertID;
+                //item.LocationId = inventory.InventoryLocationID;
+                //item.AlertId = inventory.InventoryAlertID;
             }
             return Ok(item);
         }
