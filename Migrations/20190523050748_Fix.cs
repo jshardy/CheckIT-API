@@ -2,7 +2,7 @@
 
 namespace CheckIT.API.Migrations
 {
-    public partial class InventoryAlertsandLocationsUpdated : Migration
+    public partial class Fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,30 +18,62 @@ namespace CheckIT.API.Migrations
                 name: "IX_Inventories_InventoryAlertID",
                 table: "Inventories");
 
-            migrationBuilder.DropColumn(
-                name: "InventoryAlertID",
-                table: "Inventories");
-
             migrationBuilder.RenameColumn(
                 name: "InventoryLocationID",
                 table: "Inventories",
                 newName: "InventoryLocationId");
+
+            migrationBuilder.RenameColumn(
+                name: "InventoryAlertID",
+                table: "Inventories",
+                newName: "QB_Id");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Inventories_InventoryLocationID",
                 table: "Inventories",
                 newName: "IX_Inventories_InventoryLocationId");
 
+            migrationBuilder.AddColumn<bool>(
+                name: "MainAdmin",
+                table: "Users",
+                nullable: false,
+                defaultValue: false);
+
+            migrationBuilder.AddColumn<string>(
+                name: "realmID",
+                table: "Users",
+                nullable: true);
+
             migrationBuilder.AddColumn<string>(
                 name: "Description",
                 table: "Locations",
                 nullable: true);
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Tax",
+                table: "Invoices",
+                type: "Money",
+                nullable: false,
+                oldClrType: typeof(decimal));
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Discount",
+                table: "Invoices",
+                type: "Money",
+                nullable: false,
+                oldClrType: typeof(decimal));
 
             migrationBuilder.AlterColumn<int>(
                 name: "InventoryLocationId",
                 table: "Inventories",
                 nullable: true,
                 oldClrType: typeof(int));
+
+            migrationBuilder.AddColumn<int>(
+                name: "QB_Id",
+                table: "Customers",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "AlertInvId",
@@ -87,8 +119,20 @@ namespace CheckIT.API.Migrations
                 table: "Alerts");
 
             migrationBuilder.DropColumn(
+                name: "MainAdmin",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "realmID",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
                 name: "Description",
                 table: "Locations");
+
+            migrationBuilder.DropColumn(
+                name: "QB_Id",
+                table: "Customers");
 
             migrationBuilder.DropColumn(
                 name: "AlertInvId",
@@ -99,10 +143,29 @@ namespace CheckIT.API.Migrations
                 table: "Inventories",
                 newName: "InventoryLocationID");
 
+            migrationBuilder.RenameColumn(
+                name: "QB_Id",
+                table: "Inventories",
+                newName: "InventoryAlertID");
+
             migrationBuilder.RenameIndex(
                 name: "IX_Inventories_InventoryLocationId",
                 table: "Inventories",
                 newName: "IX_Inventories_InventoryLocationID");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Tax",
+                table: "Invoices",
+                nullable: false,
+                oldClrType: typeof(decimal),
+                oldType: "Money");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Discount",
+                table: "Invoices",
+                nullable: false,
+                oldClrType: typeof(decimal),
+                oldType: "Money");
 
             migrationBuilder.AlterColumn<int>(
                 name: "InventoryLocationID",
@@ -110,12 +173,6 @@ namespace CheckIT.API.Migrations
                 nullable: false,
                 oldClrType: typeof(int),
                 oldNullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "InventoryAlertID",
-                table: "Inventories",
-                nullable: false,
-                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Inventories_InventoryAlertID",
