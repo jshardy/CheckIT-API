@@ -43,15 +43,15 @@ namespace CheckIT.API.Data
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, CustomerURL);
             request.Content = new StringContent(JsonConvert.SerializeObject(Cust), null, "application/json");
             request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
-            
+
             HttpResponseMessage response = await client.SendAsync(request);
- 
+
             var responseContent = response.Content.ReadAsStringAsync().Result;
 
             System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
             System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
             System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
-            
+
             response.EnsureSuccessStatusCode();
 
             var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
@@ -76,9 +76,9 @@ namespace CheckIT.API.Data
             //request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
 
             HttpResponseMessage response = await client.SendAsync(request);
- 
-            var responseContent = response.Content.ReadAsStringAsync().Result;
 
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+            
             System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
             System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
             System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
@@ -103,15 +103,15 @@ namespace CheckIT.API.Data
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ItemURL);
             request.Content = new StringContent(JsonConvert.SerializeObject(item), null, "application/json");
             request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
-            
+
             HttpResponseMessage response = await client.SendAsync(request);
- 
+
             var responseContent = response.Content.ReadAsStringAsync().Result;
 
             System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
             System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
             System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
-            
+
             response.EnsureSuccessStatusCode();
 
             var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
@@ -134,7 +134,7 @@ namespace CheckIT.API.Data
             request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
 
             HttpResponseMessage response = await client.SendAsync(request);
- 
+
             var responseContent = response.Content.ReadAsStringAsync().Result;
 
             System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
@@ -161,15 +161,15 @@ namespace CheckIT.API.Data
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ItemURL);
             request.Content = new StringContent(JsonConvert.SerializeObject(inv), null, "application/json");
             request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
-            
+
             HttpResponseMessage response = await client.SendAsync(request);
- 
+
             var responseContent = response.Content.ReadAsStringAsync().Result;
 
             System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
             System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
             System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
-            
+
             response.EnsureSuccessStatusCode();
 
             var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
@@ -195,7 +195,7 @@ namespace CheckIT.API.Data
 
                 Notes = "",
                 DisplayName = curr_customer.LastName + ", " + curr_customer.FirstName,
-                
+
                 PrimaryPhone = new CustPhone
                 {
                     FreeFormNumber = curr_customer.PhoneNumber
@@ -243,7 +243,7 @@ namespace CheckIT.API.Data
                 var new_Item = new QB_Item
                 {
                     Name = item.LineInventory.Name,
-                    
+
                     IncomeAccountRef = new ItemIncomeAccountRef
                     {
                         value = IncomeAcct.ToString(),
