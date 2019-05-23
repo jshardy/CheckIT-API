@@ -17,10 +17,9 @@ namespace CheckIT.API.Models
 		public string Description { get; set; }
         public int Quantity { get; set; }
         public bool Archived { get; set; }
-
-        public int InventoryLocationID { get; set; }
+        //public int InventoryLocationID { get; set; }
         public Location InventoryLocation { get; set; }
-        public int InventoryAlertID { get; set; }
+        //public int InventoryAlertID { get; set; }
         public Alert InventoryAlert { get; set; }
 
         public ICollection<LineItem> InventoryLineList {get; set; }

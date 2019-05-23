@@ -4,14 +4,16 @@ using CheckIT.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CheckIT.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190523042429_Inventory, Alerts, and Locations Updated")]
+    partial class InventoryAlertsandLocationsUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,8 +139,7 @@ namespace CheckIT.API.Migrations
                     b.Property<decimal>("AmountPaid")
                         .HasColumnType("Money");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("Money");
+                    b.Property<decimal>("Discount");
 
                     b.Property<int>("InvoiceCustID");
 
@@ -146,8 +147,7 @@ namespace CheckIT.API.Migrations
 
                     b.Property<bool>("OutgoingInv");
 
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("Money");
+                    b.Property<decimal>("Tax");
 
                     b.HasKey("Id");
 
