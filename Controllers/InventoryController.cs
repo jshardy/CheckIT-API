@@ -60,8 +60,8 @@ namespace CheckIT.API.Controllers
                     Price = iData.Price,
                     Description = iData.Description,
                     Quantity = iData.Quantity,
-                    InventoryLocationID = iData.InventoryLocationID,
-                    InventoryAlertID = iData.InventoryAlertID,
+                    //InventoryLocationID = iData.InventoryLocationID,
+                    //InventoryAlertID = iData.InventoryAlertID,
                     QB_Id = -1
                 };
 
@@ -204,8 +204,8 @@ namespace CheckIT.API.Controllers
                 item.Price = inventory.Price;
                 item.Quantity = inventory.Quantity;
                 item.UPC = inventory.UPC;
-                item.LocationId = inventory.InventoryLocationID;
-                item.AlertId = inventory.InventoryAlertID;
+                //item.LocationId = inventory.InventoryLocationID;
+                //item.AlertId = inventory.InventoryAlertID;
             }
             return Ok(item);
         }

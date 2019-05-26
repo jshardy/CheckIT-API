@@ -28,7 +28,6 @@ namespace CheckIT.API.Data
         public async Task<Alert> GetAlert(int alertID)
         {
             Alert alert = await _context.Alerts.Include(x => x.AlertInv)
-                                                    .ThenInclude(x => x.InventoryLocation)
                                                .FirstOrDefaultAsync(x => x.Id == alertID);
             return alert;
         }

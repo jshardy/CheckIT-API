@@ -24,7 +24,7 @@ namespace CheckIT.API.Data
 
         public async Task<Inventory> AddInventory(Inventory inventory)
         {
-
+            /*
             if(inventory.InventoryLocationID != 0)
             {
                 inventory.InventoryLocation = _LocRepo.GetLocation(inventory.InventoryLocationID).Result;
@@ -36,6 +36,7 @@ namespace CheckIT.API.Data
                 inventory.InventoryAlert = _AlertRepo.GetAlert(inventory.InventoryAlertID).Result;
                 _AlertRepo.GetAlert(inventory.InventoryAlertID).Result.AlertInv = inventory;
             }
+            */
 
             await _context.Inventories.AddAsync(inventory);
             await _context.SaveChangesAsync();
@@ -45,8 +46,7 @@ namespace CheckIT.API.Data
 
         public async Task<Inventory> GetInventory(int ID)
         {
-            Inventory inventory = await _context.Inventories.Include(p => p.InventoryLocation)
-                                                            .Include(p => p.InventoryAlert)
+            Inventory inventory = await _context.Inventories.Include(p => p.InventoryAlert)
                                                             .Include(p => p.InventoryLineList)
                                                             .FirstOrDefaultAsync(x => x.Id == ID);
             return inventory;
@@ -150,15 +150,18 @@ namespace CheckIT.API.Data
                 query = query.Where(p => p.Archived == Archived);
             }
 
+            /*
             if(LocationId != -1)
             {
                 query = query.Where(p => p.InventoryLocation.Id == LocationId);
             }
-
+            */
+            /*
             if(AlertId != -1)
             {
                 query = query.Where(p => p.InventoryAlert.Id == AlertId);
             }
+            */
 
             return await query.ToListAsync();
         }
