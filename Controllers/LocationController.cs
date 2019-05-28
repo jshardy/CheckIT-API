@@ -97,6 +97,10 @@ namespace CheckIT.API.Controllers
                 return BadRequest("Item not found");
             }
 
+            //
+            //add location to item?
+            //
+
             await _repo.AddItemToLocation(loc, item); //Location updatedLoc = await _repo.RemoveItemFromLocation(loc, item);
 
             return StatusCode(201); //return Ok(updatedLoc);
@@ -120,6 +124,10 @@ namespace CheckIT.API.Controllers
             {
                 return BadRequest("Item not found");
             }
+
+            //
+            //remove location from item?
+            //
 
             await _repo.RemoveItemFromLocation(loc, item); //Location updatedLoc = await _repo.RemoveItemFromLocation(loc, item);
 
