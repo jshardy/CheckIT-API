@@ -126,6 +126,33 @@ namespace CheckIT.API.Controllers
             return Ok(triggeredAlerts);
         }
 
+        [HttpGet("GetTriggeredAlerts")]
+        public async Task<IActionResult> GetNonTriggeredAlerts()
+        {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.ViewAlert == false)
+            {
+                return Unauthorized();
+            }
+
+            List<Alert> nontriggeredAlerts = new List<Alert>();
+
+            var alertList = await _repo.GetAllAlerts();
+
+            foreach (var alert in alertList)
+            {
+                if (alert.AlertTriggered == false)
+                {
+                    nontriggeredAlerts.Add(alert);
+                }
+            }
+
+            return Ok(nontriggeredAlerts);
+        }
+
+
         [HttpDelete("DeleteAlert")] //[HttpDelete("DeleteAlert/{Id}")]
         public async Task<IActionResult> DeleteAlert(int Id)
         {
