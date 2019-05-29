@@ -117,7 +117,7 @@ namespace CheckIT.API.Controllers
 
             foreach (var alert in alertList)
             {
-                if (alert.AlertTriggered == true)
+                if (alert.AlertTriggered == true && alert.AlertOn == true)
                 {
                     triggeredAlerts.Add(alert);
                 }

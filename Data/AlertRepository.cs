@@ -34,7 +34,7 @@ namespace CheckIT.API.Data
 
         public async Task<List<Alert>> GetAllAlerts()
         {
-            List<Alert> alerts = await _context.Alerts.ToListAsync();
+            List<Alert> alerts = await _context.Alerts.Include(x => x.AlertInv).ToListAsync();
             return alerts;
         }
 
