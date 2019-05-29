@@ -189,8 +189,9 @@ namespace CheckIT.API.Controllers
                 InvoiceDate = invoiceToFind.InvoiceDate,
                 OutgoingInv = invoiceToFind.OutgoingInv,
                 AmountPaid = invoiceToFind.AmountPaid,
-                InvoiceCustID = invoiceToFind.InvoiceCustID //,
-                //LineItemList = PLEASE FIX THIS            PLEASE DO NOT FIX THE ONE ABOVE, WE WILL BREAK THE SPA APP THAT USES THE ONE ABOVE
+                InvoiceCustID = invoiceToFind.InvoiceCustID,
+                Total = 0,
+                LineItemList = new List<LineItemData>()         //PLEASE DO NOT FIX THE ONE ABOVE, WE WILL BREAK THE SPA APP THAT USES THE ONE ABOVE
         };
 
             //var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
@@ -205,6 +206,8 @@ namespace CheckIT.API.Controllers
                     ItemId = item.LineInventoryID,
                     InvoiceId = item.LineInvoiceID,
                 };
+
+                invoiceToReturn.Total += newLineitem.Price * newLineitem.Quantity;
 
                 invoiceToReturn.LineItemList.Add(newLineitem);
             }
