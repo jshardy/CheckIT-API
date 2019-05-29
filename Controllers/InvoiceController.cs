@@ -60,7 +60,7 @@ namespace CheckIT.API.Controllers
 
                 //var invoiceToCreate = _mapper.Map<Invoice>(iData);
 
-                var createdInvoice = await _Irepo.AddInvoice(invoiceToCreate);
+                var createdInvoice = _Irepo.AddInvoice(invoiceToCreate).Result; //.Result?
                 lastInvoice.username = this.User.Identity.Name;
                 lastInvoice.lastInvoiceId = createdInvoice.Id;
 
