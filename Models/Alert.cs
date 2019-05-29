@@ -12,8 +12,8 @@ namespace CheckIT.API.Models
         public int AlertInvId { get; set; }
         public Inventory AlertInv { get; set; }
         public int Threshold { get; set; }
-        public DateTime DateUnder { get; set; }
-        public DateTime DateOrdered { get; set; }
+        public DateTime? DateUnder { get; set; }
+        public DateTime? DateOrdered { get; set; }
         public bool AlertOn { get; set; }
         public bool AlertTriggered { get; set; }
     }
