@@ -60,7 +60,7 @@ namespace CheckIT.API.Controllers
 
                 //var invoiceToCreate = _mapper.Map<Invoice>(iData);
 
-                var createdInvoice = await _Irepo.AddInvoice(invoiceToCreate);
+                var createdInvoice = _Irepo.AddInvoice(invoiceToCreate).Result; //.Result?
                 lastInvoice.username = this.User.Identity.Name;
                 lastInvoice.lastInvoiceId = createdInvoice.Id;
 
@@ -150,6 +150,48 @@ namespace CheckIT.API.Controllers
                 InvoiceCustID = invoiceToFind.InvoiceCustID,
                 LineItemList = new List<LineItemData>()
             };
+
+            //var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
+
+            foreach (var item in invoiceToFind.InvoicesLineList)
+            {
+                var newLineitem = new LineItemData
+                {
+                    Id = item.Id,
+                    Quantity = item.QuantitySold,
+                    Price = item.Price,
+                    ItemId = item.LineInventoryID,
+                    InvoiceId = item.LineInvoiceID,
+                };
+
+                invoiceToReturn.LineItemList.Add(newLineitem);
+            }
+
+            return Ok(invoiceToReturn);
+        }
+
+        [HttpGet("ReturnOneInvoice2/{id}")]
+        public async Task<IActionResult> ReturnOneInvoice2(int Id)
+        {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+
+            if (permissions.ViewInvoice == false)
+            {
+                return Unauthorized();
+            }
+
+            var invoiceToFind = await _Irepo.GetOneInvoice(Id);
+
+            var invoiceToReturn = new InvoiceData
+            {
+                Id = invoiceToFind.Id,
+                InvoiceDate = invoiceToFind.InvoiceDate,
+                OutgoingInv = invoiceToFind.OutgoingInv,
+                AmountPaid = invoiceToFind.AmountPaid,
+                InvoiceCustID = invoiceToFind.InvoiceCustID //,
+                //LineItemList = PLEASE FIX THIS            PLEASE DO NOT FIX THE ONE ABOVE, WE WILL BREAK THE SPA APP THAT USES THE ONE ABOVE
+        };
 
             //var invoiceToReturn = _mapper.Map<InvoiceData>(invoiceToFind);
 
