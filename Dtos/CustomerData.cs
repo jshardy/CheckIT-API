@@ -19,11 +19,11 @@ namespace CheckIT.API.Dtos
 		public bool IsCompany { get; set; }
         [StringLength(12, MinimumLength = 0, 
         ErrorMessage = "Phone number cannot exceed 12 characters including hyphens.")]
-        [RegularExpression(@"([0-9][0-9][0-9]-)?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]", 
-        ErrorMessage = "Phone number must follow xxx-xxx-xxxx or xxx-xxxx format")]
+        // [RegularExpression(@"([0-9][0-9][0-9]-)?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]", 
+        // ErrorMessage = "Phone number must follow xxx-xxx-xxxx or xxx-xxxx format")]
 		public string PhoneNumber { get; set; }
         [StringLength(50, MinimumLength = 0, ErrorMessage = "Email cannot exceed 50 characters.")]
-        [RegularExpression(@".*\@.*\..*", ErrorMessage = "Must follow standard email format")]
+        // [RegularExpression(@".*\@.*\..*", ErrorMessage = "Must follow standard email format")]
 		public string Email { get; set; }
         public int CustAddressId { get; set; }
         public AddressData CustAddress { get; set; }
