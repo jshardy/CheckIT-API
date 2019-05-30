@@ -82,7 +82,7 @@ namespace CheckIT.API.Controllers
                 return Unauthorized();
             }
             */
-
+            //
             Location loc;
             loc = await _repo.GetLocation(LocId); //GetLocation(getLocationDto.Id);
 
