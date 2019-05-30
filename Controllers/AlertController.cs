@@ -40,7 +40,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.AddAlert == false)
             {
                 return Unauthorized();
@@ -73,7 +73,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewAlert == false)
             {
                 return Unauthorized();
@@ -90,7 +90,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewAlert == false)
             {
                 return Unauthorized();
@@ -105,7 +105,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewAlert == false)
             {
                 return Unauthorized();
@@ -126,12 +126,12 @@ namespace CheckIT.API.Controllers
             return Ok(triggeredAlerts);
         }
 
-        [HttpGet("GetTriggeredAlerts")]
+        [HttpGet("GetNonTriggeredAlerts")]
         public async Task<IActionResult> GetNonTriggeredAlerts()
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.ViewAlert == false)
             {
                 return Unauthorized();
@@ -158,7 +158,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.DeleteAlert == false)
             {
                 return Unauthorized();
@@ -173,7 +173,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.UpdateAlert == false)
             {
                 return Unauthorized();
@@ -202,7 +202,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.UpdateAlert == false)
             {
                 return Unauthorized();
@@ -226,7 +226,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.UpdateAlert == false)
             {
                 return Unauthorized();
@@ -250,7 +250,7 @@ namespace CheckIT.API.Controllers
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
-            
+
             if (permissions.UpdateAlert == false)
             {
                 return Unauthorized();
