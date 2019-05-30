@@ -1,4 +1,4 @@
-namespace checkit.api.Dtos
+namespace CheckIT.API.Dtos
 {
     public class LocationDto
     {

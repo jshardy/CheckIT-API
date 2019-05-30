@@ -38,7 +38,7 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("AddLocation")] // Removed Addlocation/{locString} so I can pass as a param
-        public async Task<IActionResult> AddLocation(string locName, string locDesc)
+        public async Task<IActionResult> AddLocation(LocationDto locData)
         {
             // User user = await _auth.GetUser(this.User.Identity.Name);
             // Permissions permissions = await _auth.GetPermissions(user.Id);
@@ -54,8 +54,8 @@ namespace CheckIT.API.Controllers
             {
                 var locToCreate = new Location
                 {
-                    Name = locName,
-                    Description = locDesc
+                    Name = locData.Name,
+                    Description = locData.Description
                 };
 
 
@@ -181,8 +181,8 @@ namespace CheckIT.API.Controllers
             return Ok(LocList);
         }
 
-        [HttpPost("UpdateLocation")]
-        public async Task<IActionResult> UpdateLocation(int id, string name, string desc) //LocationDto locData
+        [HttpPatch("UpdateLocation")]
+        public async Task<IActionResult> UpdateLocation(LocationDto locData, int id) //LocationDto locData
         {
             /*User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
@@ -200,8 +200,8 @@ namespace CheckIT.API.Controllers
                 return BadRequest("Location not found");
             }
 
-            loc.Name = name;
-            loc.Description = desc;
+            loc.Name = locData.Name;
+            loc.Description = locData.Description;
 
             var updatedLocation = await _repo.UpdateLocation(loc);
 
