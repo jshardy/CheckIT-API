@@ -33,46 +33,6 @@ namespace CheckIT.API.Controllers
             _auth = auth;
         }
 
-        /*
-        [HttpPost("AddAlert")]
-        public async Task<IActionResult> AddAlert(AlertData alData) //public async Task<IActionResult> AddAlert([FromBody] AlertData alData)
-        {
-            User user = await _auth.GetUser(this.User.Identity.Name);
-            Permissions permissions = await _auth.GetPermissions(user.Id);
-
-            if (permissions.AddAlert == false)
-            {
-                return Unauthorized();
-            }
-
-            if(ModelState.IsValid)
-            {
-                var alertToCreate = new Alert
-                {
-                    Threshold = alData.Threshold,
-                    //DateUnder = alData.DateUnder,
-                    DateUnder = null,
-                    //DateOrdered = alData.DateOrdered,
-                    DateOrdered = null,
-                    //AlertOn = alData.AlertOn,
-                    AlertOn = true,
-                    //AlertTriggered = alData.AlertTriggered
-                    AlertTriggered = false,
-                    AlertInvId = alData.AlertInvId,
-                };
-
-                var createdAlert = await _repo.AddAlert(alertToCreate);
-
-                //created at root status code
-                return StatusCode(201);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-        */
-
         [HttpPost("AddAlert")]
         public async Task<IActionResult> AddAlert(int itemId, int threshold)
         {
@@ -86,34 +46,12 @@ namespace CheckIT.API.Controllers
 
             if(ModelState.IsValid)
             {
-                /*
-                var alertToCreate = new Alert
-                {
-                    Threshold = threshold,
-                    //DateUnder = alData.DateUnder,
-                    DateUnder = null,
-                    //DateOrdered = alData.DateOrdered,
-                    DateOrdered = null,
-                    //AlertOn = alData.AlertOn,
-                    AlertOn = true,
-                    //AlertTriggered = alData.AlertTriggered
-                    AlertTriggered = false,
-                    AlertInvId = itemId,
-                };
-
-                var createdAlert = await _repo.AddAlert(alertToCreate);
-
-                //created at root status code
-                return StatusCode(201);
-                */
-
                 //check if new or updating alert
                 Alert alert = _repo.GetAlertByInvId(itemId).Result;
 
                 if (alert != null)
                 {
                     alert.Threshold = threshold;
-                    //alert.DateUnder = alData.DateUnder;
 
                     var updatedAlert = await _repo.UpdateAlert(alert);
 
@@ -124,13 +62,9 @@ namespace CheckIT.API.Controllers
                     var alertToCreate = new Alert
                     {
                         Threshold = threshold,
-                        //DateUnder = alData.DateUnder,
                         DateUnder = null,
-                        //DateOrdered = alData.DateOrdered,
                         DateOrdered = null,
-                        //AlertOn = alData.AlertOn,
                         AlertOn = true,
-                        //AlertTriggered = alData.AlertTriggered,
                         AlertTriggered = false,
                         AlertInvId = itemId
                     };
@@ -300,13 +234,8 @@ namespace CheckIT.API.Controllers
             Alert alert;
             alert = await _repo.GetAlert(alertData.Id);
 
-            //probably a much better way to do this
-            //possibly something like:
-            //PropertyInfo[] properties = alert.GetType().GetProperties();
-            //foreach (PropertyInfo pi in properties)
             alert.Threshold = alertData.Threshold;
             alert.AlertOn = alertData.AlertOn;
-            //alert.AlertBit = updateAlertDto.AlertBit;
 
             var updatedAlert = await _repo.UpdateAlert(alert);
 

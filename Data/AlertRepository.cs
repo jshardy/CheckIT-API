@@ -36,16 +36,6 @@ namespace CheckIT.API.Data
         {
             Alert alert = await _context.Alerts.Include(x => x.AlertInv).FirstOrDefaultAsync(x => x.AlertInvId == invID);
             return alert;
-
-            /*
-            List<Alert> alerts = await _context.Alerts.Include(x => x.AlertInv).ToListAsync();
-            
-            foreach (Alert alert in alerts)
-            {
-                if (alert.AlertInvId == invID)
-            }
-            */
-
         }
 
         public async Task<List<Alert>> GetAllAlerts()
@@ -124,31 +114,6 @@ namespace CheckIT.API.Data
                 await _context.SaveChangesAsync();
                 return false;
             }
-
-            /*
-            if (alert.AlertOn == true)
-            {    
-                if (Amount < alert.Threshold)
-                {
-                    if (alert.AlertTriggered == false)
-                    {
-                        alert.DateUnder = DateTime.Now;
-                    }
-                    alert.AlertTriggered = true;
-                }
-                else
-                {
-                    alert.AlertTriggered = false;
-                }
-                _context.Alerts.Update(alert);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            */
         }
     }
 }

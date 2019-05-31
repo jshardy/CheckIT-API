@@ -148,7 +148,6 @@ namespace CheckIT.API.Controllers
             inventory.Price = InvenData.Price;
             inventory.Description = InvenData.Description;
             inventory.Quantity = InvenData.Quantity;
-            //inventory.AlertBit = InvenData.AlertBit;
 
             var updatedInventory = await _repo.UpdateInventory(inventory);
 
@@ -274,54 +273,5 @@ namespace CheckIT.API.Controllers
             }
         }
 
-        //The following are all methods for modifying the alertbit
-        /*
-        [HttpPatch("CheckAlertBit/{Id}")]
-        public async Task<IActionResult> CheckAlertBit(int Id)
-        {
-            Inventory inventory;
-            inventory = await _repo.GetInventory(Id);
-
-            if (inventory.AlertBit == false)
-            {
-                inventory.AlertBit = true;
-                var updatedInventory = await _repo.UpdateInventory(inventory);
-            }
-
-            //created at root status code
-            return StatusCode(201);
-        }
-
-        [HttpPatch("UncheckAlertBit/{Id}")]
-        public async Task<IActionResult> UncheckAlertBit(int Id)
-        {
-            Inventory inventory;
-            inventory = await _repo.GetInventory(Id);
-
-            if (inventory.AlertBit == true)
-            {
-                inventory.AlertBit = false;
-                var updatedInventory = await _repo.UpdateInventory(inventory);
-            }
-
-            //created at root status code
-            return StatusCode(201);
-        }
-
-        [HttpPatch("SetAlertBit")]
-        public async Task<IActionResult> SetAlertBit(int Id, bool Set)
-        {
-            Inventory inventory;
-            inventory = await _repo.GetInventory(Id);
-
-            if (inventory.AlertBit != Set)
-            {
-                inventory.AlertBit = Set;
-                var updatedInventory = await _repo.UpdateInventory(inventory);
-            }
-
-            //created at root status code
-            return StatusCode(201);
-        } */
     }
 }
