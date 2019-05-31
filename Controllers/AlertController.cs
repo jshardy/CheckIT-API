@@ -111,7 +111,8 @@ namespace CheckIT.API.Controllers
                 return Unauthorized();
             }
 
-            List<Alert> triggeredAlerts = new List<Alert>();
+            //List<Alert> triggeredAlerts = new List<Alert>();
+            List<AlertData> triggeredAlerts = new List<AlertData>();
 
             var alertList = await _repo.GetAllAlerts();
 
@@ -119,7 +120,22 @@ namespace CheckIT.API.Controllers
             {
                 if (alert.AlertTriggered == true && alert.AlertOn == true)
                 {
-                    triggeredAlerts.Add(alert);
+                    //triggeredAlerts.Add(alert);
+                    var alertdata = new AlertData
+                    {
+                        Id = alert.Id,
+                        AlertInvId = alert.AlertInvId,
+                        ItemName = alert.AlertInv.Name,
+                        ItemUPC = alert.AlertInv.UPC,
+                        Quantity = alert.AlertInv.Quantity,
+                        Threshold = alert.Threshold,
+                        AlertOn = alert.AlertOn,
+                        AlertTriggered = alert.AlertTriggered,
+                        DateUnder = alert.DateUnder,
+                        DateOrdered = alert.DateOrdered
+                    };
+
+                    triggeredAlerts.Add(alertdata);
                 }
             }
 
@@ -137,7 +153,8 @@ namespace CheckIT.API.Controllers
                 return Unauthorized();
             }
 
-            List<Alert> nontriggeredAlerts = new List<Alert>();
+            //List<Alert> nontriggeredAlerts = new List<Alert>();
+            List<AlertData> nontriggeredAlerts = new List<AlertData>();
 
             var alertList = await _repo.GetAllAlerts();
 
@@ -145,7 +162,21 @@ namespace CheckIT.API.Controllers
             {
                 if (alert.AlertTriggered == false)
                 {
-                    nontriggeredAlerts.Add(alert);
+                    var alertdata = new AlertData
+                    {
+                        Id = alert.Id,
+                        AlertInvId = alert.AlertInvId,
+                        ItemName = alert.AlertInv.Name,
+                        ItemUPC = alert.AlertInv.UPC,
+                        Quantity = alert.AlertInv.Quantity,
+                        Threshold = alert.Threshold,
+                        AlertOn = alert.AlertOn,
+                        AlertTriggered = alert.AlertTriggered,
+                        DateUnder = alert.DateUnder,
+                        DateOrdered = alert.DateOrdered
+                    };
+
+                    nontriggeredAlerts.Add(alertdata);
                 }
             }
 
