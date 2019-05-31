@@ -32,11 +32,13 @@ namespace CheckIT.API.Controllers
     {
         private readonly InventoryRepository _repo;
         private readonly AuthRepository _auth;
+        private readonly AlertRepository _alert;
 
-        public InventoryController(InventoryRepository repo, AuthRepository auth)
+        public InventoryController(InventoryRepository repo, AuthRepository auth, AlertRepository alert)
         {
             _repo = repo;
             _auth = auth;
+            _alert = alert;
         }
         //http://localhost:5000/api/Register
         //dto object to convert json to class
@@ -149,6 +151,9 @@ namespace CheckIT.API.Controllers
             //inventory.AlertBit = InvenData.AlertBit;
 
             var updatedInventory = await _repo.UpdateInventory(inventory);
+
+            Alert alert = _alert.GetAlertByInvId(updatedInventory.Id).Result;
+            await _alert.CheckAlert(alert.Id, updatedInventory.Quantity);
 
             //created at root status code
             return StatusCode(201);
