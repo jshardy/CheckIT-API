@@ -300,7 +300,7 @@ namespace CheckIT.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPatch("OrderedMore")]
+        [HttpPatch("OrderedMore/{Id}")]
         public async Task<IActionResult> OrderedMore(int Id)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);

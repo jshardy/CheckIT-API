@@ -68,7 +68,7 @@ namespace CheckIT.API.Data
 
         public async Task<DateTime?> OrderedMore(int Id)
         {
-             Alert alert;
+            Alert alert;
             alert = await GetAlert(Id);
 
             if (alert.AlertOn == true)
@@ -80,7 +80,7 @@ namespace CheckIT.API.Data
             }
             else
             {
-                return DateTime.MinValue;
+                return null;
             }
         }
     }
