@@ -18,6 +18,7 @@ namespace CheckIT.API.Data
     {
         private readonly DataContext _context;
         private CustRepository _CustRepo;
+        private InvoiceRepository _InvoiceRepo;
         private InventoryRepository _InvRepo;
         static string baseURL = "https://sandbox-quickbooks.api.intuit.com/v3/company/";
         static string minorVersion = "37";
@@ -26,6 +27,7 @@ namespace CheckIT.API.Data
         public QuickRepository(DataContext context)
         {
             _context = context;
+            _InvoiceRepo = new InvoiceRepository(context);
             _CustRepo = new CustRepository(context);
             _InvRepo = new InventoryRepository(context);
         }
@@ -148,6 +150,64 @@ namespace CheckIT.API.Data
             return responceObject;
         }
 
+        static async Task<JObject> CreateVendorAsync(string access_token, QB_Bill inv, string realmID)
+        {
+            string ItemURL = realmID + "/vendor?minorversion=4";
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseURL);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.SetBearerToken(access_token);
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ItemURL);
+            request.Content = new StringContent(JsonConvert.SerializeObject(inv), null, "application/json");
+            request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
+
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+
+            System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
+            System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
+            System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
+
+            response.EnsureSuccessStatusCode();
+
+            var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            return responceObject;
+        }
+
+        static async Task<JObject> CreateBillAsync(string access_token, QB_Bill inv, string realmID)
+        {
+            string ItemURL = realmID + "/bill?minorversion=4";
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseURL);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.SetBearerToken(access_token);
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ItemURL);
+            request.Content = new StringContent(JsonConvert.SerializeObject(inv), null, "application/json");
+            request.Headers.Host = "sandbox-quickbooks.api.intuit.com";
+
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+
+            System.Console.WriteLine("\n==========\nTemp: " + responseContent + "\n==========\n");
+            System.Console.WriteLine("\n==========\nRequest: " + response.RequestMessage + "\n==========\n");
+            System.Console.WriteLine("\n==========\nResponce: " + response + "\n==========\n");
+
+            response.EnsureSuccessStatusCode();
+
+            var responceObject = (JObject)JsonConvert.DeserializeObject(responseContent);
+
+            return responceObject;
+        }
+
         static async Task<JObject> CreateInvoiceAsync(string access_token, QB_Invoice inv, string realmID)
         {
             string ItemURL = realmID + "/invoice?minorversion=4";
@@ -177,8 +237,15 @@ namespace CheckIT.API.Data
             return responceObject;
         }
 
-        public async Task<JObject> SendInvoice(Invoice inv_convert, string access_token, string realmID)
+        public async Task<JObject> SendBill(Invoice inv_convert, string access_token, string realmID)
         {
+            return null;
+        }
+
+        public async Task<JObject> SendInvoice(int InvoiceId, string access_token, string realmID)
+        {
+            
+            var inv_convert = _InvoiceRepo.GetOneInvoice(InvoiceId).Result;
             var curr_customer  = inv_convert.InvoiceCust;
             var curr_address = inv_convert.InvoiceCust.CustAddress;
 
@@ -221,6 +288,7 @@ namespace CheckIT.API.Data
                 CustResult = await GetCustomerAsync(access_token, inv_convert.InvoiceCust.QB_Id, realmID);
             }
 
+            inv_convert = _InvoiceRepo.GetOneInvoice(InvoiceId).Result;
             var ItemList = inv_convert.InvoicesLineList;
             int ItemSize = ItemList.Count;
 
