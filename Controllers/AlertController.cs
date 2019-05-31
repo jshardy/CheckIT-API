@@ -35,7 +35,7 @@ namespace CheckIT.API.Controllers
 
         //http://localhost:5000/api/Register
         //dto object to convert json to class
-        /*[HttpPost("AddAlert")]
+        [HttpPost("AddAlert")]
         public async Task<IActionResult> AddAlert([FromBody] AlertData alData)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
@@ -59,6 +59,7 @@ namespace CheckIT.API.Controllers
                     AlertOn = true,
                     //AlertTriggered = alData.AlertTriggered
                     AlertTriggered = false,
+                    AlertInvId = alData.AlertInvId,
                 };
 
                 var createdAlert = await _repo.AddAlert(alertToCreate);
@@ -71,8 +72,8 @@ namespace CheckIT.API.Controllers
                 return BadRequest(ModelState);
             }
         }
-        */
 
+        /*
         [HttpPost("AddAlert")]
         public async Task<IActionResult> AddAlert(int itemId, int threshold)
         {
@@ -110,6 +111,7 @@ namespace CheckIT.API.Controllers
                 return BadRequest(ModelState);
             }
         }
+        */
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetAlert(int Id)//GetAlert(GetByIDDto getAlertDto)
