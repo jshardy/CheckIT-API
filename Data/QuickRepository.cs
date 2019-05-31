@@ -331,8 +331,7 @@ namespace CheckIT.API.Data
                     },
 
                     Type = "Inventory",
-                    TrackQtyOnHand = true,
-                    QtyOnHand = item.QuantitySold,
+                    TrackQtyOnHand = false,
                     InvStartDate = DateTime.Now.ToString("yyyy-MM-dd")
                 };
 
@@ -352,7 +351,6 @@ namespace CheckIT.API.Data
 
                 var new_line = new LineObj()
                 {
-                    Amount = (float)item.Price,
                     SalesItemLineDetail = new SalesItemLineDetailObj()
                     {
                         ItemRef = new ItemRefObj()
@@ -360,10 +358,12 @@ namespace CheckIT.API.Data
                             value = ItemReturn["Item"]["Id"].Value<int>().ToString(),
                             name = ItemReturn["Item"]["Name"].Value<string>().ToString()
                         },
-                        Qty = item.QuantitySold
+                        Qty = item.QuantitySold,
+                        UnitPrice = (decimal)item.Price
                     }
-
                 };
+                new_line.Amount = new_line.SalesItemLineDetail.Qty * new_line.SalesItemLineDetail.UnitPrice;
+
                 new_Invoice.Line.Add(new_line);
             }
 
@@ -371,6 +371,8 @@ namespace CheckIT.API.Data
             {
                 value = CustResult["Customer"]["Id"].Value<int>().ToString()
             };
+
+            new_Invoice.DueDate = DateTime.Now.AddDays(30).ToString("yyyy-MM-dd");
 
             var InvResult = CreateInvoiceAsync(access_token, new_Invoice, realmID).Result;
 

@@ -18,11 +18,12 @@ namespace checkit.api.Models.Quickbook_Models
     {
         public ItemRefObj ItemRef {get; set;}
         public int Qty {get; set;}
+        public decimal UnitPrice {get; set;}
     }
 
     public class LineObj
     {
-        public float Amount {get; set;}
+        public decimal Amount {get; set;}
         public string DetailType = "SalesItemLineDetail";
         public SalesItemLineDetailObj SalesItemLineDetail {get; set;}
     }
@@ -36,5 +37,6 @@ namespace checkit.api.Models.Quickbook_Models
     {
         public List<LineObj> Line {get; set;}
         public CustomerRefObj CustomerRef {get; set;}
+        public string DueDate {get; set;}
     }
 }
