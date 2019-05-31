@@ -51,10 +51,14 @@ namespace CheckIT.API.Controllers
                 var alertToCreate = new Alert
                 {
                     Threshold = alData.Threshold,
-                    DateUnder = alData.DateUnder,
-                    DateOrdered = alData.DateOrdered,
-                    AlertOn = alData.AlertOn,
-                    AlertTriggered = alData.AlertTriggered
+                    //DateUnder = alData.DateUnder,
+                    DateUnder = null,
+                    //DateOrdered = alData.DateOrdered,
+                    DateOrdered = null,
+                    //AlertOn = alData.AlertOn,
+                    AlertOn = true,
+                    //AlertTriggered = alData.AlertTriggered
+                    AlertTriggered = false,
                 };
 
                 var createdAlert = await _repo.AddAlert(alertToCreate);
@@ -160,7 +164,7 @@ namespace CheckIT.API.Controllers
 
             foreach (var alert in alertList)
             {
-                if (alert.AlertTriggered == false)
+                if (alert.AlertTriggered == false || alert.AlertOn == false)
                 {
                     var alertdata = new AlertData
                     {
@@ -184,7 +188,7 @@ namespace CheckIT.API.Controllers
         }
 
 
-        [HttpDelete("DeleteAlert")] //[HttpDelete("DeleteAlert/{Id}")]
+        [HttpDelete("DeleteAlert/{Id}")] //[HttpDelete("DeleteAlert/{Id}")]
         public async Task<IActionResult> DeleteAlert(int Id)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
