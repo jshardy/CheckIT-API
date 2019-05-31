@@ -97,5 +97,58 @@ namespace CheckIT.API.Data
                 return null;
             }
         }
+
+        public async Task<bool> CheckAlert(int Id, int Amount)
+        {
+            Alert alert;
+            alert = await GetAlert(Id);
+
+            if (Amount < alert.Threshold)
+            {
+                if (alert.AlertTriggered == false)
+                {
+                    alert.DateUnder = DateTime.Now;
+                    alert.DateOrdered = null;
+                }
+                alert.AlertTriggered = true;
+                _context.Alerts.Update(alert);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                alert.AlertTriggered = false;
+                alert.DateUnder = null;
+                alert.DateOrdered = null;
+                _context.Alerts.Update(alert);
+                await _context.SaveChangesAsync();
+                return false;
+            }
+
+            /*
+            if (alert.AlertOn == true)
+            {    
+                if (Amount < alert.Threshold)
+                {
+                    if (alert.AlertTriggered == false)
+                    {
+                        alert.DateUnder = DateTime.Now;
+                    }
+                    alert.AlertTriggered = true;
+                }
+                else
+                {
+                    alert.AlertTriggered = false;
+                }
+                _context.Alerts.Update(alert);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            */
+        }
     }
 }

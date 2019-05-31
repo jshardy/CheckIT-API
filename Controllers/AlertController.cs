@@ -112,15 +112,15 @@ namespace CheckIT.API.Controllers
 
                 if (alert != null)
                 {
-                    Console.WriteLine("Update Alert");
                     alert.Threshold = threshold;
                     //alert.DateUnder = alData.DateUnder;
 
                     var updatedAlert = await _repo.UpdateAlert(alert);
+
+                    var triggered = await _repo.CheckAlert(updatedAlert.Id, updatedAlert.AlertInv.Quantity);
                 }
                 else //create a new alert
                 {
-                    Console.WriteLine("New Alert");
                     var alertToCreate = new Alert
                     {
                         Threshold = threshold,
@@ -137,6 +137,8 @@ namespace CheckIT.API.Controllers
 
                     //Create new alert
                     var createdAlert = await _repo.AddAlert(alertToCreate);
+
+                    var triggered = await _repo.CheckAlert(createdAlert.Id, createdAlert.AlertInv.Quantity);
 
                     //Add Alert to Inv and Inv to Alert
                     //alertToCreate.AlertInv = await _inv.SetAlert(alertToCreate);
