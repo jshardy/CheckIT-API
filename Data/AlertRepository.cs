@@ -32,6 +32,22 @@ namespace CheckIT.API.Data
             return alert;
         }
 
+        public async Task<Alert> GetAlertByInvId(int invID)
+        {
+            Alert alert = await _context.Alerts.Include(x => x.AlertInv).FirstOrDefaultAsync(x => x.AlertInvId == invID);
+            return alert;
+
+            /*
+            List<Alert> alerts = await _context.Alerts.Include(x => x.AlertInv).ToListAsync();
+            
+            foreach (Alert alert in alerts)
+            {
+                if (alert.AlertInvId == invID)
+            }
+            */
+
+        }
+
         public async Task<List<Alert>> GetAllAlerts()
         {
             List<Alert> alerts = await _context.Alerts.Include(x => x.AlertInv).ToListAsync();
@@ -58,9 +74,7 @@ namespace CheckIT.API.Data
 
         public async Task<Alert> UpdateAlert(Alert alert)
         {
-            //update database
-            //await _context.Inventory.AddAsync(inventory);
-            _context.Alerts.Update(alert); //Async? even need to use update?
+            _context.Alerts.Update(alert);
             await _context.SaveChangesAsync();
 
             return alert;

@@ -86,6 +86,7 @@ namespace CheckIT.API.Controllers
 
             if(ModelState.IsValid)
             {
+                /*
                 var alertToCreate = new Alert
                 {
                     Threshold = threshold,
@@ -102,6 +103,47 @@ namespace CheckIT.API.Controllers
 
                 var createdAlert = await _repo.AddAlert(alertToCreate);
 
+                //created at root status code
+                return StatusCode(201);
+                */
+
+                //check if new or updating alert
+                Alert alert = _repo.GetAlertByInvId(itemId).Result;
+
+                if (alert != null)
+                {
+                    Console.WriteLine("Update Alert");
+                    alert.Threshold = threshold;
+                    //alert.DateUnder = alData.DateUnder;
+
+                    var updatedAlert = await _repo.UpdateAlert(alert);
+                }
+                else //create a new alert
+                {
+                    Console.WriteLine("New Alert");
+                    var alertToCreate = new Alert
+                    {
+                        Threshold = threshold,
+                        //DateUnder = alData.DateUnder,
+                        DateUnder = null,
+                        //DateOrdered = alData.DateOrdered,
+                        DateOrdered = null,
+                        //AlertOn = alData.AlertOn,
+                        AlertOn = true,
+                        //AlertTriggered = alData.AlertTriggered,
+                        AlertTriggered = false,
+                        AlertInvId = itemId
+                    };
+
+                    //Create new alert
+                    var createdAlert = await _repo.AddAlert(alertToCreate);
+
+                    //Add Alert to Inv and Inv to Alert
+                    //alertToCreate.AlertInv = await _inv.SetAlert(alertToCreate);
+
+                    //Update Alert
+                    //var updatedAlert = await _repo.UpdateAlert(alertToCreate);
+                }
                 //created at root status code
                 return StatusCode(201);
             }
