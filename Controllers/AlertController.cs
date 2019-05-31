@@ -32,12 +32,10 @@ namespace CheckIT.API.Controllers
             _repo = repo;
             _auth = auth;
         }
-        
+
         /*
-        //http://localhost:5000/api/Register
-        //dto object to convert json to class
         [HttpPost("AddAlert")]
-        public async Task<IActionResult> AddAlert(AlertData alData)
+        public async Task<IActionResult> AddAlert(AlertData alData) //public async Task<IActionResult> AddAlert([FromBody] AlertData alData)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
             Permissions permissions = await _auth.GetPermissions(user.Id);
