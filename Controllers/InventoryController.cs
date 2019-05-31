@@ -152,7 +152,10 @@ namespace CheckIT.API.Controllers
             var updatedInventory = await _repo.UpdateInventory(inventory);
 
             Alert alert = _alert.GetAlertByInvId(updatedInventory.Id).Result;
-            await _alert.CheckAlert(alert.Id, updatedInventory.Quantity);
+            if (alert != null)
+            {
+                await _alert.CheckAlert(alert.Id, updatedInventory.Quantity);
+            }
 
             //created at root status code
             return StatusCode(201);
