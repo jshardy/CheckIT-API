@@ -50,7 +50,7 @@ namespace CheckIT.API.Controllers
             {
                 var invoiceToCreate = new Invoice
                 {
-                    InvoiceDate = iData.InvoiceDate,
+                    InvoiceDate = DateTime.Now,
                     OutgoingInv = iData.OutgoingInv,
                     AmountPaid = iData.AmountPaid,
                     Tax = iData.Tax,
