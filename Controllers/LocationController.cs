@@ -220,6 +220,11 @@ namespace CheckIT.API.Controllers
                 return Unauthorized();
             }
 
+            Location loc;
+            loc = _repo.GetLocation(Id).Result;
+
+            var result = _repo.RemoveAllItemsFromLocation(loc).Result;
+
             var deletedLocation = await _repo.DeleteLocation(Id);
             return StatusCode(201);
         }

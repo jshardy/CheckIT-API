@@ -47,6 +47,17 @@ namespace CheckIT.API.Data
             return loc;
         }
 
+        public async Task<Location> RemoveAllItemsFromLocation(Location loc)
+        {
+            loc.LocationInventoryList.Clear();
+
+            //update database.
+            _context.Locations.Update(loc);
+            await _context.SaveChangesAsync();
+
+            return loc;
+        }
+
         public async Task<Location> GetLocation(int locID)
         {
             Location loc = await _context.Locations.Include(p => p.LocationInventoryList)
