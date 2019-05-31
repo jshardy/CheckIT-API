@@ -35,7 +35,7 @@ namespace CheckIT.API.Controllers
 
         //http://localhost:5000/api/Register
         //dto object to convert json to class
-        [HttpPost("AddAlert")]
+        /*[HttpPost("AddAlert")]
         public async Task<IActionResult> AddAlert([FromBody] AlertData alData)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
@@ -59,6 +59,45 @@ namespace CheckIT.API.Controllers
                     AlertOn = true,
                     //AlertTriggered = alData.AlertTriggered
                     AlertTriggered = false,
+                };
+
+                var createdAlert = await _repo.AddAlert(alertToCreate);
+
+                //created at root status code
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        */
+
+        [HttpPost("AddAlert")]
+        public async Task<IActionResult> AddAlert(int itemId, int threshold)
+        {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+
+            if (permissions.AddAlert == false)
+            {
+                return Unauthorized();
+            }
+
+            if(ModelState.IsValid)
+            {
+                var alertToCreate = new Alert
+                {
+                    Threshold = threshold,
+                    //DateUnder = alData.DateUnder,
+                    DateUnder = null,
+                    //DateOrdered = alData.DateOrdered,
+                    DateOrdered = null,
+                    //AlertOn = alData.AlertOn,
+                    AlertOn = true,
+                    //AlertTriggered = alData.AlertTriggered
+                    AlertTriggered = false,
+                    AlertInvId = itemId,
                 };
 
                 var createdAlert = await _repo.AddAlert(alertToCreate);
@@ -188,7 +227,7 @@ namespace CheckIT.API.Controllers
         }
 
 
-        [HttpDelete("DeleteAlert/{Id}")] //[HttpDelete("DeleteAlert/{Id}")]
+        [HttpDelete("DeleteAlert/{Id}")]
         public async Task<IActionResult> DeleteAlert(int Id)
         {
             User user = await _auth.GetUser(this.User.Identity.Name);
