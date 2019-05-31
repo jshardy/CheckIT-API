@@ -91,15 +91,15 @@ namespace CheckIT.API.Controllers
         }
 
         [HttpPost("QuickAPICall")]
-        public async Task<string> QuickCall(int InvoiceId)
+        public async Task<IActionResult> QuickCall(int InvoiceId)
         {
             string authToken = GetApiAuthToken().Result;
             string realmID = GetRealmID().Result;
 
-            var invoiceToConvert = await _irepo.GetOneInvoice(InvoiceId);
-            await _qrepo.SendInvoice(invoiceToConvert, authToken, realmID);
+            //var invoiceToConvert = await _irepo.GetOneInvoice(InvoiceId);
+            await _qrepo.SendInvoice(InvoiceId, authToken, realmID);
 
-            return "lol";
+            return StatusCode(201);
         }
 
         [HttpGet("GetCurrentUser")]
