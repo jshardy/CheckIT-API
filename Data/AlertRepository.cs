@@ -65,5 +65,23 @@ namespace CheckIT.API.Data
 
             return alert;
         }
+
+        public async Task<DateTime?> OrderedMore(int Id)
+        {
+             Alert alert;
+            alert = await GetAlert(Id);
+
+            if (alert.AlertOn == true)
+            {
+                alert.DateOrdered = DateTime.Now;
+                _context.Alerts.Update(alert);
+                await _context.SaveChangesAsync();
+                return alert.DateOrdered;
+            }
+            else
+            {
+                return DateTime.MinValue;
+            }
+        }
     }
 }

@@ -299,5 +299,21 @@ namespace CheckIT.API.Controllers
             //created at root status code
             return StatusCode(201);
         }
+
+        [HttpPatch("OrderedMore")]
+        public async Task<IActionResult> OrderedMore(int Id)
+        {
+            User user = await _auth.GetUser(this.User.Identity.Name);
+            Permissions permissions = await _auth.GetPermissions(user.Id);
+            
+            if (permissions.UpdateAlert == false)
+            {
+                return Unauthorized();
+            }
+
+            DateTime? timeOrdered = _repo.OrderedMore(Id).Result;
+
+            return Ok(timeOrdered);
+        }
     }
 }
