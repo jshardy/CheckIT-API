@@ -10,6 +10,6 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0"/>
     <PackageReference Include="IppDotNetSdkForQuickBooksApiV3" Version="7.5.0"/>
     <PackageReference Include="IntuitOAuth2PlaformClient" Version="7.5.0"/>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
   </ItemGroup>
 </Project>
